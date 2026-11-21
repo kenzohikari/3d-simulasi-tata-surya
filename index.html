@@ -51,6 +51,15 @@
       height: 100vh;
       z-index: 1;
       touch-action: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #020308;
+    }
+
+    canvas.framed-canvas {
+      box-shadow: 0 0 0 1px rgba(251, 191, 36, 0.45), 0 0 48px rgba(0, 0, 0, 0.95);
+      border-radius: 4px;
     }
 
     /* Glassmorphism panel styling */
@@ -256,6 +265,15 @@
   <!-- Lapisan Label Objek Langit 2D Terproyeksi -->
   <div id="labels-layer"></div>
 
+  <!-- Indikator Rekaman Mengambang (tetap terlihat di Mode Sinematik, tidak ikut terekam di video) -->
+  <div
+    id="floating-rec-badge"
+    class="fixed top-4 left-4 z-40 hidden items-center gap-2 px-3 py-1.5 rounded-full glass-panel border-rose-500/50 text-[11px] font-mono font-semibold text-rose-300"
+  >
+    <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+    <span id="floating-rec-text">REC 00:00 • 60 FPS</span>
+  </div>
+
   <!-- Tombol Pemulih HUD saat Mode Sinematik Aktif -->
   <button
     id="btn-restore-hud"
@@ -429,12 +447,43 @@
         <span id="tour-btn-text">Tur Sinematik</span>
       </button>
     </div>
+
+    <!-- Perekam Klip Video Full HD (Penuh / 16:9 / 9:16 Reels, 30 & 60 FPS) -->
+    <div class="space-y-2 pt-2 border-t border-slate-700/40">
+      <div class="flex items-center justify-between">
+        <span class="text-[10px] font-mono uppercase tracking-wider text-slate-400">Rekam Klip FHD (V)</span>
+        <span id="rec-timer" class="hidden text-[10px] font-mono font-semibold text-rose-400 flex items-center gap-1">
+          <span class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse"></span>
+          <span id="rec-time-text">00:00</span>
+        </span>
+      </div>
+      <!-- Pemilih Rasio & Resolusi Full HD -->
+      <div class="grid grid-cols-3 gap-1 rounded-xl bg-slate-900/80 border border-slate-700/80 p-0.5">
+        <button data-aspect="full" title="Mengikuti ukuran layar saat ini" class="aspect-btn active py-1 rounded-lg text-[10px] font-mono font-semibold bg-sky-500/25 text-sky-200 transition cursor-pointer">Layar</button>
+        <button data-aspect="16:9" title="Landscape Full HD 1920×1080" class="aspect-btn py-1 rounded-lg text-[10px] font-mono font-semibold text-slate-400 transition cursor-pointer">16:9 FHD</button>
+        <button data-aspect="9:16" title="Vertikal Reels/TikTok 1080×1920" class="aspect-btn py-1 rounded-lg text-[10px] font-mono font-semibold text-slate-400 transition cursor-pointer">9:16 Reels</button>
+      </div>
+      <!-- Pemilih FPS & Tombol Rekam -->
+      <div class="flex items-center gap-1.5">
+        <div class="flex rounded-xl bg-slate-900/80 border border-slate-700/80 p-0.5 shrink-0">
+          <button data-fps="30" class="fps-btn px-2 py-1 rounded-lg text-[10px] font-mono font-semibold text-slate-400 transition cursor-pointer">30</button>
+          <button data-fps="60" class="fps-btn active px-2 py-1 rounded-lg text-[10px] font-mono font-semibold bg-amber-500/25 text-amber-200 transition cursor-pointer">60</button>
+        </div>
+        <button
+          id="btn-record-video"
+          class="flex-1 px-2.5 py-1.5 rounded-xl bg-rose-500/20 hover:bg-rose-500/35 border border-rose-400/50 text-[11px] font-semibold text-rose-200 flex items-center justify-center gap-1.5 transition cursor-pointer"
+        >
+          <span id="rec-dot" class="w-2 h-2 rounded-full bg-rose-500"></span>
+          <span id="rec-btn-text">Mulai Rekam</span>
+        </button>
+      </div>
+    </div>
   </aside>
 
   <!-- PANEL TELEMETRI & INFORMASI KANAN -->
   <aside
     id="telemetry-drawer"
-    class="hud-element fixed z-20 right-3 left-3 sm:left-auto sm:right-4 bottom-28 sm:bottom-28 sm:top-20 sm:w-88 md:w-96 max-h-[44vh] sm:max-h-none glass-panel rounded-2xl flex flex-col overflow-hidden transition-all duration-300"
+    class="hud-element fixed z-20 right-3 left-3 sm:left-auto sm:right-4 bottom-28 sm:bottom-28 sm:top-20 sm:w-[22rem] md:w-96 max-h-[44vh] sm:max-h-none glass-panel rounded-2xl flex flex-col overflow-hidden transition-all duration-300"
   >
     <!-- Header Drawer -->
     <div class="px-4 py-3 border-b border-slate-700/40 flex items-start justify-between gap-2 shrink-0 bg-slate-900/45">
@@ -1079,6 +1128,7 @@
         eccentricity: 0.205,
         inclination: 7.0,
         omega: 29,
+        ascNode: 48.3,
         orbitSpeed: 0.42,
         rotationSpeed: 0.03,
         axialTilt: 0.03,
@@ -1110,6 +1160,7 @@
         eccentricity: 0.007,
         inclination: 3.39,
         omega: 55,
+        ascNode: 76.7,
         orbitSpeed: 0.27,
         rotationSpeed: -0.018,
         axialTilt: 177.36,
@@ -1142,6 +1193,7 @@
         eccentricity: 0.017,
         inclination: 0.0,
         omega: 0,
+        ascNode: 0.0,
         orbitSpeed: 0.20,
         rotationSpeed: 0.35,
         axialTilt: 23.44,
@@ -1202,6 +1254,7 @@
         eccentricity: 0.093,
         inclination: 1.85,
         omega: 286,
+        ascNode: 49.6,
         orbitSpeed: 0.145,
         rotationSpeed: 0.33,
         axialTilt: 25.19,
@@ -1293,6 +1346,7 @@
         eccentricity: 0.076,
         inclination: 10.59,
         omega: 73,
+        ascNode: 80.3,
         orbitSpeed: 0.098,
         rotationSpeed: 0.65,
         axialTilt: 4.0,
@@ -1327,6 +1381,7 @@
         eccentricity: 0.049,
         inclination: 1.30,
         omega: 273,
+        ascNode: 100.5,
         orbitSpeed: 0.062,
         rotationSpeed: 0.78,
         axialTilt: 3.13,
@@ -1514,6 +1569,7 @@
         eccentricity: 0.056,
         inclination: 2.48,
         omega: 339,
+        ascNode: 113.7,
         orbitSpeed: 0.041,
         rotationSpeed: 0.72,
         axialTilt: 26.73,
@@ -1732,6 +1788,7 @@
         eccentricity: 0.046,
         inclination: 0.77,
         omega: 96,
+        ascNode: 74.0,
         orbitSpeed: 0.028,
         rotationSpeed: -0.48,
         axialTilt: 97.77,
@@ -1898,6 +1955,7 @@
         eccentricity: 0.010,
         inclination: 1.77,
         omega: 272,
+        ascNode: 131.8,
         orbitSpeed: 0.020,
         rotationSpeed: 0.52,
         axialTilt: 28.32,
@@ -2019,6 +2077,7 @@
         eccentricity: 0.18,
         inclination: 20.58,
         omega: 268,
+        ascNode: 268.7,
         orbitSpeed: 0.0145,
         rotationSpeed: 0.48,
         axialTilt: 18.0,
@@ -2083,6 +2142,7 @@
         eccentricity: 0.195,
         inclination: 17.16,
         omega: 113,
+        ascNode: 110.3,
         orbitSpeed: 0.0144,
         rotationSpeed: -0.22,
         axialTilt: 122.53,
@@ -2255,6 +2315,7 @@
         eccentricity: 0.106,
         inclination: 23.92,
         omega: 310,
+        ascNode: 280.0,
         orbitSpeed: 0.0132,
         rotationSpeed: 0.55,
         axialTilt: 15.0,
@@ -2320,6 +2381,7 @@
         eccentricity: 0.16,
         inclination: 28.19,
         omega: 240,
+        ascNode: 121.9,
         orbitSpeed: 0.0126,
         rotationSpeed: 2.15, // Rotasi tercepat di antara benda besar Tata Surya (3,9 jam!)
         axialTilt: 28.0,
@@ -2411,6 +2473,7 @@
         eccentricity: 0.041,
         inclination: 7.99,
         omega: 147,
+        ascNode: 188.9,
         orbitSpeed: 0.0121,
         rotationSpeed: 0.42,
         axialTilt: 14.0,
@@ -2477,6 +2540,7 @@
         eccentricity: 0.155,
         inclination: 28.98,
         omega: 294,
+        ascNode: 79.4,
         orbitSpeed: 0.0114,
         rotationSpeed: 0.34,
         axialTilt: 29.0,
@@ -2542,6 +2606,7 @@
         eccentricity: 0.397,
         inclination: 30.74,
         omega: 207,
+        ascNode: 336.9,
         orbitSpeed: 0.0085,
         rotationSpeed: 0.35,
         axialTilt: 22.0,
@@ -2607,6 +2672,7 @@
         eccentricity: 0.345,
         inclination: 44.04,
         omega: 151,
+        ascNode: 35.9,
         orbitSpeed: 0.0083,
         rotationSpeed: 0.31,
         axialTilt: 78.0,
@@ -2671,6 +2737,7 @@
         eccentricity: 0.457,
         inclination: 11.93,
         omega: 311,
+        ascNode: 144.5,
         orbitSpeed: 0.0038,
         rotationSpeed: 0.62,
         axialTilt: 16.0,
@@ -3023,7 +3090,7 @@
       return E;
     }
 
-    function computeOrbitalPosition(a, e, incDeg, omegaDeg, M, targetVec) {
+    function computeOrbitalPosition(a, e, incDeg, omegaDeg, M, targetVec, ascNodeDeg = 0) {
       const E = solveKepler(M, e);
       const b = a * Math.sqrt(1 - e * e);
       const xOrb = a * (Math.cos(E) - e);
@@ -3031,24 +3098,32 @@
 
       const inc = THREE.MathUtils.degToRad(incDeg || 0);
       const omega = THREE.MathUtils.degToRad(omegaDeg || 0);
+      const asc = THREE.MathUtils.degToRad(ascNodeDeg || 0);
 
+      // 1. Argumen perihelion (ω) di bidang orbit
       const cosO = Math.cos(omega), sinO = Math.sin(omega);
       const x1 = xOrb * cosO - zOrb * sinO;
       const z1 = xOrb * sinO + zOrb * cosO;
 
+      // 2. Inklinasi orbit (i)
       const y2 = z1 * Math.sin(inc);
       const z2 = z1 * Math.cos(inc);
 
-      targetVec.set(x1, y2, z2);
+      // 3. Bujur simpul naik / Longitude of Ascending Node (Ω)
+      const cosA = Math.cos(asc), sinA = Math.sin(asc);
+      const x3 = x1 * cosA - z2 * sinA;
+      const z3 = x1 * sinA + z2 * cosA;
+
+      targetVec.set(x3, y2, z3);
       return targetVec;
     }
 
-    function createOrbitLine(a, e, incDeg, omegaDeg, colorHex, opacity = 0.28) {
+    function createOrbitLine(a, e, incDeg, omegaDeg, colorHex, opacity = 0.28, ascNodeDeg = 0) {
       const segments = 220;
       const points = [];
       for (let i = 0; i <= segments; i++) {
         const M = (i / segments) * Math.PI * 2;
-        points.push(computeOrbitalPosition(a, e, incDeg, omegaDeg, M, new THREE.Vector3()));
+        points.push(computeOrbitalPosition(a, e, incDeg, omegaDeg, M, new THREE.Vector3(), ascNodeDeg));
       }
       const geo = new THREE.BufferGeometry().setFromPoints(points);
       const mat = new THREE.LineBasicMaterial({
@@ -3142,6 +3217,8 @@
     const planetEntities = [];
     const moonEntities = [];
     let jupiterEntity = null;
+    let saturnEntity = null;
+    let saturnShadowUniforms = null;
 
     function buildPlanetsAndMoons() {
       SOLAR_SYSTEM_DATA.forEach((data, idx) => {
@@ -3235,7 +3312,7 @@
           visualScaleGroup.add(halo);
         }
 
-        // Sistem Cincin (Saturnus, Uranus, Neptunus, Haumea, dan Quaoar Cincin Ganda)
+        // Sistem Cincin (Saturnus dengan Bayangan Analitik, Uranus, Neptunus, Haumea & Quaoar)
         if (data.ring) {
           const ringGeo = new THREE.RingGeometry(data.ring.inner, data.ring.outer, 128);
           const pos = ringGeo.attributes.position;
@@ -3249,14 +3326,118 @@
           }
 
           const ringTex = createRingTexture(data.ring.type);
-          const ringMat = new THREE.MeshStandardMaterial({
-            map: ringTex,
-            transparent: true,
-            side: THREE.DoubleSide,
-            roughness: 0.72,
-            metalness: 0.05,
-            depthWrite: false,
-          });
+          let ringMat;
+
+          if (data.id === 'saturn') {
+            saturnShadowUniforms = {
+              uMap: { value: ringTex },
+              uPlanetPos: { value: new THREE.Vector3() },
+              uPlanetRadius: { value: data.radius },
+              uRingNormal: { value: new THREE.Vector3(0, 1, 0) },
+              uRingInner: { value: data.ring.inner },
+              uRingOuter: { value: data.ring.outer },
+            };
+
+            // Shader cincin Saturnus: bayangan bola planet jatuh ke permukaan cincin
+            ringMat = new THREE.ShaderMaterial({
+              uniforms: saturnShadowUniforms,
+              vertexShader: `
+                varying vec2 vUv;
+                varying vec3 vWorldPos;
+                void main() {
+                  vUv = uv;
+                  vec4 wp = modelMatrix * vec4(position, 1.0);
+                  vWorldPos = wp.xyz;
+                  gl_Position = projectionMatrix * viewMatrix * wp;
+                }
+              `,
+              fragmentShader: `
+                uniform sampler2D uMap;
+                uniform vec3 uPlanetPos;
+                uniform float uPlanetRadius;
+                varying vec2 vUv;
+                varying vec3 vWorldPos;
+
+                void main() {
+                  vec4 texCol = texture2D(uMap, vUv);
+                  if (texCol.a < 0.02) discard;
+
+                  vec3 sunDir = normalize(-vWorldPos);
+                  vec3 oc = vWorldPos - uPlanetPos;
+                  float proj = dot(oc, sunDir);
+
+                  float shadow = 1.0;
+                  if (proj < 0.0) {
+                    float dist = length(oc - sunDir * proj);
+                    shadow = mix(0.08, 1.0, smoothstep(uPlanetRadius * 0.94, uPlanetRadius * 1.03, dist));
+                  }
+
+                  gl_FragColor = vec4(texCol.rgb * shadow, texCol.a);
+                }
+              `,
+              transparent: true,
+              side: THREE.DoubleSide,
+              depthWrite: false,
+            });
+
+            // Injeksi bayangan cincin ke permukaan bola Saturnus
+            planetMat.onBeforeCompile = (shader) => {
+              shader.uniforms.uRingMap = saturnShadowUniforms.uMap;
+              shader.uniforms.uPlanetPos = saturnShadowUniforms.uPlanetPos;
+              shader.uniforms.uRingNormal = saturnShadowUniforms.uRingNormal;
+              shader.uniforms.uRingInner = saturnShadowUniforms.uRingInner;
+              shader.uniforms.uRingOuter = saturnShadowUniforms.uRingOuter;
+
+              shader.vertexShader = shader.vertexShader
+                .replace('#include <common>', '#include <common>\nvarying vec3 vSaturnWorldPos;')
+                .replace(
+                  '#include <project_vertex>',
+                  '#include <project_vertex>\nvSaturnWorldPos = (modelMatrix * vec4(transformed, 1.0)).xyz;'
+                );
+
+              shader.fragmentShader = shader.fragmentShader
+                .replace(
+                  '#include <common>',
+                  `#include <common>
+                  uniform sampler2D uRingMap;
+                  uniform vec3 uPlanetPos;
+                  uniform vec3 uRingNormal;
+                  uniform float uRingInner;
+                  uniform float uRingOuter;
+                  varying vec3 vSaturnWorldPos;`
+                )
+                .replace(
+                  '#include <tonemapping_fragment>',
+                  `{
+                    vec3 sunDir = normalize(-vSaturnWorldPos);
+                    float denom = dot(sunDir, uRingNormal);
+                    if (abs(denom) > 0.0001) {
+                      float t = dot(uPlanetPos - vSaturnWorldPos, uRingNormal) / denom;
+                      if (t > 0.0) {
+                        vec3 hit = vSaturnWorldPos + sunDir * t;
+                        float r = length(hit - uPlanetPos);
+                        if (r > uRingInner && r < uRingOuter) {
+                          float u = (r - uRingInner) / (uRingOuter - uRingInner);
+                          float rAlpha = texture2D(uRingMap, vec2(u, 0.5)).a;
+                          gl_FragColor.rgb *= (1.0 - rAlpha * 0.78);
+                        }
+                      }
+                    }
+                  }
+                  #include <tonemapping_fragment>`
+                );
+            };
+          } else {
+            ringMat = new THREE.MeshStandardMaterial({
+              map: ringTex,
+              transparent: true,
+              side: THREE.DoubleSide,
+              roughness: 0.72,
+              metalness: 0.05,
+              depthWrite: false,
+            });
+          }
+
           const ringMesh = new THREE.Mesh(ringGeo, ringMat);
           ringMesh.rotation.x = Math.PI / 2;
           tiltGroup.add(ringMesh);
@@ -3267,7 +3448,7 @@
           ? (data.id === 'sedna' ? 0xfb7185 : data.id === 'eris' || data.id === 'gonggong' ? 0x22d3ee : 0xc084fc)
           : 0x38bdf8;
         const orbitOpacity = data.isDwarf ? 0.24 : 0.26;
-        const orbitLine = createOrbitLine(data.orbitRadius, data.eccentricity, data.inclination, data.omega, orbitColor, orbitOpacity);
+        const orbitLine = createOrbitLine(data.orbitRadius, data.eccentricity, data.inclination, data.omega, orbitColor, orbitOpacity, data.ascNode || 0);
         scene.add(orbitLine);
 
         if (data.isDwarf) {
@@ -3290,6 +3471,7 @@
         };
         planetEntities.push(entity);
         if (data.id === 'jupiter') jupiterEntity = entity;
+        if (data.id === 'saturn') saturnEntity = entity;
 
         const maxRadius = data.ring
           ? data.ring.outer * 0.78
@@ -3850,8 +4032,9 @@
       const moveDist = Math.hypot(e.clientX - pointerDownPos.x, e.clientY - pointerDownPos.y);
       if (moveDist > 5) return;
 
-      pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
-      pointer.y = -(e.clientY / window.innerHeight) * 2 + 1;
+      const rect = renderer.domElement.getBoundingClientRect();
+      pointer.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      pointer.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
       raycaster.setFromCamera(pointer, camera);
 
       const hits = raycaster.intersectObjects(clickableMeshes, false);
@@ -3969,6 +4152,193 @@
     btnCinematicMode.addEventListener('click', () => setCinematicHidden(true));
     btnRestoreHud.addEventListener('click', () => setCinematicHidden(false));
 
+    // =========================================================================
+    // PEREKAM KLIP VIDEO FULL HD (PENUH / 16:9 1920x1080 / 9:16 1080x1920)
+    // =========================================================================
+    let recordFps = 60;
+    let recordAspect = 'full'; // 'full' | '16:9' | '9:16'
+    let mediaRecorder = null;
+    let recordedChunks = [];
+    let recStartTime = 0;
+    let recInterval = null;
+    let canvasRect = { left: 0, top: 0, width: window.innerWidth, height: window.innerHeight };
+
+    const btnRecordVideo = document.getElementById('btn-record-video');
+    const recBtnText = document.getElementById('rec-btn-text');
+    const recDot = document.getElementById('rec-dot');
+    const recTimer = document.getElementById('rec-timer');
+    const recTimeText = document.getElementById('rec-time-text');
+    const floatingRecBadge = document.getElementById('floating-rec-badge');
+    const floatingRecText = document.getElementById('floating-rec-text');
+
+    function updateViewportSize() {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      let renderW, renderH, cssW, cssH, dpr;
+
+      if (recordAspect === '16:9') {
+        renderW = 1920;
+        renderH = 1080;
+        dpr = 1;
+        const targetRatio = 16 / 9;
+        if (vw / vh > targetRatio) {
+          cssH = vh;
+          cssW = Math.round(vh * targetRatio);
+        } else {
+          cssW = vw;
+          cssH = Math.round(vw / targetRatio);
+        }
+        renderer.domElement.classList.add('framed-canvas');
+      } else if (recordAspect === '9:16') {
+        renderW = 1080;
+        renderH = 1920;
+        dpr = 1;
+        const targetRatio = 9 / 16;
+        if (vw / vh > targetRatio) {
+          cssH = vh;
+          cssW = Math.round(vh * targetRatio);
+        } else {
+          cssW = vw;
+          cssH = Math.round(vw / targetRatio);
+        }
+        renderer.domElement.classList.add('framed-canvas');
+      } else {
+        renderW = vw;
+        renderH = vh;
+        cssW = vw;
+        cssH = vh;
+        dpr = Math.min(window.devicePixelRatio, 2);
+        renderer.domElement.classList.remove('framed-canvas');
+      }
+
+      renderer.setPixelRatio(dpr);
+      renderer.setSize(renderW, renderH, false);
+      renderer.domElement.style.width = `${cssW}px`;
+      renderer.domElement.style.height = `${cssH}px`;
+
+      camera.aspect = renderW / renderH;
+      camera.updateProjectionMatrix();
+
+      composer.setPixelRatio(dpr);
+      composer.setSize(renderW, renderH);
+      bloomPass.setSize(renderW, renderH);
+
+      const rect = renderer.domElement.getBoundingClientRect();
+      canvasRect = { left: rect.left, top: rect.top, width: rect.width, height: rect.height };
+    }
+
+    document.querySelectorAll('.aspect-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (mediaRecorder && mediaRecorder.state === 'recording') return;
+        recordAspect = btn.dataset.aspect;
+        document.querySelectorAll('.aspect-btn').forEach((b) => {
+          const isSelected = b === btn;
+          b.classList.toggle('active', isSelected);
+          b.classList.toggle('bg-sky-500/25', isSelected);
+          b.classList.toggle('text-sky-200', isSelected);
+          b.classList.toggle('text-slate-400', !isSelected);
+        });
+        updateViewportSize();
+      });
+    });
+
+    document.querySelectorAll('.fps-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (mediaRecorder && mediaRecorder.state === 'recording') return;
+        recordFps = parseInt(btn.dataset.fps, 10);
+        document.querySelectorAll('.fps-btn').forEach((b) => {
+          const isSelected = b === btn;
+          b.classList.toggle('active', isSelected);
+          b.classList.toggle('bg-amber-500/25', isSelected);
+          b.classList.toggle('text-amber-200', isSelected);
+          b.classList.toggle('text-slate-400', !isSelected);
+        });
+      });
+    });
+
+    function getSupportedVideoMime() {
+      const candidates = [
+        { mime: 'video/mp4;codecs=avc1.42E01E', ext: 'mp4' },
+        { mime: 'video/mp4', ext: 'mp4' },
+        { mime: 'video/webm;codecs=vp9', ext: 'webm' },
+        { mime: 'video/webm;codecs=vp8', ext: 'webm' },
+        { mime: 'video/webm', ext: 'webm' },
+      ];
+      for (const c of candidates) {
+        if (typeof MediaRecorder !== 'undefined' && MediaRecorder.isTypeSupported(c.mime)) return c;
+      }
+      return { mime: '', ext: 'webm' };
+    }
+
+    function toggleVideoRecording() {
+      if (mediaRecorder && mediaRecorder.state === 'recording') {
+        mediaRecorder.stop();
+        return;
+      }
+
+      if (!renderer.domElement.captureStream || typeof MediaRecorder === 'undefined') {
+        alert('Browser ini belum mendukung perekaman kanvas WebGL secara langsung.');
+        return;
+      }
+
+      const { mime, ext } = getSupportedVideoMime();
+      const stream = renderer.domElement.captureStream(recordFps);
+      const options = {
+        videoBitsPerSecond: recordFps === 60 ? 16_000_000 : 10_000_000,
+      };
+      if (mime) options.mimeType = mime;
+
+      const aspectTag = recordAspect === '16:9' ? '16x9-1080p' : recordAspect === '9:16' ? '9x16-reels-1080p' : 'layar';
+      const aspectLabel = recordAspect === '16:9' ? '16:9 FHD' : recordAspect === '9:16' ? '9:16 Reels' : 'Layar';
+
+      recordedChunks = [];
+      mediaRecorder = new MediaRecorder(stream, options);
+
+      mediaRecorder.ondataavailable = (e) => {
+        if (e.data && e.data.size > 0) recordedChunks.push(e.data);
+      };
+
+      mediaRecorder.onstop = () => {
+        clearInterval(recInterval);
+        recTimer.classList.add('hidden');
+        floatingRecBadge.classList.add('hidden');
+        floatingRecBadge.classList.remove('flex');
+        recBtnText.textContent = 'Mulai Rekam';
+        recDot.classList.remove('animate-ping');
+        btnRecordVideo.classList.remove('ring-2', 'ring-rose-400');
+
+        const blob = new Blob(recordedChunks, { type: mime || 'video/webm' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        const stamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-');
+        a.href = url;
+        a.download = `tata-surya-3d-${aspectTag}-${recordFps}fps-${stamp}.${ext}`;
+        a.click();
+        setTimeout(() => URL.revokeObjectURL(url), 4000);
+        stream.getTracks().forEach((t) => t.stop());
+      };
+
+      mediaRecorder.start(250);
+      recStartTime = Date.now();
+      recTimer.classList.remove('hidden');
+      floatingRecBadge.classList.remove('hidden');
+      floatingRecBadge.classList.add('flex');
+      floatingRecText.textContent = `REC 00:00 • ${aspectLabel} • ${recordFps} FPS`;
+      recBtnText.textContent = 'Stop & Simpan';
+      recDot.classList.add('animate-ping');
+      btnRecordVideo.classList.add('ring-2', 'ring-rose-400');
+
+      recInterval = setInterval(() => {
+        const sec = Math.floor((Date.now() - recStartTime) / 1000);
+        const mm = String(Math.floor(sec / 60)).padStart(2, '0');
+        const ss = String(sec % 60).padStart(2, '0');
+        recTimeText.textContent = `${mm}:${ss}`;
+        floatingRecText.textContent = `REC ${mm}:${ss} • ${aspectLabel} • ${recordFps} FPS`;
+      }, 500);
+    }
+
+    btnRecordVideo.addEventListener('click', toggleVideoRecording);
+
     window.addEventListener('keydown', (e) => {
       if (e.target.tagName === 'INPUT') return;
       if (e.code === 'Space') {
@@ -3979,18 +4349,12 @@
       } else if (e.key === 'r' || e.key === 'R') {
         stopAutoTour();
         resetToOverview();
+      } else if (e.key === 'v' || e.key === 'V') {
+        toggleVideoRecording();
       }
     });
 
-    window.addEventListener('resize', () => {
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-      renderer.setSize(w, h);
-      composer.setSize(w, h);
-      bloomPass.setSize(w, h);
-    });
+    window.addEventListener('resize', updateViewportSize);
 
     // =========================================================================
     // 12. LOOP ANIMASI UTAMA (60 FPS)
@@ -3999,6 +4363,7 @@
     const tempVec = new THREE.Vector3();
     const projVec = new THREE.Vector3();
     const axisY = new THREE.Vector3(0, 1, 0);
+    const saturnQuat = new THREE.Quaternion();
 
     function animate() {
       requestAnimationFrame(animate);
@@ -4022,12 +4387,22 @@
         const p = planetEntities[i];
         const d = p.data;
         const M = p.phase + state.simTime * d.orbitSpeed;
-        computeOrbitalPosition(d.orbitRadius, d.eccentricity, d.inclination, d.omega, M, p.pivot.position);
+        computeOrbitalPosition(d.orbitRadius, d.eccentricity, d.inclination, d.omega, M, p.pivot.position, d.ascNode || 0);
 
         p.mesh.rotation.y += (d.rotationSpeed || 0.2) * effectiveDt;
         if (p.cloudMesh) {
           p.cloudMesh.rotation.y += (d.rotationSpeed * 1.32) * effectiveDt;
         }
+      }
+
+      // Perbarui Uniform Bayangan Cincin Analitik Saturnus
+      if (saturnEntity && saturnShadowUniforms) {
+        saturnShadowUniforms.uPlanetPos.value.copy(saturnEntity.pivot.position);
+        saturnShadowUniforms.uPlanetRadius.value = saturnEntity.data.radius * state.bodyScale;
+        saturnShadowUniforms.uRingInner.value = saturnEntity.data.ring.inner * state.bodyScale;
+        saturnShadowUniforms.uRingOuter.value = saturnEntity.data.ring.outer * state.bodyScale;
+        saturnEntity.tiltGroup.getWorldQuaternion(saturnQuat);
+        saturnShadowUniforms.uRingNormal.value.set(0, 1, 0).applyQuaternion(saturnQuat).normalize();
       }
 
       // 3. Perbarui Posisi & Rotasi Semua 34 Satelit Alami
@@ -4200,10 +4575,10 @@
 
       controls.update();
 
-      // 9. Proyeksi Label 2D di Layar
+      // 9. Proyeksi Label 2D di Layar (presisi mengikuti bingkai kanvas 16:9 / 9:16 / Penuh)
       if (state.layers.labels) {
-        const halfW = window.innerWidth * 0.5;
-        const halfH = window.innerHeight * 0.5;
+        const halfW = canvasRect.width * 0.5;
+        const halfH = canvasRect.height * 0.5;
 
         for (let i = 0; i < labelElements.length; i++) {
           const item = labelElements[i];
@@ -4244,10 +4619,15 @@
             continue;
           }
 
-          const screenX = projVec.x * halfW + halfW;
-          const screenY = -projVec.y * halfH + halfH;
+          const screenX = canvasRect.left + projVec.x * halfW + halfW;
+          const screenY = canvasRect.top - projVec.y * halfH + halfH;
 
-          if (screenX < -60 || screenX > window.innerWidth + 60 || screenY < -40 || screenY > window.innerHeight + 40) {
+          if (
+            screenX < canvasRect.left - 20 ||
+            screenX > canvasRect.left + canvasRect.width + 20 ||
+            screenY < canvasRect.top - 20 ||
+            screenY > canvasRect.top + canvasRect.height + 20
+          ) {
             item.el.style.display = 'none';
           } else {
             item.el.style.display = 'flex';
@@ -4286,6 +4666,7 @@
           setTimeout(() => loader.remove(), 700);
         }, 350);
 
+        updateViewportSize();
         animate();
       } catch (err) {
         console.error('Kesalahan inisialisasi simulasi Tata Surya:', err);
