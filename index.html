@@ -425,6 +425,38 @@
       color: #cffafe;
     }
 
+    .celestial-label.is-spacecraft {
+      font-size: 10.5px;
+      background: rgba(24, 20, 8, 0.82);
+      border-color: rgba(251, 191, 36, 0.52);
+      color: #fef3c7;
+    }
+
+    .celestial-label.is-apsis {
+      font-size: 9.5px;
+      font-weight: 600;
+      padding: 2px 7px;
+      pointer-events: auto;
+      cursor: pointer;
+      background: rgba(6, 11, 23, 0.86);
+      border-color: rgba(251, 191, 36, 0.52);
+      color: #fef3c7;
+      z-index: 22;
+    }
+    .celestial-label.is-apsis:hover {
+      background: rgba(251, 191, 36, 0.28);
+      border-color: rgba(251, 191, 36, 0.9);
+      z-index: 33;
+    }
+    .celestial-label.is-apsis.is-aphelion {
+      border-color: rgba(56, 189, 248, 0.54);
+      color: #e0f2fe;
+    }
+    .celestial-label.is-apsis.is-aphelion:hover {
+      background: rgba(56, 189, 248, 0.28);
+      border-color: rgba(56, 189, 248, 0.92);
+    }
+
     .celestial-label.is-galaxy {
       font-size: 11px;
       background: rgba(15, 10, 32, 0.78);
@@ -779,10 +811,33 @@
     @media (hover: none) and (pointer: coarse) {
       .glass-panel,
       #top-hud-actions .glass-btn,
-    #top-hud-left .glass-btn {
+      #top-hud-left .glass-btn {
         backdrop-filter: blur(16px) saturate(150%) !important;
         -webkit-backdrop-filter: blur(16px) saturate(150%) !important;
       }
+    }
+
+    /* Selama transisi antar mode: ringankan radius blur HUD agar GPU compositor tetap 60 FPS mulus */
+    body.mode-transitioning .glass-panel,
+    body.mode-transitioning #top-hud-actions .glass-btn,
+    body.mode-transitioning #top-hud-left .glass-btn {
+      backdrop-filter: blur(10px) saturate(140%) !important;
+      -webkit-backdrop-filter: blur(10px) saturate(140%) !important;
+    }
+
+    /* Firefox (WebRender): hindari blur per-frame di atas kanvas WebGL agar kamera & transisi mulus 60 FPS */
+    html.is-firefox .celestial-label {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      background: rgba(6, 11, 23, 0.90);
+    }
+    html.is-firefox .glass-panel,
+    html.is-firefox .glass-btn,
+    html.is-firefox #top-hud-actions .glass-btn,
+    html.is-firefox #top-hud-left .glass-btn {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      background: linear-gradient(155deg, rgba(19, 29, 54, 0.88) 0%, rgba(8, 13, 27, 0.93) 100%) !important;
     }
   
     /* Animasi panel ala iOS: muncul dari sudutnya dengan pegas halus, menutup lebih cepat.
@@ -1260,7 +1315,17 @@
           <span class="w-1.5 h-1.5 rounded-full bg-teal-300"></span>
         </button>
 
-        <!-- Baris 6: Label Nama | Rasi Bintang -->
+        <!-- Baris 6: Wahana | Orbit Wahana -->
+        <button data-layer="spacecraft" class="layer-toggle active px-2 py-1.5 rounded-lg text-[11px] font-medium border border-amber-400/45 bg-amber-500/20 text-amber-200 text-left flex items-center justify-between transition cursor-pointer">
+          <span>Wahana</span>
+          <span class="w-1.5 h-1.5 rounded-full bg-amber-300"></span>
+        </button>
+        <button data-layer="spacecraftOrbits" class="layer-toggle active px-2 py-1.5 rounded-lg text-[11px] font-medium border border-amber-400/45 bg-amber-500/20 text-amber-200 text-left flex items-center justify-between transition cursor-pointer">
+          <span>Orbit Wahana</span>
+          <span class="w-1.5 h-1.5 rounded-full bg-amber-300"></span>
+        </button>
+
+        <!-- Baris 7: Label Nama | Rasi Bintang -->
         <button data-layer="labels" class="layer-toggle active px-2 py-1.5 rounded-lg text-[11px] font-medium border border-[#409cff]/50 bg-sky-500/20 text-sky-200 text-left flex items-center justify-between transition cursor-pointer">
           <span>Label Nama</span>
           <span class="w-1.5 h-1.5 rounded-full bg-[#0a84ff]"></span>
@@ -1276,7 +1341,7 @@
     <div class="grid grid-cols-2 gap-1.5 pt-1 border-t border-slate-700/40">
       <button
         id="btn-fullscreen"
-        title="Masuk / Keluar Mode Layar Penuh Perangkat (Fullscreen)"
+        title="Masuk / Keluar Mode Layar Penuh Perangkat (Pintasan: L)"
         class="px-2.5 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700/85 border border-slate-700 text-[11px] font-medium text-slate-200 flex items-center justify-center gap-1.5 transition cursor-pointer"
       >
         <svg id="icon-fs-enter" class="w-3.5 h-3.5 text-[#7cc0ff] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1525,6 +1590,9 @@
           <button data-cat="tno" class="cat-tab px-2.5 py-1 rounded-lg text-[11px] font-semibold border border-slate-700/80 text-slate-300 transition cursor-pointer whitespace-nowrap">
             Asteroid & Komet
           </button>
+          <button data-cat="spacecraft" class="cat-tab px-2.5 py-1 rounded-lg text-[11px] font-semibold border border-slate-700/80 text-slate-300 transition cursor-pointer whitespace-nowrap">
+            Wahana (4)
+          </button>
           <button data-cat="galaxy_dwarf" class="cat-tab hidden px-2.5 py-1 rounded-lg text-[11px] font-semibold border border-slate-700/80 text-slate-300 transition cursor-pointer whitespace-nowrap">
             Galaksi & Galaksi Katai
           </button>
@@ -1714,6 +1782,10 @@
             <div class="rounded-xl bg-slate-900/70 border border-slate-800/80 px-3 py-1.5 flex items-center justify-between">
               <span class="text-slate-300">Rekam Klip Video FHD</span>
               <kbd class="font-mono text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-[#cfe6ff] border border-slate-700">V</kbd>
+            </div>
+            <div class="rounded-xl bg-slate-900/70 border border-slate-800/80 px-3 py-1.5 flex items-center justify-between">
+              <span class="text-slate-300">Layar Penuh (Fullscreen)</span>
+              <kbd class="font-mono text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-[#cfe6ff] border border-slate-700">L</kbd>
             </div>
             <div class="rounded-xl bg-slate-900/70 border border-slate-800/80 px-3 py-1.5 flex items-center justify-between">
               <span class="text-slate-300">Buka / Tutup Panduan</span>
@@ -4682,6 +4754,141 @@
           'Komet 67P/Churyumov–Gerasimenko terkenal dengan bentuk inti berlobus ganda menyerupai bebek karet hasil penggabungan lembut dua benda es purba. Pada 2014, wahana ESA Rosetta mengorbitnya secara langsung dan mendaratkan modul Philae di permukaannya yang gelap kaya senyawa organik.',
         moons: [],
       },
+
+      // =======================================================================
+      // 4 WAHANA ANTARIKSA IKONIK (JWST, PARKER SOLAR PROBE, VOYAGER 1 & 2)
+      // =======================================================================
+      {
+        id: 'jwst',
+        name: 'James Webb (JWST)',
+        navLabel: 'JWST',
+        subtitle: 'Teleskop Antariksa Inframerah • Titik Lagrange L2 Bumi',
+        category: 'Wahana Antariksa — Observatorium L2',
+        navGroups: ['spacecraft'],
+        isSpacecraft: true,
+        spacecraftType: 'jwst',
+        isLagrangeL2: true,
+        color: '#fbbf24',
+        radius: 0.36,
+        orbitRadius: 45.2,
+        eccentricity: 0.017,
+        inclination: 0.0,
+        omega: 0,
+        ascNode: 0.0,
+        orbitSpeed: 0.20,
+        stats: {
+          distance: '1,5 Juta km di Belakang Bumi (L2)',
+          orbit: '365,25 Hari (Orbit Halo L2)',
+          eccentricity: '0,0167 (Ko-orbital Bumi)',
+          inclination: '0,00° (Ekliptika)',
+          rotation: '25 Desember 2021 (Ariane 5)',
+          diameter: 'Perisai 21,2 × 14,2 m • Cermin 6,5 m',
+          temp: 'Panel Surya 2 kW • Sisi Dingin -233 °C',
+          system: 'Aktif • NASA / ESA / CSA',
+        },
+        description:
+          'James Webb Space Telescope (JWST) mengorbit titik Lagrange L2 Matahari–Bumi sejauh 1,5 juta km di sisi malam Bumi. Lima lapis perisai Kapton-nya selalu membelakangi Matahari agar 18 segmen cermin berlapis emasnya tetap sedingin -233 °C untuk memotret galaksi purba dalam spektrum inframerah.',
+        moons: [],
+      },
+      {
+        id: 'parker',
+        name: 'Parker Solar Probe',
+        navLabel: 'Parker Probe',
+        subtitle: 'Wahana Tercepat Manusia • Menyentuh Korona Matahari',
+        category: 'Wahana Antariksa — Pengorbit Surya',
+        navGroups: ['spacecraft'],
+        isSpacecraft: true,
+        spacecraftType: 'parker',
+        color: '#fb923c',
+        radius: 0.34,
+        // Visual: perihelion 13.33 (tepat di luar korona Matahari 11.0), aphelion 29.67 (dekat Venus 29.5)
+        orbitRadius: 21.5,
+        eccentricity: 0.38,
+        inclination: 3.4,
+        omega: 42.0,
+        ascNode: 120.0,
+        orbitSpeed: 0.56,
+        initialPhase: 0.18,
+        stats: {
+          distance: '0,046 – 0,73 SA (6,1 Juta km dari Matahari)',
+          orbit: '88 Hari • Rekor 692.000 km/jam',
+          eccentricity: '0,881 (Sangat Eksentrik)',
+          inclination: '3,40°',
+          rotation: '12 Agustus 2018 (Delta IV Heavy)',
+          diameter: 'Perisai Karbon 2,3 m × Tinggi 3,0 m',
+          temp: 'Panel Surya Berpendingin Air • 1.370 °C',
+          system: 'Aktif • NASA (Bantuan Gravitasi Venus)',
+        },
+        description:
+          'Parker Solar Probe adalah objek buatan manusia tercepat dalam sejarah (~692.000 km/jam di perihelion) yang berulang kali menukik langsung menembus korona Matahari. Perisai karbon-komposit setebal 11,4 cm selalu diarahkan menghadap Matahari untuk melindungi instrumen ilmiah di belakangnya.',
+        moons: [],
+      },
+      {
+        id: 'voyager1',
+        name: 'Voyager 1',
+        navLabel: 'Voyager 1',
+        subtitle: 'Objek Buatan Manusia Terjauh • Ruang Antarbintang',
+        category: 'Wahana Antariksa — Misi Antarbintang',
+        navGroups: ['spacecraft'],
+        isSpacecraft: true,
+        spacecraftType: 'voyager1',
+        isEscapeTrajectory: true,
+        escapeAzimuthDeg: 36,
+        escapeElevationDeg: 35,
+        escapeBaseDist: 355,
+        escapeDriftSpeed: 1.4,
+        color: '#38bdf8',
+        radius: 0.38,
+        orbitRadius: 0,
+        eccentricity: 0,
+        inclination: 35.0,
+        stats: {
+          distance: '~165 SA (~24,7 Miliar km dari Matahari)',
+          orbit: 'Lintasan Hiperbolik • 17,0 km/detik',
+          eccentricity: '> 1,0 (Lepas Gravitasi)',
+          inclination: '+35° (Utara Ekliptika)',
+          rotation: '5 September 1977 (Titan IIIE)',
+          diameter: 'Antena Parabola 3,7 m • Boom 13 m',
+          temp: '3× RTG Plutonium-238 (~220 W)',
+          system: 'Aktif di Medium Antarbintang • NASA',
+        },
+        description:
+          'Voyager 1 adalah objek buatan manusia terjauh dari Bumi yang melintasi heliopause menuju ruang antarbintang pada 2012. Setelah memotret Jupiter, Saturnus, dan "Pale Blue Dot", antena parabolanya tetap menghadap ke arah Bumi untuk mengirim sinyal radio yang butuh >22 jam cahaya untuk tiba.',
+        moons: [],
+      },
+      {
+        id: 'voyager2',
+        name: 'Voyager 2',
+        navLabel: 'Voyager 2',
+        subtitle: 'Satu-Satunya Penjelajah 4 Planet Raksasa (Grand Tour)',
+        category: 'Wahana Antariksa — Misi Antarbintang',
+        navGroups: ['spacecraft'],
+        isSpacecraft: true,
+        spacecraftType: 'voyager2',
+        isEscapeTrajectory: true,
+        escapeAzimuthDeg: 148,
+        escapeElevationDeg: -48,
+        escapeBaseDist: 332,
+        escapeDriftSpeed: 1.25,
+        color: '#a78bfa',
+        radius: 0.38,
+        orbitRadius: 0,
+        eccentricity: 0,
+        inclination: -48.0,
+        stats: {
+          distance: '~138 SA (~20,6 Miliar km dari Matahari)',
+          orbit: 'Lintasan Hiperbolik • 15,4 km/detik',
+          eccentricity: '> 1,0 (Lepas Gravitasi)',
+          inclination: '-48° (Selatan Ekliptika)',
+          rotation: '20 Agustus 1977 (Titan IIIE)',
+          diameter: 'Antena Parabola 3,7 m • Boom 13 m',
+          temp: '3× RTG Plutonium-238 (~225 W)',
+          system: 'Aktif di Medium Antarbintang • NASA',
+        },
+        description:
+          'Voyager 2 adalah satu-satunya wahana antariksa yang pernah mengunjungi keempat planet raksasa—Jupiter, Saturnus, Uranus, dan Neptunus—dalam "Grand Tour" bersejarah. Sejak 2018 wahana ini melaju di ruang antarbintang ke arah belahan langit selatan.',
+        moons: [],
+      },
     ];
 
     // Daftar Bab Tur Sinematik Otomatis (Berurutan dari Matahari, 8 Planet, Sabuk Asteroid, 10 Planet Katai, Komet hingga Panorama)
@@ -4995,6 +5202,8 @@
         moonOrbits: true,
         comets: true,
         cometOrbits: true,
+        spacecraft: true,
+        spacecraftOrbits: true,
         constellations: true,
       },
     };
@@ -5016,7 +5225,9 @@
     const isMobileDevice =
       window.matchMedia('(pointer: coarse)').matches ||
       /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
-    const MAX_DPR = isMobileDevice ? 1.5 : 2.0;
+    const isFirefox = /Firefox/i.test(navigator.userAgent);
+    if (isFirefox) document.documentElement.classList.add('is-firefox');
+    const MAX_DPR = (isMobileDevice || isFirefox) ? 1.5 : 2.0;
 
     const renderer = new THREE.WebGLRenderer({
       antialias: !isMobileDevice,
@@ -5029,7 +5240,7 @@
     container.appendChild(renderer.domElement);
 
     // Post-Processing: MSAA RenderTarget (WebGL2) + RenderPass + Half-Res UnrealBloomPass + OutputPass
-    const msaaSamples = renderer.capabilities.isWebGL2
+    const msaaSamples = (renderer.capabilities.isWebGL2 && !isFirefox)
       ? Math.min(isMobileDevice ? 2 : 4, renderer.capabilities.maxSamples || 4)
       : 0;
     const composerTarget = new THREE.WebGLRenderTarget(
@@ -6124,6 +6335,9 @@
     const cometOrbitLines = [];
     const cometGroups = [];
     const cometEntities = [];
+    const spacecraftOrbitLines = [];
+    const spacecraftGroups = [];
+    const spacecraftEntities = [];
     const moonGroups = [];
     const moonOrbitLines = [];
     const labelElements = [];
@@ -6131,21 +6345,259 @@
     const scalableGroups = []; // Menyimpan grup visual yang ikut membesar saat slider skala digeser
 
     function createLabelElement(item, options = {}) {
-      const { isMoon = false, isTrojan = false, isDwarf = false, isComet = false } = options;
+      const { isMoon = false, isTrojan = false, isDwarf = false, isComet = false, isSpacecraft = false } = options;
       const el = document.createElement('div');
-      el.className = `celestial-label${isMoon ? ' is-moon' : ''}${isTrojan ? ' is-trojan' : ''}${isDwarf ? ' is-dwarf' : ''}${isComet ? ' is-comet' : ''}`;
+      el.className = `celestial-label${isMoon ? ' is-moon' : ''}${isTrojan ? ' is-trojan' : ''}${isDwarf ? ' is-dwarf' : ''}${isComet ? ' is-comet' : ''}${isSpacecraft ? ' is-spacecraft' : ''}`;
       el.innerHTML = `<span class="label-dot" style="background:${item.color}"></span><span>${item.navLabel || item.name}</span>`;
       el._onTap = () => { stopAutoTour(); selectBody(item.id); if (window.innerWidth >= 640) telemetryDrawer.classList.remove('hidden'); };
       labelsLayer.appendChild(el);
       return el;
     }
 
+    // Generator model 3D low-poly prosedural ringan untuk 4 wahana antariksa ikonik
+    function createSpacecraftModel(type, bodyId) {
+      const root = new THREE.Group();
+      const goldMat = new THREE.MeshStandardMaterial({ color: 0xf5b942, roughness: 0.24, metalness: 0.86, emissive: 0x3b2404, emissiveIntensity: 0.28 });
+      const silverMat = new THREE.MeshStandardMaterial({ color: 0xdbeafe, roughness: 0.32, metalness: 0.72, side: THREE.DoubleSide });
+      const foilMat = new THREE.MeshStandardMaterial({ color: 0xe2c7d9, roughness: 0.35, metalness: 0.62, side: THREE.DoubleSide });
+      const darkCarbonMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.75, metalness: 0.25 });
+      const whiteMat = new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.52, metalness: 0.14, side: THREE.DoubleSide });
+      const panelMat = new THREE.MeshStandardMaterial({ color: 0x1d4ed8, roughness: 0.28, metalness: 0.65, emissive: 0x0c2461, emissiveIntensity: 0.35 });
+
+      if (type === 'jwst') {
+        // Perisai panas Kapton 5 lapis berbentuk layang-layang (sisi +Z menghadap Matahari)
+        const kiteShape = new THREE.Shape();
+        kiteShape.moveTo(0, 0.56);
+        kiteShape.lineTo(0.36, 0.04);
+        kiteShape.lineTo(0, -0.44);
+        kiteShape.lineTo(-0.36, 0.04);
+        kiteShape.closePath();
+        const shieldGeo = new THREE.ShapeGeometry(kiteShape);
+        for (let i = 0; i < 3; i++) {
+          const layer = new THREE.Mesh(shieldGeo, i === 0 ? foilMat : silverMat);
+          layer.position.z = 0.06 - i * 0.032;
+          layer.scale.setScalar(1.0 - i * 0.06);
+          root.add(layer);
+        }
+        // Cermin utama heksagonal berlapis emas di sisi dingin (-Z)
+        const mirror = new THREE.Mesh(new THREE.CylinderGeometry(0.21, 0.21, 0.032, 6), goldMat);
+        mirror.rotation.x = Math.PI / 2;
+        mirror.position.set(0, 0.05, -0.10);
+        root.add(mirror);
+        // Cermin sekunder & tripod kecil
+        const sec = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 0.025, 12), darkCarbonMat);
+        sec.rotation.x = Math.PI / 2;
+        sec.position.set(0, 0.05, -0.32);
+        root.add(sec);
+        const strutGeo = new THREE.CylinderGeometry(0.008, 0.008, 0.24, 6);
+        [[0, 0.14], [-0.12, -0.05], [0.12, -0.05]].forEach(([sx, sy]) => {
+          const strut = new THREE.Mesh(strutGeo, darkCarbonMat);
+          strut.position.set(sx * 0.55, 0.05 + sy * 0.55, -0.21);
+          strut.lookAt(0, 0.05, -0.32);
+          strut.rotateX(Math.PI / 2);
+          root.add(strut);
+        });
+        // Bus wahana & panel surya di sisi hangat (+Z)
+        const bus = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.14, 0.09), darkCarbonMat);
+        bus.position.set(0, -0.05, 0.12);
+        root.add(bus);
+      } else if (type === 'parker') {
+        // Perisai panas karbon heksagonal menghadap Matahari (+Z)
+        const tps = new THREE.Mesh(new THREE.CylinderGeometry(0.26, 0.24, 0.055, 6), darkCarbonMat);
+        tps.rotation.x = Math.PI / 2;
+        tps.position.z = 0.22;
+        root.add(tps);
+        const tpsRim = new THREE.Mesh(new THREE.CylinderGeometry(0.265, 0.265, 0.014, 6), whiteMat);
+        tpsRim.rotation.x = Math.PI / 2;
+        tpsRim.position.z = 0.252;
+        root.add(tpsRim);
+        // Badan wahana di balik bayangan perisai
+        const body = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.14, 0.34, 6), silverMat);
+        body.rotation.x = Math.PI / 2;
+        body.position.z = 0.0;
+        root.add(body);
+        // Radiator & panel surya miring
+        const wingGeo = new THREE.BoxGeometry(0.26, 0.014, 0.11);
+        [-1, 1].forEach((side) => {
+          const wing = new THREE.Mesh(wingGeo, panelMat);
+          wing.position.set(side * 0.18, 0, -0.08);
+          wing.rotation.y = side * 0.28;
+          root.add(wing);
+        });
+        // Antena cambuk FIELDS di belakang (-Z)
+        const tailBoom = new THREE.Mesh(new THREE.CylinderGeometry(0.01, 0.012, 0.42, 6), goldMat);
+        tailBoom.rotation.x = Math.PI / 2;
+        tailBoom.position.z = -0.34;
+        root.add(tailBoom);
+      } else {
+        // Voyager 1 & Voyager 2: antena parabola putih besar menghadap Matahari/Bumi (+Z)
+        const dishPts = [
+          new THREE.Vector2(0.0, 0.0),
+          new THREE.Vector2(0.11, 0.025),
+          new THREE.Vector2(0.22, 0.075),
+          new THREE.Vector2(0.32, 0.15),
+        ];
+        const dishGeo = new THREE.LatheGeometry(dishPts, 24);
+        const dish = new THREE.Mesh(dishGeo, whiteMat);
+        dish.rotation.x = Math.PI / 2;
+        dish.position.z = 0.02;
+        root.add(dish);
+        // Sub-reflektor di fokus parabola
+        const feed = new THREE.Mesh(new THREE.CylinderGeometry(0.032, 0.022, 0.04, 10), type === 'voyager1' ? goldMat : silverMat);
+        feed.rotation.x = Math.PI / 2;
+        feed.position.z = 0.24;
+        root.add(feed);
+        // Bus dekagonal di belakang parabola
+        const bus = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.14, 0.13, 10), darkCarbonMat);
+        bus.rotation.x = Math.PI / 2;
+        bus.position.z = -0.07;
+        root.add(bus);
+        // Boom RTG (sumber daya nuklir) & boom magnetometer panjang
+        const rtgBoom = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.028, 0.44, 8), darkCarbonMat);
+        rtgBoom.rotation.z = Math.PI / 2;
+        rtgBoom.position.set(0.28, -0.06, -0.08);
+        root.add(rtgBoom);
+        const magBoom = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.01, 0.85, 6), goldMat);
+        magBoom.rotation.z = Math.PI / 2;
+        magBoom.position.set(-0.46, 0.04, -0.08);
+        root.add(magBoom);
+      }
+
+      // Sphere hitbox transparan agar mudah diklik dari kejauhan
+      const hitSphere = new THREE.Mesh(
+        new THREE.SphereGeometry(0.46, 12, 12),
+        new THREE.MeshBasicMaterial({ visible: false })
+      );
+      hitSphere.userData.bodyId = bodyId;
+      root.add(hitSphere);
+      clickableMeshes.push(hitSphere);
+      root.traverse((child) => {
+        if (child.isMesh) child.userData.bodyId = bodyId;
+      });
+      return root;
+    }
+
     const planetEntities = [];
     const moonEntities = [];
     const hostEclipseTrackers = []; // Bayangan satelit jatuh ke permukaan planet/planet katai induk
     const moonEclipseTrackers = []; // Bayangan planet/planet katai induk jatuh ke permukaan satelit
+    let earthEntity = null;
     let jupiterEntity = null;
     let saturnEntity = null;
+
+    // Penanda Kontekstual Perihelion (Terdekat Matahari) & Aphelion (Terjauh Matahari)
+    const apsisMarkersGroup = new THREE.Group();
+    apsisMarkersGroup.visible = false;
+    solarSystemGroup.add(apsisMarkersGroup);
+
+    const apsisGeo = new THREE.OctahedronGeometry(0.24, 0);
+    const periMarkerMesh = new THREE.Mesh(
+      apsisGeo,
+      new THREE.MeshBasicMaterial({ color: 0xfbbf24, transparent: true, opacity: 0.92 })
+    );
+    const aphMarkerMesh = new THREE.Mesh(
+      apsisGeo,
+      new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.92 })
+    );
+    apsisMarkersGroup.add(periMarkerMesh, aphMarkerMesh);
+
+    let apsisInspectBodyId = null;
+
+    function focusApsisPoint(isPerihelion) {
+      const bodyId = apsisInspectBodyId || state.selectedId;
+      if (state.mode === 'galaxy' || !bodyId || !apsisMarkersGroup.visible) return;
+      const reg = registry.get(bodyId);
+      const d = reg && !reg.parentData ? reg.data : null;
+      if (!d || !d.orbitRadius) return;
+
+      const targetMesh = isPerihelion ? periMarkerMesh : aphMarkerMesh;
+      const apsisWorldPos = new THREE.Vector3();
+      targetMesh.getWorldPosition(apsisWorldPos);
+
+      const sunPos = globalSunPosUniform.value;
+      const upDir = new THREE.Vector3(0, 1, 0).applyQuaternion(solarSystemGroup.quaternion).normalize();
+      const fromSun = apsisWorldPos.clone().sub(sunPos);
+      const radialDir = fromSun.lengthSq() > 0.01 ? fromSun.normalize() : new THREE.Vector3(1, 0, 0);
+      const tangentDir = new THREE.Vector3().crossVectors(upDir, radialDir).normalize();
+
+      const viewDist = Math.min(72, Math.max(8.5, d.orbitRadius * 0.22));
+      const camDestPos = apsisWorldPos.clone()
+        .addScaledVector(radialDir, viewDist * 0.62)
+        .addScaledVector(tangentDir, viewDist * 0.52)
+        .addScaledVector(upDir, viewDist * 0.44);
+
+      stopAutoTour();
+      apsisInspectBodyId = bodyId;
+      state.isOverview = true;
+      hasPrevTargetPos = false;
+      setCameraNearPlane(DEFAULT_CAMERA_NEAR);
+      controls.minDistance = 2.0;
+
+      cameraTransition.active = true;
+      cameraTransition.progress = 0;
+      cameraTransition.duration = 1.05;
+      cameraTransition.startCamPos.copy(camera.position);
+      cameraTransition.startTarget.copy(controls.target);
+      cameraTransition.desiredOffset.copy(camDestPos);
+      cameraTransition.desiredTargetOffset.set(0, 0, 0);
+      cameraTransition.customTarget = apsisWorldPos;
+    }
+
+    const periLabelEl = document.createElement('div');
+    periLabelEl.className = 'celestial-label is-apsis';
+    periLabelEl.title = 'Klik untuk mengarahkan kamera ke titik Perihelion (terdekat Matahari)';
+    periLabelEl.innerHTML = '<span class="label-dot" style="background:#fbbf24"></span><span>Perihelion</span>';
+    periLabelEl.style.display = 'none';
+    periLabelEl._onTap = () => focusApsisPoint(true);
+    labelsLayer.appendChild(periLabelEl);
+
+    const aphLabelEl = document.createElement('div');
+    aphLabelEl.className = 'celestial-label is-apsis is-aphelion';
+    aphLabelEl.title = 'Klik untuk mengarahkan kamera ke titik Aphelion (terjauh Matahari)';
+    aphLabelEl.innerHTML = '<span class="label-dot" style="background:#38bdf8"></span><span>Aphelion</span>';
+    aphLabelEl.style.display = 'none';
+    aphLabelEl._onTap = () => focusApsisPoint(false);
+    labelsLayer.appendChild(aphLabelEl);
+
+    function updateApsisMarkersForSelection() {
+      const targetBodyId = apsisInspectBodyId || (!state.isOverview ? state.selectedId : null);
+      const canShow =
+        !!targetBodyId &&
+        state.mode !== 'galaxy' &&
+        !isRecording &&
+        state.selectedConstellationIdx === -1;
+
+      if (!canShow) {
+        apsisMarkersGroup.visible = false;
+        periLabelEl.style.display = 'none';
+        aphLabelEl.style.display = 'none';
+        return;
+      }
+
+      const reg = registry.get(targetBodyId);
+      const d = reg && !reg.parentData ? reg.data : null;
+      if (
+        !d ||
+        d.isSun ||
+        d.isVirtualMarker ||
+        d.isEscapeTrajectory ||
+        d.isLagrangeL2 ||
+        !d.orbitRadius ||
+        (d.eccentricity || 0) < 0.05
+      ) {
+        apsisMarkersGroup.visible = false;
+        periLabelEl.style.display = 'none';
+        aphLabelEl.style.display = 'none';
+        return;
+      }
+
+      computeOrbitalPosition(d.orbitRadius, d.eccentricity, d.inclination || 0, d.omega || 0, 0, periMarkerMesh.position, d.ascNode || 0);
+      computeOrbitalPosition(d.orbitRadius, d.eccentricity, d.inclination || 0, d.omega || 0, Math.PI, aphMarkerMesh.position, d.ascNode || 0);
+      const markerScale = Math.min(2.6, Math.max(0.35, d.orbitRadius * 0.0085));
+      periMarkerMesh.scale.setScalar(markerScale);
+      aphMarkerMesh.scale.setScalar(markerScale);
+      apsisMarkersGroup.visible = true;
+    }
     let saturnShadowUniforms = null;
 
     const yieldToBrowser = () => new Promise((resolve) => setTimeout(resolve, 0));
@@ -6233,6 +6685,88 @@
             labelEl,
           });
           labelElements.push({ id: data.id, el: labelEl, isTrojan: true });
+          continue;
+        }
+
+        if (data.isSpacecraft) {
+          const scPivot = new THREE.Group();
+          solarSystemGroup.add(scPivot);
+
+          const scScaleGroup = new THREE.Group();
+          scPivot.add(scScaleGroup);
+          scalableGroups.push(scScaleGroup);
+
+          const scModel = createSpacecraftModel(data.spacecraftType, data.id);
+          scScaleGroup.add(scModel);
+
+          // Garis lintasan / orbit wahana antariksa
+          let scOrbitLine = null;
+          let escapeDir = null;
+          if (data.isEscapeTrajectory) {
+            const az = THREE.MathUtils.degToRad(data.escapeAzimuthDeg || 0);
+            const el = THREE.MathUtils.degToRad(data.escapeElevationDeg || 0);
+            escapeDir = new THREE.Vector3(
+              Math.cos(el) * Math.cos(az),
+              Math.sin(el),
+              Math.cos(el) * Math.sin(az)
+            ).normalize();
+            // Kurva lintasan hiperbolik keluar dari Tata Surya dalam hingga melampaui posisi wahana
+            const sideVec = new THREE.Vector3(-escapeDir.z, 0, escapeDir.x).normalize();
+            const pts = [];
+            const segs = 120;
+            const maxR = (data.escapeBaseDist || 340) + 90;
+            for (let s = 0; s <= segs; s++) {
+              const u = s / segs;
+              const r = 40 + u * (maxR - 40);
+              const curveBend = Math.sin(u * Math.PI) * 34 * (1 - u * 0.65);
+              const p = escapeDir.clone().multiplyScalar(r).addScaledVector(sideVec, curveBend);
+              p.y *= Math.pow(u, 0.72); // Memulai dekat bidang ekliptika lalu mendaki/menukik keluar
+              pts.push(p);
+            }
+            const escGeo = new THREE.BufferGeometry().setFromPoints(pts);
+            const escMat = new THREE.LineBasicMaterial({
+              color: new THREE.Color(data.color),
+              transparent: true,
+              opacity: 0.32,
+              depthWrite: false,
+            });
+            scOrbitLine = new THREE.Line(escGeo, escMat);
+            solarSystemGroup.add(scOrbitLine);
+            scPivot.position.copy(escapeDir).multiplyScalar(data.escapeBaseDist || 340);
+          } else {
+            scOrbitLine = createOrbitLine(
+              data.orbitRadius,
+              data.eccentricity || 0,
+              data.inclination || 0,
+              data.omega || 0,
+              new THREE.Color(data.color).getHex(),
+              0.28,
+              data.ascNode || 0
+            );
+            solarSystemGroup.add(scOrbitLine);
+          }
+
+          if (scOrbitLine) spacecraftOrbitLines.push(scOrbitLine);
+          spacecraftGroups.push(scPivot);
+
+          const labelEl = createLabelElement(data, { isSpacecraft: true });
+          labelElements.push({ id: data.id, el: labelEl, isSpacecraft: true });
+
+          spacecraftEntities.push({
+            data,
+            pivot: scPivot,
+            model: scModel,
+            phase: data.initialPhase !== undefined ? data.initialPhase : 0.2,
+            escapeDir,
+          });
+
+          registry.set(data.id, {
+            data,
+            mesh: scModel,
+            baseFocusRadius: 0.62,
+            getWorldPos: (out) => scPivot.getWorldPosition(out),
+            labelEl,
+          });
           continue;
         }
 
@@ -6517,6 +7051,7 @@
           phase: data.initialPhase !== undefined ? data.initialPhase : (idx * 0.85 + 0.4),
         };
         planetEntities.push(entity);
+        if (data.id === 'earth') earthEntity = entity;
         if (data.id === 'jupiter') jupiterEntity = entity;
         if (data.id === 'saturn') saturnEntity = entity;
 
@@ -7962,9 +8497,9 @@
 
     function buildMilkyWayGalaxy() {
       const TOTAL_STARS = isMobileDevice ? 45000 : 75000;
-      const sBulgeEnd = Math.floor(TOTAL_STARS * (11000 / 75000));
-      const sBarSplit = Math.floor(TOTAL_STARS * (4600 / 75000));
-      const sDiskEnd = Math.floor(TOTAL_STARS * (53000 / 75000));
+      const sBulgeEnd = Math.floor(TOTAL_STARS * (12500 / 75000));
+      const sBarSplit = Math.floor(TOTAL_STARS * (3800 / 75000));
+      const sDiskEnd = Math.floor(TOTAL_STARS * (54000 / 75000));
       const sInterArmEnd = Math.floor(TOTAL_STARS * (66000 / 75000));
       const sOrionEnd = Math.floor(TOTAL_STARS * (69000 / 75000));
       const positions = new Float32Array(TOTAL_STARS * 3);
@@ -7997,39 +8532,40 @@
         const c = new THREE.Color();
 
         if (i < sBulgeEnd) {
-          // 1. Galactic Bulge & Central Bar (11.000 bintang)
+          // 1. Galactic Bulge & Long Central Bar (SBbc — ~27.000 Thn Cahaya seperti peta NASA/Spitzer)
           popType = 0.0;
           const isBar = i > sBarSplit;
           if (isBar) {
-            const bx = (Math.random() - 0.5 + (Math.random() - 0.5)) * 245;
-            const bz = (Math.random() - 0.5 + (Math.random() - 0.5)) * 78;
-            const by = (Math.random() - 0.5 + (Math.random() - 0.5)) * 38;
+            const bx = (Math.random() - 0.5 + (Math.random() - 0.5)) * 345;
+            const bz = (Math.random() - 0.5 + (Math.random() - 0.5)) * 62;
+            const by = (Math.random() - 0.5 + (Math.random() - 0.5)) * 32;
             x = bx * cosB - bz * sinB;
             z = bx * sinB + bz * cosB;
             y = by;
             r = Math.hypot(x, z);
             theta0 = Math.atan2(z, x);
-            omega = GALAXY_PATTERN_SPEED * 1.1;
-            c.copy(colCoreWarm).lerp(colCoreHot, Math.random() * 0.65);
-            baseSize = 0.85 + Math.random() * 0.85;
+            // Terkunci tepat dengan GALAXY_PATTERN_SPEED agar ujung palang selalu menyambung ke pangkal lengan mayor
+            omega = GALAXY_PATTERN_SPEED;
+            c.copy(colCoreWarm).lerp(colCoreHot, 0.25 + Math.random() * 0.65);
+            baseSize = 0.88 + Math.random() * 0.88;
           } else {
-            r = Math.pow(Math.random(), 2.0) * 165;
+            r = Math.pow(Math.random(), 2.1) * 145;
             theta0 = Math.random() * Math.PI * 2;
             const ph = Math.acos(2 * Math.random() - 1);
             const rXZ = r * Math.sin(ph);
             x = rXZ * Math.cos(theta0);
-            y = r * Math.cos(ph) * 0.58;
+            y = r * Math.cos(ph) * 0.55;
             z = rXZ * Math.sin(theta0);
             r = rXZ;
             omega = V_FLAT / (r + 55.0);
-            c.copy(colCoreHot).lerp(colCoreWarm, r / 165);
+            c.copy(colCoreHot).lerp(colCoreWarm, r / 145);
             baseSize = 0.95 + Math.random() * 0.9;
           }
         } else if (i < sDiskEnd) {
-          // 2. Piringan Bintang Utama (42.000 bintang): Rotasi Diferensial + Gelombang Kepadatan Lebar
+          // 2. Piringan Bintang Utama: Rotasi Diferensial + Gelombang Kepadatan 2 Lengan Mayor & 2 Lengan Minor
           popType = 1.0;
-          const t = Math.pow(Math.random(), 0.76);
-          r = 122 + t * 960;
+          const t = Math.pow(Math.random(), 0.78);
+          r = 152 + t * 930;
           theta0 = Math.random() * Math.PI * 2;
           x = Math.cos(theta0) * r;
           z = Math.sin(theta0) * r;
@@ -8150,44 +8686,55 @@
             float sizeMult = baseSize;
 
             if (popType > 0.5 && popType < 1.5) {
-              // GELOMBANG KEPADATAN SPIRAL LEBAR & ALAMI (Density Wave)
-              float logSpiral = 2.55 * log(max(r, 120.0) / 120.0);
+              // GELOMBANG KEPADATAN SPIRAL SBbc (NASA/Spitzer):
+              // 2 lengan mayor (Perseus & Scutum-Centaurus) keluar dari ujung Galactic Bar (barAngle = 0.4887 rad)
+              // + 2 lengan minor (Sagittarius & Norma) lebih tipis di antara keduanya
+              float logSpiral = 0.4887 + 2.25 * log(max(r, 155.0) / 155.0);
               float patternTheta = -uPatternSpeed * uTime;
               float relAngle = theta - (logSpiral + patternTheta);
 
-              // Kompresi fase lebih lembut agar lengan spiral lebar & rimbun, tidak seperti garis tipis
+              // Kompresi fase: lengan mayor jauh lebih dominan daripada lengan minor
               float waveMajor = sin(2.0 * relAngle);
               float waveMinor = sin(4.0 * relAngle);
-              theta -= (0.16 * waveMajor + 0.07 * waveMinor);
+              theta -= (0.21 * waveMajor + 0.05 * waveMinor);
 
               float relAfter = theta - (logSpiral + patternTheta);
               float crestMajor = 0.5 + 0.5 * cos(2.0 * relAfter);
-              float crestMinor = 0.5 + 0.5 * cos(4.0 * relAfter);
-              float armDensity = clamp(pow(max(crestMajor, 0.0001), 1.35) * 0.78 + pow(max(crestMinor, 0.0001), 1.95) * 0.44, 0.0, 1.0);
+              float crestMinor = 0.5 - 0.5 * cos(2.0 * relAfter);
+              float armMajor = pow(max(crestMajor, 0.0001), 1.65) * 0.92;
+              float armMinor = pow(max(crestMinor, 0.0001), 2.45) * 0.54;
+              float armDensity = clamp(armMajor + armMinor, 0.0, 1.0);
+
+              // Pita debu gelap (dust lane) tipis & lembut di tepi dalam cekung lengan spiral
+              float dustPhase = relAfter + 0.24;
+              float dustBand = pow(max(0.5 + 0.5 * cos(2.0 * dustPhase), 0.0001), 9.0) * smoothstep(160.0, 280.0, r) * smoothstep(1050.0, 620.0, r);
+              float edgeFade = smoothstep(1090.0, 700.0, r);
 
               yPos += sin(uTime * 0.45 + phase) * 2.4;
 
-              vec3 youngBlue = vec3(0.46, 0.80, 1.0);
-              vec3 h2Pink = vec3(0.96, 0.44, 0.72);
-              vec3 armTint = mix(youngBlue, h2Pink, nebulaFlag * 0.85);
+              vec3 youngBlue = vec3(0.48, 0.82, 1.0);
+              vec3 h2Pink = vec3(0.98, 0.40, 0.62);
+              vec3 dustRust = vec3(0.45, 0.22, 0.14);
+              vec3 armTint = mix(youngBlue, h2Pink, nebulaFlag * 0.88);
 
-              col = mix(col * 0.56, armTint * 1.1, armDensity * 0.76);
-              sizeMult *= (0.76 + armDensity * 0.82);
-              alpha = 0.36 + armDensity * 0.56;
+              col = mix(col * 0.52, armTint * 1.12, armDensity * 0.80);
+              col = mix(col, dustRust, dustBand * 0.34);
+              sizeMult *= (0.72 + armDensity * 0.86) * (1.0 - dustBand * 0.12);
+              alpha = (0.30 + armDensity * 0.62) * (1.0 - dustBand * 0.26) * edgeFade;
             } else if (popType < 0.5) {
               // Bulge & Central Bar
               alpha = 0.84;
             } else if (popType < 2.5) {
               // Orion-Cygnus Spur
-              alpha = 0.78;
+              alpha = 0.78 * smoothstep(1090.0, 720.0, r);
               sizeMult *= 1.05;
             } else if (popType < 3.5) {
               // Halo & Bintang Tua 3D
-              alpha = 0.48;
+              alpha = 0.48 * smoothstep(1220.0, 820.0, r);
             } else {
-              // Piringan Bintang Tua Antar-Lengan (mengisi celah antar lengan dengan pendaran hangat halus)
+              // Piringan Bintang Tua Antar-Lengan (memudar halus ke tepi luar)
               yPos += sin(uTime * 0.32 + phase) * 3.0;
-              alpha = 0.44;
+              alpha = 0.44 * smoothstep(1060.0, 680.0, r);
             }
 
             vec3 newPos = vec3(cos(theta) * r, yPos, sin(theta) * r);
@@ -8298,35 +8845,47 @@
             if (r > 1120.0) discard;
 
             float theta = atan(xz.y, xz.x);
-            float logSpiral = 2.55 * log(max(r, 120.0) / 120.0);
+            float logSpiral = 0.4887 + 2.25 * log(max(r, 155.0) / 155.0);
             float patternTheta = -uPatternSpeed * uTime;
             float rel = theta - (logSpiral + patternTheta);
 
-            // Pola lengan spiral lembut + pendaran piringan difus
-            float armMajor = pow(max(0.5 + 0.5 * cos(2.0 * rel), 0.0001), 1.5);
-            float armMinor = pow(max(0.5 + 0.5 * cos(4.0 * rel), 0.0001), 2.1) * 0.55;
-            float spiralGlow = clamp(armMajor * 0.72 + armMinor, 0.0, 1.0);
+            // 2 lengan mayor terang & lebar (Perseus & Scutum-Centaurus) + 2 lengan minor tipis (Sagittarius & Norma)
+            float armMajor = pow(max(0.5 + 0.5 * cos(2.0 * rel), 0.0001), 1.85) * 0.88;
+            float armMinor = pow(max(0.5 - 0.5 * cos(2.0 * rel), 0.0001), 2.55) * 0.48;
+            float spiralGlow = clamp(armMajor + armMinor, 0.0, 1.0) * smoothstep(130.0, 210.0, r);
 
-            // Tekstur awan gas/debu antarbintang organik (Simplex FBM)
+            // Pita debu gelap kemerahan tipis & lembut di sisi dalam lengan spiral
+            float dustRidge = pow(max(0.5 + 0.5 * cos(2.0 * (rel + 0.24)), 0.0001), 8.5) * smoothstep(160.0, 260.0, r) * smoothstep(1040.0, 620.0, r);
+
+            // Tekstur awan gas/debu antarbintang organik (Simplex FBM) + Palang Inti (Long Galactic Bar)
             float cp = cos(-patternTheta), sp = sin(-patternTheta);
             vec2 rotXZ = vec2(xz.x * cp - xz.y * sp, xz.x * sp + xz.y * cp);
-            float cloud = fbmSimplex(rotXZ * 0.0038 + vec2(2.1, -1.4));
+            float cloud = fbmSimplex(rotXZ * 0.0042 + vec2(2.1, -1.4));
+
+            // Proyeksi koordinat lokal Galactic Bar (miring 28 deg mengikuti rotasi pola)
+            float cb = cos(-0.4887), sb = sin(-0.4887);
+            vec2 barXY = vec2(rotXZ.x * cb - rotXZ.y * sb, rotXZ.x * sb + rotXZ.y * cb);
+            float barDist = length(vec2(barXY.x * 0.0044, barXY.y * 0.0138));
+            float barGlow = exp(-barDist * barDist * 1.45) * 0.78;
 
             float radialFalloff = smoothstep(1120.0, 180.0, r);
-            float coreGlow = exp(-r * 0.0048) * 0.65;
-            float diskBase = exp(-r * 0.0017) * 0.26;
+            float coreGlow = exp(-r * 0.0062) * 0.52 + barGlow;
+            float diskBase = exp(-r * 0.0018) * 0.22;
 
-            vec3 warmCore = vec3(1.0, 0.76, 0.45);
-            vec3 softVioletBlue = vec3(0.28, 0.46, 0.82);
-            vec3 faintCyan = vec3(0.42, 0.72, 0.96);
+            vec3 warmCore = vec3(1.0, 0.80, 0.50);
+            vec3 softVioletBlue = vec3(0.24, 0.42, 0.78);
+            vec3 faintCyan = vec3(0.46, 0.76, 0.98);
+            vec3 dustBrown = vec3(0.26, 0.12, 0.09);
 
-            vec3 col = mix(softVioletBlue, faintCyan, spiralGlow * 0.65);
-            col = mix(col, warmCore, clamp(coreGlow * 1.4, 0.0, 1.0));
+            vec3 col = mix(softVioletBlue, faintCyan, spiralGlow * 0.72);
+            col = mix(col, dustBrown, dustRidge * 0.32);
+            col = mix(col, warmCore, clamp(coreGlow * 1.25, 0.0, 1.0));
 
-            float alpha = (diskBase + spiralGlow * 0.24 * radialFalloff + coreGlow * 0.45) * (0.68 + 0.52 * cloud);
-            alpha *= smoothstep(1120.0, 820.0, r);
+            float alpha = (diskBase + spiralGlow * 0.28 * radialFalloff + coreGlow * 0.46) * (0.66 + 0.54 * cloud);
+            alpha *= (1.0 - dustRidge * 0.24);
+            alpha *= smoothstep(1100.0, 680.0, r);
 
-            gl_FragColor = vec4(col, clamp(alpha * 0.60, 0.0, 0.46) * uGlobalAlpha);
+            gl_FragColor = vec4(col, clamp(alpha * 0.62, 0.0, 0.50) * uGlobalAlpha);
           }
         `,
         transparent: true,
@@ -8352,7 +8911,7 @@
         const armIdx = i % 4;
         const isMajor = armIdx < 2;
         const r = 185 + Math.pow(Math.random(), 0.85) * 780;
-        const theta = armBaseAngles[armIdx] + 2.55 * Math.log(r / 120) + (Math.random() - 0.5) * 0.26;
+        const theta = barAngle + armBaseAngles[armIdx] + 2.25 * Math.log(r / 155) + (Math.random() - 0.5) * 0.22;
         const nx = Math.cos(theta) * r;
         const nz = Math.sin(theta) * r;
         const ny = (Math.random() - 0.5) * 16;
@@ -8672,7 +9231,7 @@
       };
 
       const rLab = 660;
-      const baseLabTheta = 2.55 * Math.log(rLab / 120);
+      const baseLabTheta = barAngle + 2.25 * Math.log(rLab / 155);
       addGalAnchor('sgr_a', milkyWayGroup, 0, 0, 0, 'Sagittarius A* (Pusat Galaksi)', 30);
       addGalAnchor('orion_spur', galacticSunMarker, 0, 0, 0, 'Tata Surya • Orion Spur', 48, true);
       addGalAnchor('perseus_arm', milkyWayDisk, Math.cos(baseLabTheta) * rLab, 0, Math.sin(baseLabTheta) * rLab, 'Lengan Perseus', 20);
@@ -8753,8 +9312,10 @@
       state.selectedConstellationIdx = normIdx;
       state.isOverview = true;
       hasPrevTargetPos = false;
+      apsisInspectBodyId = null;
       hideFollowCamBar();
       updateBottomMoonsBar(null);
+      updateApsisMarkersForSelection();
 
       // Highlight label & garis rasi bintang yang dipilih
       document.querySelectorAll('.nav-pill').forEach((btn) => btn.classList.remove('active'));
@@ -9054,6 +9615,8 @@
       labelElements.forEach((lbl) => lbl.el.classList.remove('is-selected'));
       hideFollowCamBar();
       updateBottomMoonsBar(null);
+      apsisInspectBodyId = null;
+      updateApsisMarkersForSelection();
     }
     const helicalSubcontrols = document.getElementById('helical-subcontrols');
     const galaxyOnlyControls = document.getElementById('galaxy-only-controls');
@@ -9207,7 +9770,7 @@
         starfieldUniforms.uBoost.value = 0.72 + 0.56 * skyAlpha;
       }
       if (constellationsGroup) {
-        const showC = state.layers.constellations && skyAlpha > 0.02;
+        const showC = !isRecording && state.layers.constellations && skyAlpha > 0.02;
         constellationsGroup.visible = showC;
         if (constellationLineMat) constellationLineMat.opacity = 0.22 * skyAlpha;
         if (constellationStarUniforms) constellationStarUniforms.uAlpha.value = skyAlpha;
@@ -9299,7 +9862,9 @@
       if (state.mode === newMode) return;
       const prevMode = state.mode;
       state.mode = newMode;
+      apsisInspectBodyId = null;
       updateHeaderLogoForMode(newMode);
+      updateApsisMarkersForSelection();
       state.galaxyFollowSun = false;
       state.selectedGalaxyId = null;
       updateFollowSolarButtonUI();
@@ -9317,11 +9882,13 @@
 
       // Tangkap transformasi & opasitas awal saat ini agar transisi benar-benar mulus tanpa lompatan
       modeTransition.active = true;
+      document.body.classList.add('mode-transitioning');
       modeTransition.fromMode = prevMode;
       modeTransition.toMode = newMode;
       modeTransition.progress = 0;
-      modeTransition.duration = (prevMode === 'galaxy' || newMode === 'galaxy') ? 1.65 : 1.25;
+      modeTransition.duration = (prevMode === 'galaxy' || newMode === 'galaxy') ? 2.0 : 1.45;
       modeTransition.trailsSeeded = false;
+      cameraTransition.customTarget = null;
       modeTransition.startPos.copy(solarSystemGroup.position);
       modeTransition.startQuat.copy(solarSystemGroup.quaternion);
       modeTransition.startScale = solarSystemGroup.scale.x;
@@ -9395,7 +9962,7 @@
         updateTelemetryDrawer(MILKY_WAY_TELEMETRY);
       }
       lastClockUiUpdate = 0;
-      updateCosmicClockUI(performance.now());
+      if (!modeTransition.active) updateCosmicClockUI(performance.now());
     }
 
     // =========================================================================
@@ -9433,6 +10000,7 @@
       if (!item) return;
 
       if (state.selectedConstellationIdx !== -1) exitConstellationMode(false);
+      apsisInspectBodyId = null;
       state.selectedId = id;
       state.isOverview = false;
       hasPrevTargetPos = false;
@@ -9500,9 +10068,11 @@
       updateTelemetryDrawer(item);
       showFollowCamBar(item.data.name, state.cameraView);
       updateBottomMoonsBar(id);
+      updateApsisMarkersForSelection();
     }
 
     function resetToOverview() {
+      apsisInspectBodyId = null;
       setCameraNearPlane(DEFAULT_CAMERA_NEAR);
       cameraTransition.desiredTargetOffset.set(0, 0, 0);
       if (state.mode === 'galaxy') {
@@ -9544,6 +10114,7 @@
       const sunItem = registry.get('sun');
       if (sunItem) updateTelemetryDrawer(sunItem);
       updateBottomMoonsBar(null);
+      updateApsisMarkersForSelection();
     }
 
     // Tur Sinematik Otomatis
@@ -9628,7 +10199,9 @@
       const isConstData = d.id && String(d.id).startsWith('const_');
       const statTitleMap = isConstData
         ? ['Jarak Bintang Utama', 'Bintang Terterang', 'Belahan Langit', 'Bulan Terbaik', 'Luas Wilayah', 'Pola Utama', 'Objek Langit Dalam', 'Keluarga Rasi']
-        : ['Jarak Rata-Rata', 'Periode Orbit', 'Eksentrisitas (e)', 'Inklinasi Orbit', 'Periode Rotasi', 'Diameter', 'Suhu Permukaan', 'Satelit & Cincin'];
+        : d.isSpacecraft
+          ? ['Lokasi / Jarak', 'Lintasan / Laju', 'Eksentrisitas (e)', 'Inklinasi', 'Peluncuran', 'Dimensi Wahana', 'Daya & Suhu', 'Status Misi']
+          : ['Jarak Rata-Rata', 'Periode Orbit', 'Eksentrisitas (e)', 'Inklinasi Orbit', 'Periode Rotasi', 'Diameter', 'Suhu Permukaan', 'Satelit & Cincin'];
       const statEls = [statDistance, statOrbit, statEccentricity, statInclination, statRotation, statDiameter, statTemp, statSystem];
       statEls.forEach((el, idx) => {
         if (el && el.previousElementSibling) el.previousElementSibling.textContent = statTitleMap[idx];
@@ -10106,8 +10679,17 @@
       asteroidOrbitLines.forEach((line) => (line.visible = !recHide && state.layers.asteroids && state.layers.asteroidOrbits));
       kuiperNamedOrbitLines.forEach((line) => (line.visible = !recHide && state.layers.asteroids && state.layers.asteroidOrbits));
       cometOrbitLines.forEach((line) => (line.visible = !recHide && state.layers.comets && state.layers.cometOrbits));
+      spacecraftOrbitLines.forEach((line) => (line.visible = !recHide && state.layers.spacecraft && state.layers.spacecraftOrbits));
       if (galacticOrbitLine) galacticOrbitLine.visible = !recHide && state.showGalacticOrbit;
       satelliteOrbitLines.forEach((l) => (l.visible = !recHide && state.showSatGalaxyOrbits));
+      if (constellationsGroup) {
+        const showC = !recHide && state.layers.constellations && state.mode !== 'galaxy';
+        constellationsGroup.visible = showC;
+        if (!showC) {
+          constellationLabels.forEach((c) => (c.el.style.display = 'none'));
+        }
+      }
+      updateApsisMarkersForSelection();
     }
 
     function applySatelliteGalaxiesVisibility() {
@@ -10229,6 +10811,7 @@
       const sunItem = registry.get('sun');
       if (sunItem) updateTelemetryDrawer(sunItem);
       updateBottomMoonsBar(null);
+      updateApsisMarkersForSelection();
     }
 
     function triggerZoomOutAutoCenter() {
@@ -10391,8 +10974,13 @@
           syncAllOrbitLinesVisibility();
         } else if (layer === 'cometOrbits') {
           syncAllOrbitLinesVisibility();
+        } else if (layer === 'spacecraft') {
+          spacecraftGroups.forEach((grp) => (grp.visible = state.layers.spacecraft));
+          syncAllOrbitLinesVisibility();
+        } else if (layer === 'spacecraftOrbits') {
+          syncAllOrbitLinesVisibility();
         } else if (layer === 'constellations') {
-          const showC = state.layers.constellations && state.mode !== 'galaxy';
+          const showC = !isRecording && state.layers.constellations && state.mode !== 'galaxy';
           constellationsGroup.visible = showC;
           if (!showC) {
             constellationLabels.forEach((c) => (c.el.style.display = 'none'));
@@ -10622,9 +11210,12 @@
       camera.aspect = renderW / renderH;
       camera.updateProjectionMatrix();
 
-      if (galaxyUniforms) galaxyUniforms.uPixelRatio.value = dpr;
-      if (starfieldUniforms) starfieldUniforms.uPixelRatio.value = dpr;
-      if (constellationStarUniforms) constellationStarUniforms.uPixelRatio.value = dpr;
+      const effectivePointRatio = (recordAspect === '16:9' || recordAspect === '9:16')
+        ? Math.max(dpr, renderH / 900)
+        : dpr;
+      if (galaxyUniforms) galaxyUniforms.uPixelRatio.value = effectivePointRatio;
+      if (starfieldUniforms) starfieldUniforms.uPixelRatio.value = effectivePointRatio;
+      if (constellationStarUniforms) constellationStarUniforms.uPixelRatio.value = effectivePointRatio;
       helicalTrailResolution.set(renderW, renderH);
       composer.setPixelRatio(dpr);
       composer.setSize(renderW, renderH);
@@ -10705,7 +11296,7 @@
       const stream = renderer.domElement.captureStream(recordFps);
       const bitrate = isMobileDevice
         ? (recordFps === 60 ? 8_000_000 : 5_000_000)
-        : (recordFps === 60 ? 12_000_000 : 8_000_000);
+        : (recordFps === 60 ? 18_000_000 : 12_000_000);
       const options = {
         videoBitsPerSecond: bitrate,
       };
@@ -10819,7 +11410,7 @@
       let mod;
       try { mod = await import(MP4_MUXER_URL); } catch (e) { console.warn('mp4-muxer gagal dimuat', e); return false; }
 
-      const bitrate = isMobileDevice ? (fps === 60 ? 8_000_000 : 5_000_000) : (fps === 60 ? 12_000_000 : 8_000_000);
+      const bitrate = isMobileDevice ? (fps === 60 ? 8_000_000 : 5_000_000) : (fps === 60 ? 18_000_000 : 12_000_000);
       const mbps = (w / 16) * (h / 16) * fps;
       const levels = [[245760, '28'], [522240, '2A'], [983040, '33'], [2073600, '34']];
       const candidates = levels.filter((l) => l[0] >= mbps).map((l) => `avc1.6400${l[1]}`);
@@ -11021,6 +11612,13 @@
       btnToggleGalOrbit.style.opacity = '1';
       if (galacticOrbitLine) galacticOrbitLine.visible = true;
 
+      state.showSatGalaxies = true;
+      if (btnToggleSatGalaxies) {
+        btnToggleSatGalaxies.classList.add('active');
+        btnToggleSatGalaxies.style.opacity = '1';
+      }
+      applySatelliteGalaxiesVisibility();
+
       state.showSatGalaxyOrbits = true;
       btnToggleSatOrbits.classList.add('active');
       btnToggleSatOrbits.style.opacity = '1';
@@ -11050,6 +11648,8 @@
       kuiperNamedOrbitLines.forEach((line) => (line.visible = true));
       cometGroups.forEach((grp) => (grp.visible = true));
       cometOrbitLines.forEach((line) => (line.visible = true));
+      spacecraftGroups.forEach((grp) => (grp.visible = true));
+      spacecraftOrbitLines.forEach((line) => (line.visible = true));
       labelsLayer.style.display = 'block';
       constellationsGroup.visible = true;
 
@@ -11097,15 +11697,17 @@
       SOLAR_SYSTEM_DATA.forEach((item) => {
         const badge = item.isSun
           ? 'Bintang'
-          : item.isComet
-            ? 'Komet'
-            : item.isAsteroid
-              ? (item.isKuiperObj ? 'Sabuk Kuiper' : 'Asteroid')
-              : item.isDwarf
-                ? 'Planet Katai'
-                : item.isVirtualMarker
-                  ? 'Trojan'
-                  : 'Planet';
+          : item.isSpacecraft
+            ? 'Wahana'
+            : item.isComet
+              ? 'Komet'
+              : item.isAsteroid
+                ? (item.isKuiperObj ? 'Sabuk Kuiper' : 'Asteroid')
+                : item.isDwarf
+                  ? 'Planet Katai'
+                  : item.isVirtualMarker
+                    ? 'Trojan'
+                    : 'Planet';
         searchCatalog.push({
           id: item.id,
           name: item.name,
@@ -11336,7 +11938,7 @@
           closeHelpModal();
         } else if (state.selectedConstellationIdx !== -1) {
           exitConstellationMode(true);
-        } else if (!state.isOverview || state.autoTour) {
+        } else if (!state.isOverview || state.autoTour || apsisInspectBodyId) {
           releaseFollowObject();
         }
         return;
@@ -11360,6 +11962,8 @@
         selectConstellation(state.selectedConstellationIdx - 1);
       } else if (e.key === 'v' || e.key === 'V') {
         toggleVideoRecording();
+      } else if (e.key === 'l' || e.key === 'L') {
+        toggleFullscreenMode();
       } else if (e.key === 'm' || e.key === 'M') {
         const order = ['heliocentric', 'helical', 'galaxy'];
         const next = order[(order.indexOf(state.mode) + 1) % order.length];
@@ -11436,7 +12040,8 @@
       const effectiveDt = state.isPlaying ? dt * state.timeScale : 0;
       state.simTime += effectiveDt;
       globalWindTimeUniform.value += effectiveDt;
-      state.planetSimTime += effectiveDt * (state.mode === 'galaxy' ? getGalaxyPlanetOrbitMult() : 1.0);
+      const galOrbitMult = THREE.MathUtils.lerp(1.0, getGalaxyPlanetOrbitMult(), currentGalAlpha);
+      state.planetSimTime += effectiveDt * galOrbitMult;
       if (effectiveDt > 0) {
         if (state.mode === 'galaxy') {
           state.elapsedCosmicMyr += (GALAXY_ORBIT_BASE_SPEED * state.helicalSpeedScale * effectiveDt / (Math.PI * 2)) * 230.0;
@@ -11444,7 +12049,7 @@
           state.elapsedEarthYears += (effectiveDt * EARTH_ORBIT_SPEED) / (Math.PI * 2);
         }
       }
-      updateCosmicClockUI(performance.now());
+      if (!modeTransition.active) updateCosmicClockUI(performance.now());
 
       // Transisi mulus & posisi/orientasi Tata Surya sesuai mode aktif
       let deltaGalAng = 0;
@@ -11490,12 +12095,16 @@
       if (modeTransition.active) {
         modeTransition.progress = Math.min(1, modeTransition.progress + dt / modeTransition.duration);
         const t = modeTransition.progress;
-        const ease = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        // Quintic smootherstep (C2 kontinu: percepatan & pengereman ekstra lembut tanpa sentakan)
+        const ease = t * t * t * (t * (t * 6 - 15) + 10);
 
         const targetScale = getModeTargetSolarTransform(modeTransition.toMode, _targetSolarPos, _targetSolarQuat);
         solarSystemGroup.position.lerpVectors(modeTransition.startPos, _targetSolarPos, ease);
         solarSystemGroup.quaternion.slerpQuaternions(modeTransition.startQuat, _targetSolarQuat, ease);
-        solarSystemGroup.scale.setScalar(THREE.MathUtils.lerp(modeTransition.startScale, targetScale, ease));
+        // Interpolasi skala eksponensial/logaritmik ("Powers of Ten") agar zoom Tata Surya <-> Galaksi terasa konstan
+        const safeStartScale = Math.max(modeTransition.startScale, 0.001);
+        const safeTargetScale = Math.max(targetScale, 0.001);
+        solarSystemGroup.scale.setScalar(safeStartScale * Math.pow(safeTargetScale / safeStartScale, ease));
         solarSystemGroup.updateMatrixWorld(true);
 
         if (galacticSunMarker) {
@@ -11503,28 +12112,39 @@
         }
 
         // Cross-fade mulus lapisan Galaksi Bima Sakti & arus bintang
+        // Saat keluar dari Bima Sakti ke Heliosentris/Heliks, pudarkan galaksi lebih awal (t <= 0.65)
+        // agar 75.000 bintang galaksi sudah nonaktif sebelum kamera menukik masuk ke Tata Surya (bebas overdraw/jitter)
         const targetGalAlpha = modeTransition.toMode === 'galaxy' ? 1.0 : 0.0;
         const targetFlowAlpha = modeTransition.toMode === 'helical' ? 1.0 : 0.0;
-        setGalaxyVisualAlpha(THREE.MathUtils.lerp(modeTransition.startGalAlpha, targetGalAlpha, ease));
+        const galEase = targetGalAlpha === 0.0
+          ? THREE.MathUtils.smoothstep(t, 0.0, 0.65)
+          : THREE.MathUtils.smoothstep(t, 0.15, 0.95);
+        setGalaxyVisualAlpha(THREE.MathUtils.lerp(modeTransition.startGalAlpha, targetGalAlpha, galEase));
         setFlowVisualAlpha(THREE.MathUtils.lerp(modeTransition.startFlowAlpha, targetFlowAlpha, ease));
 
-        // Jejak heliks: pudar halus saat berganti skala, lalu pra-isi & muncul halus di paruh kedua transisi
+        // Jejak heliks: pudar halus saat berganti skala, lalu muncul kontinu tanpa snap di akhir transisi
         const targetHasTrails = modeTransition.toMode === 'helical' || modeTransition.toMode === 'galaxy';
         if (t < 0.45) {
           const fadeOut = 1 - t / 0.45;
-          setTrailsVisualAlpha(modeTransition.startTrailAlpha * fadeOut);
+          setTrailsVisualAlpha(modeTransition.startTrailAlpha * fadeOut * fadeOut);
+        } else if (t < 0.55) {
+          setTrailsVisualAlpha(0);
         } else {
           if (!modeTransition.trailsSeeded && targetHasTrails) {
             modeTransition.trailsSeeded = true;
             prevBobY = getGalacticBobbingY(state.simTime);
-            preseedHelicalTrails();
           }
-          const fadeIn = Math.min(1, (t - 0.45) / 0.55);
-          setTrailsVisualAlpha(targetHasTrails ? fadeIn * fadeIn : 0);
+          if (targetHasTrails && state.showHelicalTrails) {
+            computeAnalyticHelicalTrails();
+          }
+          const u = Math.min(1, (t - 0.55) / 0.45);
+          const fadeIn = u * u * (3 - 2 * u);
+          setTrailsVisualAlpha(targetHasTrails ? fadeIn : 0);
         }
 
         if (modeTransition.progress >= 1) {
           modeTransition.active = false;
+          document.body.classList.remove('mode-transitioning');
           setGalaxyVisualAlpha(targetGalAlpha);
           setFlowVisualAlpha(targetFlowAlpha);
           setTrailsVisualAlpha(targetHasTrails ? 1.0 : 0.0);
@@ -11615,6 +12235,41 @@
           c.dustMat.uniforms.uOpacity.value = 0.16 + 0.44 * activity;
           c.dustMat.uniforms.uTime.value = clock.elapsedTime;
         }
+      }
+
+      // 2C. Perbarui Posisi & Orientasi 4 Wahana Antariksa Ikonik (JWST L2, Parker, Voyager 1 & 2)
+      if (spacecraftEntities.length > 0) {
+        const sunWorldPos = globalSunPosUniform.value;
+        for (let i = 0; i < spacecraftEntities.length; i++) {
+          const sc = spacecraftEntities[i];
+          const d = sc.data;
+          if (d.isLagrangeL2 && earthEntity) {
+            const ep = earthEntity.pivot.position;
+            const radial = tempVec.copy(ep).normalize();
+            const tang = projVec.set(-radial.z, 0, radial.x).normalize();
+            const haloAng = state.simTime * 1.4;
+            sc.pivot.position
+              .copy(ep)
+              .multiplyScalar(1.13)
+              .addScaledVector(tang, Math.cos(haloAng) * 0.42);
+            sc.pivot.position.y += Math.sin(haloAng) * 0.34;
+          } else if (d.isEscapeTrajectory && sc.escapeDir) {
+            const drift = ((state.planetSimTime * (d.escapeDriftSpeed || 1.2)) % 70);
+            sc.pivot.position.copy(sc.escapeDir).multiplyScalar((d.escapeBaseDist || 340) + drift);
+          } else {
+            const M = sc.phase + state.planetSimTime * d.orbitSpeed;
+            computeOrbitalPosition(d.orbitRadius, d.eccentricity, d.inclination, d.omega, M, sc.pivot.position, d.ascNode || 0);
+          }
+          // Arahkan sisi depan (+Z: perisai panas JWST/Parker & parabola Voyager) ke arah Matahari
+          sc.pivot.updateMatrixWorld();
+          sc.model.lookAt(sunWorldPos);
+        }
+      }
+
+      // Rotasi halus penanda Perihelion & Aphelion saat aktif
+      if (apsisMarkersGroup.visible) {
+        periMarkerMesh.rotation.y += dt * 1.4;
+        aphMarkerMesh.rotation.y -= dt * 1.4;
       }
 
             // Perbarui Uniform Bayangan Cincin Analitik Saturnus
@@ -11832,7 +12487,7 @@
       } else if (state.isOverview && cameraTransition.active) {
         cameraTransition.progress = Math.min(1, cameraTransition.progress + dt / cameraTransition.duration);
         const t = cameraTransition.progress;
-        const ease = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        const ease = t * t * t * (t * (t * 6 - 15) + 10);
 
         const targetDest = cameraTransition.customTarget || currTargetWorldPos.set(0, 0, 0);
         camera.position.lerpVectors(cameraTransition.startCamPos, cameraTransition.desiredOffset, ease);
@@ -11869,15 +12524,23 @@
         controls.target.add(moveDelta);
       }
 
-      controls.update();
+      if (cameraTransition.active) {
+        // Nonaktifkan damping sesaat selama transisi otomatis agar sisa inersia OrbitControls tidak melawan lerp kamera
+        controls.enableDamping = false;
+        controls.update();
+        controls.enableDamping = true;
+      } else {
+        controls.update();
+      }
 
       // 9. Proyeksi Label 2D di Layar (presisi mengikuti bingkai kanvas 16:9 / 9:16 / Penuh)
       if (state.layers.labels && state.mode === 'galaxy') {
         const halfW = canvasRect.width * 0.5;
         const halfH = canvasRect.height * 0.5;
+        const galLabelFade = THREE.MathUtils.smoothstep(currentGalAlpha, 0.35, 0.95);
         for (let i = 0; i < galaxyLabels.length; i++) {
           const g = galaxyLabels[i];
-          if (!state.showSatGalaxies && SATELLITE_GALAXY_IDS.has(g.id)) {
+          if ((!state.showSatGalaxies && SATELLITE_GALAXY_IDS.has(g.id)) || galLabelFade <= 0.01) {
             g.el.style.display = 'none';
             continue;
           }
@@ -11898,12 +12561,14 @@
             g.el.style.display = 'none';
           } else {
             g.el.style.display = 'flex';
+            g.el.style.opacity = galLabelFade.toFixed(2);
             g.el.style.transform = `translate3d(${screenX.toFixed(1)}px, ${screenY.toFixed(1)}px, 0) translate(-50%, -135%)`;
           }
         }
       } else if (state.layers.labels) {
         const halfW = canvasRect.width * 0.5;
         const halfH = canvasRect.height * 0.5;
+        const solarLabelFade = THREE.MathUtils.smoothstep(1.0 - currentGalAlpha, 0.35, 0.95);
 
         for (let i = 0; i < labelElements.length; i++) {
           const item = labelElements[i];
@@ -11949,6 +12614,11 @@
             continue;
           }
 
+          if (item.isSpacecraft && !state.layers.spacecraft) {
+            item.el.style.display = 'none';
+            continue;
+          }
+
           reg.getWorldPos(projVec);
           const scaleFactor = reg.data.isSun ? 1.0 : state.bodyScale;
           projVec.y += reg.data.radius ? reg.data.radius * scaleFactor * 1.25 : 1.5;
@@ -11963,6 +12633,7 @@
           const screenY = canvasRect.top - projVec.y * halfH + halfH;
 
           if (
+            solarLabelFade <= 0.01 ||
             screenX < canvasRect.left - 20 ||
             screenX > canvasRect.left + canvasRect.width + 20 ||
             screenY < canvasRect.top - 20 ||
@@ -11971,14 +12642,42 @@
             item.el.style.display = 'none';
           } else {
             item.el.style.display = 'flex';
+            item.el.style.opacity = solarLabelFade.toFixed(2);
             item.el.style.transform = `translate3d(${screenX.toFixed(1)}px, ${screenY.toFixed(1)}px, 0) translate(-50%, -135%)`;
           }
         }
       }
 
+      // Proyeksi Label Perihelion & Aphelion (kontekstual saat objek eksentrik dipilih)
+      if (apsisMarkersGroup.visible && state.layers.labels && state.mode !== 'galaxy' && !isRecording) {
+        const halfW = canvasRect.width * 0.5;
+        const halfH = canvasRect.height * 0.5;
+        const projectApsis = (mesh, el) => {
+          mesh.getWorldPosition(projVec);
+          projVec.project(camera);
+          if (projVec.z > 1.0) {
+            el.style.display = 'none';
+            return;
+          }
+          const sx = canvasRect.left + projVec.x * halfW + halfW;
+          const sy = canvasRect.top - projVec.y * halfH + halfH;
+          if (sx < canvasRect.left - 24 || sx > canvasRect.left + canvasRect.width + 24 || sy < canvasRect.top - 24 || sy > canvasRect.top + canvasRect.height + 24) {
+            el.style.display = 'none';
+          } else {
+            el.style.display = 'flex';
+            el.style.transform = `translate3d(${sx.toFixed(1)}px, ${sy.toFixed(1)}px, 0) translate(-50%, -145%)`;
+          }
+        };
+        projectApsis(periMarkerMesh, periLabelEl);
+        projectApsis(aphMarkerMesh, aphLabelEl);
+      } else {
+        periLabelEl.style.display = 'none';
+        aphLabelEl.style.display = 'none';
+      }
+
       // Proyeksi Label 12 Rasi Bintang (hanya di Mode Heliosentris & Heliks 60° saat Rasi Bintang & Label ON)
       if (constellationLabels.length > 0) {
-        const showConstLabels = state.layers.constellations && state.layers.labels && state.mode !== 'galaxy' && !modeTransition.active;
+        const showConstLabels = !isRecording && state.layers.constellations && state.layers.labels && state.mode !== 'galaxy' && !modeTransition.active;
         if (!showConstLabels) {
           for (let i = 0; i < constellationLabels.length; i++) {
             constellationLabels[i].el.style.display = 'none';
@@ -12039,8 +12738,11 @@
       const max = parseFloat(el.max) || 100;
       el.style.setProperty('--fill', (((parseFloat(el.value) - min) / (max - min)) * 100) + '%');
     }
-    rangeSliders.forEach((el) => { syncSliderFill(el); el.addEventListener('input', () => syncSliderFill(el)); });
-    setInterval(() => rangeSliders.forEach(syncSliderFill), 600);
+    rangeSliders.forEach((el) => {
+      syncSliderFill(el);
+      el.addEventListener('input', () => syncSliderFill(el));
+      el.addEventListener('change', () => syncSliderFill(el));
+    });
 
     // Ukur tinggi masing-masing sisi header agar panel kiri & kanan (Telemetri / REC) pas tanpa celah berlebih
     const topHudEl = document.getElementById('top-hud');
