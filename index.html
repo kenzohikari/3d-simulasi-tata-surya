@@ -807,14 +807,25 @@
     .layer-toggle.active > span:last-child::after,
     .switch-toggle.active > span:last-child::after { transform: translateX(11px); }
 
-    /* Perangkat sentuh: blur dibuat lebih ringan */
+    /* Perangkat sentuh (termasuk saat mode Desktop Site aktif di HP): ringankan blur agar GPU mobile tetap 60 FPS */
     @media (hover: none) and (pointer: coarse) {
       .glass-panel,
       #top-hud-actions .glass-btn,
       #top-hud-left .glass-btn {
-        backdrop-filter: blur(16px) saturate(150%) !important;
-        -webkit-backdrop-filter: blur(16px) saturate(150%) !important;
+        backdrop-filter: blur(14px) saturate(145%) !important;
+        -webkit-backdrop-filter: blur(14px) saturate(145%) !important;
       }
+    }
+    html.is-mobile-hw .celestial-label {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      background: rgba(6, 11, 23, 0.90);
+    }
+    html.is-mobile-hw .glass-panel,
+    html.is-mobile-hw #top-hud-actions .glass-btn,
+    html.is-mobile-hw #top-hud-left .glass-btn {
+      backdrop-filter: blur(12px) saturate(140%) !important;
+      -webkit-backdrop-filter: blur(12px) saturate(140%) !important;
     }
 
     /* Selama transisi antar mode: ringankan radius blur HUD agar GPU compositor tetap 60 FPS mulus */
@@ -5222,19 +5233,33 @@
     const camera = new THREE.PerspectiveCamera(46, window.innerWidth / window.innerHeight, 0.05, 6500);
     camera.position.set(0, 185, 360);
 
+    const isTouchOnlyHardware =
+      (navigator.maxTouchPoints > 0 || 'ontouchstart' in window) &&
+      !window.matchMedia('(any-pointer: fine)').matches;
     const isMobileDevice =
+      isTouchOnlyHardware ||
       window.matchMedia('(pointer: coarse)').matches ||
       /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
     const isFirefox = /Firefox/i.test(navigator.userAgent);
+    if (isMobileDevice) document.documentElement.classList.add('is-mobile-hw');
     if (isFirefox) document.documentElement.classList.add('is-firefox');
     const MAX_DPR = (isMobileDevice || isFirefox) ? 1.5 : 2.0;
+
+    function getAdaptiveDpr(w, h) {
+      const baseDpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
+      if (!isMobileDevice) return baseDpr;
+      const area = Math.max(1, w * h);
+      // Batasi beban total GPU mobile (~2,2 MP) bila Desktop Site membesarkan viewport virtual hingga 980x2000+
+      const budgetDpr = Math.sqrt(2200000 / area);
+      return Math.min(baseDpr, Math.max(0.95, budgetDpr));
+    }
 
     const renderer = new THREE.WebGLRenderer({
       antialias: !isMobileDevice,
       powerPreference: 'high-performance',
     });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, MAX_DPR));
+    renderer.setPixelRatio(getAdaptiveDpr(window.innerWidth, window.innerHeight));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.0;
     container.appendChild(renderer.domElement);
@@ -11199,7 +11224,7 @@
         renderH = vh;
         cssW = vw;
         cssH = vh;
-        dpr = Math.min(window.devicePixelRatio, MAX_DPR);
+        dpr = getAdaptiveDpr(vw, vh);
         renderer.domElement.classList.remove('framed-canvas');
       }
 
