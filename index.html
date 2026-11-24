@@ -4827,7 +4827,7 @@
         id: 'voyager1',
         name: 'Voyager 1',
         navLabel: 'Voyager 1',
-        subtitle: 'Objek Buatan Manusia Terjauh • Ruang Antarbintang',
+        subtitle: 'Objek Terjauh Manusia • Melampaui 1 Hari Cahaya dari Bumi',
         category: 'Wahana Antariksa — Misi Antarbintang',
         navGroups: ['spacecraft'],
         isSpacecraft: true,
@@ -4843,7 +4843,7 @@
         eccentricity: 0,
         inclination: 35.0,
         stats: {
-          distance: '~165 SA (~24,7 Miliar km dari Matahari)',
+          distance: '~173 SA (~25,9 Miliar km • 1 Hari Cahaya)',
           orbit: 'Lintasan Hiperbolik • 17,0 km/detik',
           eccentricity: '> 1,0 (Lepas Gravitasi)',
           inclination: '+35° (Utara Ekliptika)',
@@ -4853,7 +4853,7 @@
           system: 'Aktif di Medium Antarbintang • NASA',
         },
         description:
-          'Voyager 1 adalah objek buatan manusia terjauh dari Bumi yang melintasi heliopause menuju ruang antarbintang pada 2012. Setelah memotret Jupiter, Saturnus, dan "Pale Blue Dot", antena parabolanya tetap menghadap ke arah Bumi untuk mengirim sinyal radio yang butuh >22 jam cahaya untuk tiba.',
+          'Voyager 1 adalah objek buatan manusia terjauh dari Bumi yang melintasi heliopause menuju ruang antarbintang pada 2012. Per 18 November 2026, wahana ini mencetak tonggak sejarah baru dengan mencapai jarak 1 hari cahaya penuh (~25,9 miliar km atau ~173 SA dari Bumi)—artinya sinyal radionya kini membutuhkan 24 jam penuh untuk tiba di Bumi.',
         moons: [],
       },
       {
@@ -5869,7 +5869,7 @@
             vColor = color;
             vec4 mvPos = modelViewMatrix * vec4(position, 1.0);
             gl_Position = projectionMatrix * mvPos;
-            gl_PointSize = clamp(aSize * uPixelRatio, 5.0, 15.0);
+            gl_PointSize = clamp(aSize * uPixelRatio, 4.5, 13.0);
           }
         `,
         fragmentShader: `
@@ -5878,19 +5878,20 @@
           void main() {
             vec2 p = gl_PointCoord * 2.0 - 1.0;
             float r2 = dot(p, p);
-            if (r2 >= 1.0) discard;
+            if (r2 >= 0.96) discard;
             float r = sqrt(r2);
-            float edge = smoothstep(1.0, 0.18, r);
-            float core = exp(-r2 * 6.5);
-            float halo = exp(-r2 * 2.2) * 0.45;
-            float a = clamp((core + halo) * edge * uAlpha, 0.0, 0.95);
-            if (a < 0.005) discard;
-            vec3 col = clamp(mix(vColor, vec3(0.95, 0.97, 1.0), core * 0.45), 0.0, 0.95);
+            float edge = smoothstep(0.96, 0.22, r);
+            float core = exp(-r2 * 8.5);
+            float halo = exp(-r2 * 4.2) * 0.30;
+            float a = clamp((core + halo) * edge * uAlpha, 0.0, 0.92);
+            if (a < 0.008) discard;
+            // Jaga kecerahan di bawah ambang bloom (1.04) dengan NormalBlending agar tidak memicu blok bloom kotak berkedip di HP
+            vec3 col = clamp(mix(vColor, vec3(0.92, 0.96, 1.0), core * 0.55), 0.0, 0.88);
             gl_FragColor = vec4(col, a);
           }
         `,
         transparent: true,
-        blending: THREE.AdditiveBlending,
+        blending: THREE.NormalBlending,
         depthWrite: false,
         vertexColors: true,
       });
@@ -7886,7 +7887,7 @@
 
     const GALAXY_SOLAR_SCALE = 0.34;
     const GALAXY_ORBIT_BASE_SPEED = 0.022;  // Basis laju orbit Tata Surya di r = 540 (dikalibrasi agar 1.0x serapi 0.2x lama & tetap dinamis)
-    const GALAXY_PATTERN_SPEED = 0.012;     // Kecepatan pola gelombang kepadatan spiral sebanding dengan laju galaksi
+    const GALAXY_PATTERN_SPEED = 0.018;     // Kecepatan pola gelombang kepadatan mendekati corotation radius Matahari (~1,22x)
     const GALAXY_PLANET_ORBIT_MULT = 14.5;  // Basis revolusi planet di skala galaksi agar 8 planet melilit konsentris penuh
     const GALAXY_BOB_CYCLES = 4;            // 4 siklus penuh osilasi vertikal per 1 Tahun Kosmik (aktif hanya jika tombol Osilasi Galaksi dinyalakan)
 
@@ -9348,9 +9349,9 @@
       cameraTransition.desiredOffset.copy(desiredCamPos);
       cameraTransition.customTarget = desiredTarget;
 
-      // Tampilkan data astronomi rasi bintang di panel Telemetri kanan (label statistik otomatis menyesuaikan)
+      // Tampilkan data astronomi rasi bintang di panel Telemetri kanan (hanya auto-buka di desktop; di HP biar layar langit tetap lega)
       updateTelemetryDrawer({ data: entry.data });
-      telemetryDrawer.classList.remove('hidden');
+      if (window.innerWidth >= 640) telemetryDrawer.classList.remove('hidden');
 
       if (constellationNavBar) {
         constNavName.textContent = entry.data.name;
@@ -12776,20 +12777,14 @@
     updateHudOffset();
     updateDockAutoHide();
 
-    // Khusus HP: bilah Prev/Next/Exit rasi bintang dipindah ke dalam panel Telemetri
-    const mqMobile = window.matchMedia('(max-width: 639px)');
+    // Bilah Prev/Next/Exit rasi bintang tetap melayang di atas dock bawah (desktop & HP) agar dapat dipakai tanpa membuka panel Telemetri
     function placeConstellationBar() {
       if (!constellationNavBar) return;
       const footerEl = document.getElementById('bottom-hud');
-      if (mqMobile.matches) {
-        if (constellationNavBar.parentElement !== telemetryDrawer) {
-          telemetryDrawer.insertBefore(constellationNavBar, telemetryDrawer.children[1] || null);
-        }
-      } else if (constellationNavBar.parentElement !== footerEl) {
+      if (footerEl && constellationNavBar.parentElement !== footerEl) {
         footerEl.insertBefore(constellationNavBar, document.getElementById('follow-cam-bar'));
       }
     }
-    if (mqMobile.addEventListener) mqMobile.addEventListener('change', placeConstellationBar);
     placeConstellationBar();
 
     // Tandai saat bilah sudut kamera (di atas layar HP) tampil agar panel Kontrol & Telemetri pas di bawahnya
