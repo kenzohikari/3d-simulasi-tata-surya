@@ -225,6 +225,8 @@
       position: fixed;
       left: 1rem;
       bottom: 1rem;
+      min-width: 122px;
+      justify-content: center;
       z-index: 30;
       pointer-events: none;
       transition: left 0.25s ease, bottom 0.25s ease, opacity 0.38s cubic-bezier(0.16, 1, 0.3, 1), transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
@@ -405,6 +407,7 @@
       pointer-events: none;
       z-index: 10;
       overflow: hidden;
+      contain: layout style paint;
     }
 
     .celestial-label {
@@ -421,10 +424,9 @@
       font-weight: 600;
       letter-spacing: 0.02em;
       white-space: nowrap;
-      background: rgba(6, 11, 23, 0.84);
+      background: rgba(6, 11, 23, 0.88);
       border: 1px solid rgba(148, 163, 184, 0.28);
       color: #f8fafc;
-      backdrop-filter: blur(6px);
       transition: border-color 0.2s ease, background 0.2s ease;
       display: flex;
       align-items: center;
@@ -5677,7 +5679,7 @@
     const solarSystemGroup = new THREE.Group();
     scene.add(solarSystemGroup);
 
-    const camera = new THREE.PerspectiveCamera(46, window.innerWidth / window.innerHeight, 0.05, 6500);
+    const camera = new THREE.PerspectiveCamera(46, window.innerWidth / window.innerHeight, 0.6, 6500);
     camera.position.set(0, 185, 360);
 
     // Deteksi perangkat mobile yang akurat (termasuk mode "Desktop Site" di HP) TANPA salah mendeteksi laptop/PC layar sentuh
@@ -5736,7 +5738,7 @@
       new THREE.Vector2(Math.max(1, Math.floor(window.innerWidth * 0.5)), Math.max(1, Math.floor(window.innerHeight * 0.5))),
       0.58,
       0.38,
-      1.08
+      1.14
     );
     composer.addPass(bloomPass);
     composer.addPass(new OutputPass());
@@ -8176,11 +8178,21 @@
 
     function buildSmallBodyPopulations() {
       const rockGeo = createIrregularRockGeometry(1.0, 777);
+      const createSmallBodyMaterial = (roughness, metalness) => {
+        const mat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness, metalness });
+        mat.onBeforeCompile = (shader) => {
+          shader.fragmentShader = shader.fragmentShader.replace(
+            '#include <tonemapping_fragment>',
+            'gl_FragColor.rgb = min(gl_FragColor.rgb, vec3(1.02));\n#include <tonemapping_fragment>'
+          );
+        };
+        return mat;
+      };
 
       // 1. SABUK ASTEROID UTAMA (3.200 objek)
       mainBeltInstanced = new THREE.InstancedMesh(
         rockGeo,
-        new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.92, metalness: 0.08 }),
+        createSmallBodyMaterial(0.92, 0.08),
         MAIN_BELT_COUNT
       );
       mainBeltInstanced.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
@@ -8209,7 +8221,7 @@
       // 2. TROJAN JUPITER L4 & L5 (1.200 objek)
       trojanInstanced = new THREE.InstancedMesh(
         rockGeo,
-        new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.9, metalness: 0.06 }),
+        createSmallBodyMaterial(0.9, 0.06),
         TOTAL_TROJANS
       );
       trojanInstanced.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
@@ -8238,7 +8250,7 @@
       // 3. SABUK KUIPER (KUIPER BELT, 30–50 AU -> 3.800 objek es/tholin)
       kuiperBeltInstanced = new THREE.InstancedMesh(
         rockGeo,
-        new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.78, metalness: 0.05 }),
+        createSmallBodyMaterial(0.78, 0.05),
         KUIPER_COUNT
       );
       kuiperBeltInstanced.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
@@ -8273,7 +8285,7 @@
       // 4. PIRINGAN TERSEBAR (SCATTERED DISC, 35–110 AU -> 1.600 objek eksentrik inklinasi tinggi)
       scatteredDiscInstanced = new THREE.InstancedMesh(
         rockGeo,
-        new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.72, metalness: 0.08 }),
+        createSmallBodyMaterial(0.72, 0.08),
         SCATTERED_COUNT
       );
       scatteredDiscInstanced.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
@@ -10196,7 +10208,7 @@
       btnConstExit.addEventListener('click', () => exitConstellationMode(true));
     }
 
-    const DEFAULT_CAMERA_NEAR = 0.05;
+    const DEFAULT_CAMERA_NEAR = 0.6;
 
     function setCameraNearPlane(nearVal = DEFAULT_CAMERA_NEAR) {
       if (Math.abs(camera.near - nearVal) > 1e-5) {
@@ -13732,6 +13744,14 @@
         controls.update();
       }
 
+      if (!(state.cameraView === 'atmosphere' && !state.isOverview)) {
+        const camDistToTarget = camera.position.distanceTo(controls.target);
+        const targetNear = camDistToTarget < 10.0
+          ? Math.max(0.03, Math.min(DEFAULT_CAMERA_NEAR, camDistToTarget * 0.08))
+          : DEFAULT_CAMERA_NEAR;
+        setCameraNearPlane(targetNear);
+      }
+
       // 9. Proyeksi Label 2D di Layar (presisi mengikuti bingkai kanvas 16:9 / 9:16 / Penuh)
       if (state.layers.labels && state.mode === 'galaxy') {
         const halfW = canvasRect.width * 0.5;
@@ -14055,9 +14075,7 @@
           if (typeof positionFloatingRecBadge === 'function') positionFloatingRecBadge();
         }).observe(dockPanelEl);
       }
-      if (fpsBadgeEl) {
-        new ResizeObserver(() => positionFpsBadge()).observe(fpsBadgeEl);
-      }
+
     }
     window.addEventListener('resize', updateHudOffset);
     updateHudOffset();
