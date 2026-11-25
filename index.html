@@ -220,23 +220,14 @@
       box-shadow: 0 0 14px rgba(244, 63, 94, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.22);
     }
 
-    /* Indikator FPS di pojok kiri bawah */
+    /* Indikator FPS & Frametime (diposisikan dinamis agar tidak pernah menumpuk dengan dock bawah) */
     #fps-badge {
       position: fixed;
       left: 1rem;
       bottom: 1rem;
       z-index: 30;
       pointer-events: none;
-      transition: bottom 0.3s ease, opacity 0.38s cubic-bezier(0.16, 1, 0.3, 1), transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    @media (max-width: 639px) {
-      #fps-badge {
-        left: 0.75rem;
-        bottom: 6.25rem;
-      }
-      body.dock-hidden #fps-badge {
-        bottom: 0.75rem;
-      }
+      transition: left 0.25s ease, bottom 0.25s ease, opacity 0.38s cubic-bezier(0.16, 1, 0.3, 1), transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     /* Auto-hide dock bawah di HP saat panel Kontrol / Telemetri terbuka */
@@ -290,30 +281,61 @@
         border-radius: 9999px !important;
       }
 
-      /* Pilihan sudut kamera: tombol pop-up ringkas di atas layar (khusus HP) */
+      /* Pilihan sudut kamera: tombol ringkas kanan atas + daftar vertikal khusus HP */
+      @keyframes followPopDownMobile {
+        from { opacity: 0; transform: scale(0.92) translateY(-6px); }
+        to   { opacity: 1; transform: scale(1) translateY(0); }
+      }
       #follow-cam-bar {
-        position: fixed;
-        top: calc(var(--hud-top, 7.5rem) - 0.25rem);
-        left: 50%;
-        right: auto;
-        transform: translateX(-50%);
-        max-width: calc(100vw - 1.5rem);
-        z-index: 32;
+        position: fixed !important;
+        top: calc(var(--hud-top, 7.5rem) + 4px) !important;
+        right: 0.75rem !important;
+        left: auto !important;
+        transform: none !important;
+        max-width: calc(100vw - 1.5rem) !important;
+        z-index: 34 !important;
       }
       #follow-cam-popup {
+        position: absolute !important;
         bottom: auto !important;
         top: calc(100% + 8px) !important;
-        transform-origin: center top !important;
+        right: 0 !important;
+        left: auto !important;
+        transform: none !important;
+        transform-origin: right top !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        width: max-content !important;
+        min-width: 136px !important;
+        max-width: calc(100vw - 1.5rem) !important;
+        max-height: calc(100vh - var(--hud-top, 7.5rem) - 13rem) !important;
+        max-height: calc(100dvh - var(--hud-top, 7.5rem) - 13rem) !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        padding: 4px !important;
+        gap: 5px !important;
+        animation: followPopDownMobile 0.24s cubic-bezier(0.3, 1.25, 0.5, 1) both !important;
+      }
+      #follow-cam-popup > button {
+        width: 100% !important;
+        justify-content: center !important;
+        padding-top: 7px !important;
+        padding-bottom: 7px !important;
+      }
+      #follow-cam-popup > span {
+        width: 100% !important;
+        height: 1px !important;
+        margin: 2px 0 !important;
       }
       #left-control-panel {
         top: var(--hud-top, 7.5rem);
       }
       body.follow-bar-on #left-control-panel {
-        top: calc(var(--hud-top, 7.5rem) + 3rem);
+        top: var(--follow-top, calc(var(--hud-top, 7.5rem) + 3rem));
       }
       body.follow-bar-on.dock-hidden #left-control-panel {
-        max-height: calc(100vh - var(--hud-top, 7.5rem) - 5rem);
-        max-height: calc(100dvh - var(--hud-top, 7.5rem) - 5rem);
+        max-height: calc(100vh - var(--follow-top, calc(var(--hud-top, 7.5rem) + 3rem)) - 2rem);
+        max-height: calc(100dvh - var(--follow-top, calc(var(--hud-top, 7.5rem) + 3rem)) - 2rem);
       }
 
       /* Prev / Next / Exit rasi bintang: menyatu di dalam panel Telemetri */
@@ -695,9 +717,11 @@
       from { opacity: 0; transform: translateX(-50%) scale(0.92) translateY(8px); }
       to   { opacity: 1; transform: translateX(-50%) scale(1) translateY(0); }
     }
-    #follow-cam-bar {
-      position: relative;
-      z-index: 28;
+    @media (min-width: 640px) {
+      #follow-cam-bar {
+        position: relative;
+        z-index: 28;
+      }
     }
     #follow-cam-popup {
       position: absolute;
@@ -3212,7 +3236,7 @@
         omega: 55,
         ascNode: 76.7,
         orbitSpeed: 0.27,
-        rotationSpeed: -0.018,
+        rotationSpeed: 0.018,
         axialTilt: 177.36,
         atmosphereColor: 0xf6c462,
         stats: {
@@ -3306,8 +3330,9 @@
         omega: 286,
         ascNode: 49.6,
         orbitSpeed: 0.145,
-        rotationSpeed: 0.33,
+        rotationSpeed: 0.340,
         axialTilt: 25.19,
+        equatorialMoons: true,
         atmosphereColor: 0xe07a5f,
         stats: {
           distance: '1,52 SA (227,9 Juta km)',
@@ -3398,7 +3423,7 @@
         omega: 73,
         ascNode: 80.3,
         orbitSpeed: 0.098,
-        rotationSpeed: 0.65,
+        rotationSpeed: 0.924,
         axialTilt: 4.0,
         stats: {
           distance: '2,77 SA (414 Juta km)',
@@ -3435,7 +3460,7 @@
         omega: 151.2,
         ascNode: 103.8,
         orbitSpeed: 0.114,
-        rotationSpeed: 0.92,
+        rotationSpeed: 1.571,
         axialTilt: 29.0,
         initialPhase: 1.15,
         stats: {
@@ -3471,7 +3496,7 @@
         omega: 310.0,
         ascNode: 173.1,
         orbitSpeed: 0.097,
-        rotationSpeed: 0.72,
+        rotationSpeed: 1.072,
         axialTilt: 84.0,
         initialPhase: 4.15,
         stats: {
@@ -3507,7 +3532,7 @@
         omega: 248.4,
         ascNode: 169.8,
         orbitSpeed: 0.102,
-        rotationSpeed: 0.78,
+        rotationSpeed: 1.161,
         axialTilt: 51.0,
         initialPhase: 2.65,
         stats: {
@@ -3544,7 +3569,7 @@
         omega: 227.1,
         ascNode: 150.2,
         orbitSpeed: 0.091,
-        rotationSpeed: 1.08,
+        rotationSpeed: 1.994,
         axialTilt: 95.0,
         initialPhase: 5.25,
         stats: {
@@ -3579,7 +3604,7 @@
         omega: 312.3,
         ascNode: 283.2,
         orbitSpeed: 0.084,
-        rotationSpeed: 0.46,
+        rotationSpeed: 0.606,
         axialTilt: 60.0,
         initialPhase: 0.25,
         stats: {
@@ -3616,7 +3641,7 @@
         omega: 174.4,
         ascNode: 159.0,
         orbitSpeed: 0.0118,
-        rotationSpeed: 0.42,
+        rotationSpeed: 0.526,
         axialTilt: 99.0,
         initialPhase: 3.95,
         stats: {
@@ -3652,8 +3677,9 @@
         omega: 273,
         ascNode: 100.5,
         orbitSpeed: 0.062,
-        rotationSpeed: 0.78,
+        rotationSpeed: 0.845,
         axialTilt: 3.13,
+        equatorialMoons: true,
         stats: {
           distance: '5,20 SA (778,5 Juta km)',
           orbit: '11,86 Tahun Bumi',
@@ -3840,8 +3866,9 @@
         omega: 339,
         ascNode: 113.7,
         orbitSpeed: 0.041,
-        rotationSpeed: 0.72,
+        rotationSpeed: 0.794,
         axialTilt: 26.73,
+        equatorialMoons: true,
         ring: { inner: 4.7, outer: 10.1, type: 'saturn' },
         stats: {
           distance: '9,58 SA (1,43 Miliar km)',
@@ -4059,7 +4086,7 @@
         omega: 96,
         ascNode: 74.0,
         orbitSpeed: 0.028,
-        rotationSpeed: -0.48,
+        rotationSpeed: 0.486,
         axialTilt: 97.77,
         ring: { inner: 3.05, outer: 4.2, type: 'uranus' },
         equatorialMoons: true,
@@ -4226,8 +4253,9 @@
         omega: 272,
         ascNode: 131.8,
         orbitSpeed: 0.020,
-        rotationSpeed: 0.52,
+        rotationSpeed: 0.520,
         axialTilt: 28.32,
+        equatorialMoons: true,
         ring: { inner: 3.05, outer: 3.8, type: 'neptune' },
         stats: {
           distance: '30,05 SA (4,50 Miliar km)',
@@ -4281,8 +4309,8 @@
             orbitRadius: 5.7,
             eccentricity: 0.00002,
             inclination: 156.8,
-            orbitSpeed: -1.05,
-            rotationSpeed: -1.05,
+            orbitSpeed: 1.05,
+            rotationSpeed: 1.05,
             stats: {
               distance: '354.759 km dari Neptunus',
               orbit: '5,88 Hari (Retrograde)',
@@ -4348,7 +4376,7 @@
         omega: 268,
         ascNode: 268.7,
         orbitSpeed: 0.0145,
-        rotationSpeed: 0.48,
+        rotationSpeed: 0.635,
         axialTilt: 18.0,
         initialPhase: 3.6, // Fase berlawanan dengan Pluto ("Anti-Pluto")
         stats: {
@@ -4413,8 +4441,9 @@
         omega: 113,
         ascNode: 110.3,
         orbitSpeed: 0.0144,
-        rotationSpeed: -0.22,
+        rotationSpeed: 1.05,
         axialTilt: 122.53,
+        equatorialMoons: true,
         initialPhase: 0.45,
         stats: {
           distance: '39,48 SA (5,91 Miliar km)',
@@ -4586,7 +4615,7 @@
         omega: 310,
         ascNode: 280.0,
         orbitSpeed: 0.0132,
-        rotationSpeed: 0.55,
+        rotationSpeed: 1.376,
         axialTilt: 15.0,
         initialPhase: 2.1,
         stats: {
@@ -4744,7 +4773,7 @@
         omega: 147,
         ascNode: 188.9,
         orbitSpeed: 0.0121,
-        rotationSpeed: 0.42,
+        rotationSpeed: 0.474,
         axialTilt: 14.0,
         initialPhase: 1.25,
         // Cincin ganda terkenal Quaoar yang mengorbit jauh di luar batas Roche klasik!
@@ -4811,7 +4840,7 @@
         omega: 294,
         ascNode: 79.4,
         orbitSpeed: 0.0114,
-        rotationSpeed: 0.34,
+        rotationSpeed: 0.367,
         axialTilt: 29.0,
         initialPhase: 5.55,
         stats: {
@@ -4877,7 +4906,7 @@
         omega: 207,
         ascNode: 336.9,
         orbitSpeed: 0.0085,
-        rotationSpeed: 0.35,
+        rotationSpeed: 0.374,
         axialTilt: 22.0,
         initialPhase: 2.85,
         stats: {
@@ -4943,7 +4972,7 @@
         omega: 151,
         ascNode: 35.9,
         orbitSpeed: 0.0083,
-        rotationSpeed: 0.31,
+        rotationSpeed: 0.323,
         axialTilt: 78.0,
         initialPhase: 5.1,
         stats: {
@@ -5008,7 +5037,7 @@
         omega: 311,
         ascNode: 144.5,
         orbitSpeed: 0.0038,
-        rotationSpeed: 0.62,
+        rotationSpeed: 0.816,
         axialTilt: 16.0,
         initialPhase: 0.38, // Dekat fase pendekatan ke perihelion agar mudah diamati!
         stats: {
@@ -5048,7 +5077,7 @@
         inclination: 162.26, // Retrograde berlawanan arah planet!
         omega: 111.3,
         ascNode: 58.4,
-        orbitSpeed: 0.044,
+        orbitSpeed: 0.030,
         rotationSpeed: 0.45,
         initialPhase: 0.14, // Dekat perihelion agar ekor ganda langsung terlihat aktif
         cometActiveDist: 145.0,
@@ -5086,8 +5115,8 @@
         inclination: 89.43, // Hampir tegak lurus bidang ekliptika!
         omega: 130.6,
         ascNode: 282.5,
-        orbitSpeed: 0.024,
-        rotationSpeed: 0.55,
+        orbitSpeed: 0.0058,
+        rotationSpeed: 0.731,
         initialPhase: -0.18, // Sedang menukik mendekati perihelion
         cometActiveDist: 175.0,
         cometTailScale: 1.48,
@@ -5125,7 +5154,7 @@
         omega: 186.5,
         ascNode: 334.6,
         orbitSpeed: 0.135,
-        rotationSpeed: 0.65,
+        rotationSpeed: 0.756,
         initialPhase: 0.12,
         cometActiveDist: 82.0,
         cometTailScale: 0.85,
@@ -5163,8 +5192,8 @@
         inclination: 7.04,
         omega: 12.8,
         ascNode: 50.1,
-        orbitSpeed: 0.088,
-        rotationSpeed: 0.42,
+        orbitSpeed: 0.074,
+        rotationSpeed: 0.676,
         initialPhase: -0.32,
         cometActiveDist: 102.0,
         cometTailScale: 0.92,
@@ -5304,7 +5333,7 @@
         eccentricity: 0,
         inclination: -48.0,
         stats: {
-          distance: '~138 SA (~20,6 Miliar km dari Matahari)',
+          distance: '~144,5 SA (~21,6 Miliar km dari Matahari)',
           orbit: 'Lintasan Hiperbolik • 15,4 km/detik',
           eccentricity: '> 1,0 (Lepas Gravitasi)',
           inclination: '-48° (Selatan Ekliptika)',
@@ -6535,8 +6564,12 @@
         `,
       });
 
+      const sunTiltGroup = new THREE.Group();
+      sunTiltGroup.rotation.z = THREE.MathUtils.degToRad(7.25);
+      solarSystemGroup.add(sunTiltGroup);
+
       sunMesh = new THREE.Mesh(new THREE.SphereGeometry(11.0, 64, 64), sunShaderMat);
-      solarSystemGroup.add(sunMesh);
+      sunTiltGroup.add(sunMesh);
 
       // 2. SOLAR PROMINENCES / MAGNETIC PLASMA LOOPS 3D (6 lengkungan plasma aktif di tepi fotosfer)
       sunProminenceUniforms = { uTime: { value: 0.0 } };
@@ -6698,26 +6731,27 @@
     function computeOrbitalPosition(a, e, incDeg, omegaDeg, M, targetVec, ascNodeDeg = 0) {
       const E = solveKepler(M, e);
       const b = a * Math.sqrt(1 - e * e);
+      // Gerak prograde berlawanan jarum jam (CCW) dilihat dari Kutub Utara Ekliptika (+Y)
       const xOrb = a * (Math.cos(E) - e);
-      const zOrb = b * Math.sin(E);
+      const zOrb = -b * Math.sin(E);
 
       const inc = THREE.MathUtils.degToRad(incDeg || 0);
       const omega = THREE.MathUtils.degToRad(omegaDeg || 0);
       const asc = THREE.MathUtils.degToRad(ascNodeDeg || 0);
 
-      // 1. Argumen perihelion (ω) di bidang orbit
+      // 1. Argumen perihelion (ω) di bidang orbit (CCW terhadap +Y)
       const cosO = Math.cos(omega), sinO = Math.sin(omega);
-      const x1 = xOrb * cosO - zOrb * sinO;
-      const z1 = xOrb * sinO + zOrb * cosO;
+      const x1 = xOrb * cosO + zOrb * sinO;
+      const z1 = -xOrb * sinO + zOrb * cosO;
 
-      // 2. Inklinasi orbit (i)
-      const y2 = z1 * Math.sin(inc);
+      // 2. Inklinasi orbit (i) terhadap garis simpul naik (+X)
+      const y2 = -z1 * Math.sin(inc);
       const z2 = z1 * Math.cos(inc);
 
-      // 3. Bujur simpul naik / Longitude of Ascending Node (Ω)
+      // 3. Bujur simpul naik / Longitude of Ascending Node (Ω, CCW terhadap +Y)
       const cosA = Math.cos(asc), sinA = Math.sin(asc);
-      const x3 = x1 * cosA - z2 * sinA;
-      const z3 = x1 * sinA + z2 * cosA;
+      const x3 = x1 * cosA + z2 * sinA;
+      const z3 = -x1 * sinA + z2 * cosA;
 
       targetVec.set(x3, y2, z3);
       return targetVec;
@@ -6738,14 +6772,14 @@
         // Sampling merata di Eccentric Anomaly (E) agar lengkungan perihelion & aphelion sama-sama mulus
         const E = (i / segments) * Math.PI * 2;
         const xOrb = a * (Math.cos(E) - e);
-        const zOrb = b * Math.sin(E);
+        const zOrb = -b * Math.sin(E);
 
-        const x1 = xOrb * cosO - zOrb * sinO;
-        const z1 = xOrb * sinO + zOrb * cosO;
-        const y2 = z1 * sinI;
+        const x1 = xOrb * cosO + zOrb * sinO;
+        const z1 = -xOrb * sinO + zOrb * cosO;
+        const y2 = -z1 * sinI;
         const z2 = z1 * cosI;
-        const x3 = x1 * cosA - z2 * sinA;
-        const z3 = x1 * sinA + z2 * cosA;
+        const x3 = x1 * cosA + z2 * sinA;
+        const z3 = -x1 * sinA + z2 * cosA;
         points.push(new THREE.Vector3(x3, y2, z3));
       }
       const geo = new THREE.BufferGeometry().setFromPoints(points);
@@ -7645,15 +7679,13 @@
           tiltGroup.add(ringMesh);
         }
 
-        // Garis Orbit di Sekeliling Matahari (Planet Utama menggunakan warna ciri khas masing-masing)
+        // Garis Orbit di Sekeliling Matahari (Planet Utama & Planet Katai selaras dengan warna khas tiap objek)
         const orbitColor = data.isComet
           ? (data.cometColors ? data.cometColors.orbit : 0x22d3ee)
           : data.isAsteroid
             ? (data.isKuiperObj ? 0xf87171 : 0xa3e635)
-            : data.isDwarf
-              ? (data.id === 'sedna' ? 0xfb7185 : data.id === 'eris' || data.id === 'gonggong' ? 0x22d3ee : 0xc084fc)
-              : new THREE.Color(data.color).getHex();
-        const orbitOpacity = data.isComet ? 0.22 : (data.isAsteroid ? 0.20 : (data.isDwarf ? 0.24 : 0.34));
+            : new THREE.Color(data.color).getHex();
+        const orbitOpacity = data.isComet ? 0.22 : (data.isAsteroid ? 0.20 : (data.isDwarf ? 0.28 : 0.34));
         const orbitLine = createOrbitLine(data.orbitRadius, data.eccentricity, data.inclination, data.omega, orbitColor, orbitOpacity, data.ascNode || 0);
         solarSystemGroup.add(orbitLine);
 
@@ -8047,6 +8079,11 @@
               parentId: data.id,
             });
 
+            const isTidallyLocked = Boolean(
+              mData.stats &&
+              ((mData.stats.rotation && mData.stats.rotation.includes('Terkunci')) ||
+               (mData.stats.orbit && mData.stats.orbit.includes('Terkunci')))
+            );
             moonEntities.push({
               data: mData,
               parentId: data.id,
@@ -8054,6 +8091,7 @@
               mesh: mMesh,
               omega: mIdx * 47,
               phase: mIdx * 1.45 + 0.3,
+              tidallyLocked: isTidallyLocked,
             });
 
             registry.set(mData.id, {
@@ -8513,13 +8551,13 @@
           const cosI = Math.cos(inc), sinI = Math.sin(inc);
           const cosA = Math.cos(asc), sinA = Math.sin(asc);
 
-          // Vektor basis untuk xOrb (arah perihelion) dan zOrb (arah semi-minor)
+          // Vektor basis untuk xOrb (arah perihelion) dan zOrb (arah semi-minor CCW)
           const px = cosO * cosA - sinO * cosI * sinA;
           const py = sinO * sinI;
-          const pz = cosO * sinA + sinO * cosI * cosA;
+          const pz = -cosO * sinA - sinO * cosI * cosA;
 
-          const qx = -sinO * cosA - cosO * cosI * sinA;
-          const qy = cosO * sinI;
+          const qx = sinO * cosA + cosO * cosI * sinA;
+          const qy = -cosO * sinI;
           const qz = -sinO * sinA + cosO * cosI * cosA;
 
           orbBasis = {
@@ -8657,7 +8695,7 @@
               E -= (E - ob.e * Math.sin(E) - M) / (1 - ob.e * Math.cos(E));
 
               const xOrb = ob.a * (Math.cos(E) - ob.e);
-              const zOrb = ob.b * Math.sin(E);
+              const zOrb = -ob.b * Math.sin(E);
 
               // Posisi lokal dalam solarSystemGroup lalu skala ke skala galaksi
               const lx = (xOrb * ob.px + zOrb * ob.qx) * GALAXY_SOLAR_SCALE;
@@ -8711,7 +8749,7 @@
             E -= (E - ob.e * Math.sin(E) - M) / (1 - ob.e * Math.cos(E));
 
             const xOrb = ob.a * (Math.cos(E) - ob.e);
-            const zOrb = ob.b * Math.sin(E);
+            const zOrb = -ob.b * Math.sin(E);
 
             const lx = xOrb * ob.px + zOrb * ob.qx;
             const ly = xOrb * ob.py + zOrb * ob.qy;
@@ -9653,12 +9691,12 @@
       //    ~42 gugus bola mengorbit 3D secara dinamis (termasuk Omega Centauri retrograde)
       // -----------------------------------------------------------------------
       const globularDefs = [
-        // Omega Centauri: orbit retrograde eksentrik & miring di Halo Bima Sakti
-        { name: 'Omega Centauri', a: 440, e: 0.42, inc: 38, omega: 24, asc: 18, speed: 0.068, phase: 0.65, size: 32, bright: 0.72 },
-        // 47 Tucanae: orbit prograde miring di Halo Selatan
-        { name: '47 Tucanae', a: 495, e: 0.24, inc: 46, omega: 135, asc: 195, speed: -0.056, phase: 1.9, size: 26, bright: 0.62 },
+        // Omega Centauri: orbit retrograde (-) eksentrik & miring di Halo Bima Sakti
+        { name: 'Omega Centauri', a: 440, e: 0.42, inc: 38, omega: 24, asc: 18, speed: -0.068, phase: 0.65, size: 32, bright: 0.72 },
+        // 47 Tucanae: orbit prograde (+) miring di Halo Selatan
+        { name: '47 Tucanae', a: 495, e: 0.24, inc: 46, omega: 135, asc: 195, speed: 0.056, phase: 1.9, size: 26, bright: 0.62 },
         // Messier 13: orbit halo miring tinggi
-        { name: 'Messier 13', a: 390, e: 0.35, inc: 62, omega: 68, asc: 305, speed: -0.064, phase: 4.1, size: 22, bright: 0.55 },
+        { name: 'Messier 13', a: 390, e: 0.35, inc: 62, omega: 68, asc: 305, speed: 0.064, phase: 4.1, size: 22, bright: 0.55 },
       ];
 
       for (let i = 0; i < 42; i++) {
@@ -9673,8 +9711,8 @@
           inc = 24 + Math.random() * 58;
           omega = Math.random() * 360;
           asc = Math.random() * 360;
-          // Campuran orbit prograde (-) & retrograde (+) sesuai populasi halo 3D nyata
-          const dirSign = Math.random() < 0.38 ? 1 : -1;
+          // Campuran orbit prograde (+) & retrograde (-) sesuai populasi halo 3D nyata
+          const dirSign = Math.random() < 0.38 ? -1 : 1;
           speed = dirSign * (0.045 + Math.random() * 0.055) * (420 / a);
           phase = Math.random() * Math.PI * 2;
           gSize = 11 + Math.random() * 14;
@@ -13030,6 +13068,46 @@
     let frameCounter = 0;
     let beltsInitialized = false;
 
+    // Periode rotasi sideris nyata (jam, NASA JPL) — arah retrograde sudah ditangani oleh kemiringan sumbu (axialTilt > 90°)
+    const REAL_ROTATION_HOURS = {
+      sun: 609.12,
+      mercury: 1407.6,
+      venus: 5832.5,
+      earth: 23.9345,
+      mars: 24.6229,
+      ceres: 9.074,
+      vesta: 5.342,
+      pallas: 7.813,
+      juno: 7.210,
+      psyche: 4.196,
+      hygiea: 13.826,
+      arrokoth: 15.92,
+      jupiter: 9.925,
+      saturn: 10.656,
+      uranus: 17.24,
+      neptune: 16.11,
+      orcus: 13.19,
+      pluto: 153.29,
+      salacia: 6.09,
+      haumea: 3.915,
+      quaoar: 17.68,
+      makemake: 22.83,
+      gonggong: 22.40,
+      eris: 25.90,
+      sedna: 10.27,
+      comet_halley: 52.8,
+      comet_halebopp: 11.46,
+      comet_encke: 11.08,
+      comet_67p: 12.40,
+      nereid: 11.52,
+      styx: 77.76,
+      nix: 43.90,
+      kerberos: 127.4,
+      hydra: 10.31,
+      namaka: 18.0,
+      hiiaka: 9.80,
+    };
+
     const fpsValueEl = document.getElementById('fps-value');
     const fpsUnitEl = document.getElementById('fps-unit');
     const fpsSepEl = document.getElementById('fps-sep');
@@ -13259,7 +13337,11 @@
           sunProminenceUniforms.uTime.value += dt;
         }
       }
-      if (sunMesh) sunMesh.rotation.y += 0.08 * effectiveDt;
+      // Periode rotasi sideris nyata (jam, NASA JPL) khusus untuk mode LIVE (REAL RATE)
+      if (sunMesh && state.isPlaying) {
+        const sunRotDelta = state.isLiveRate ? (Math.PI * 2 / (609.12 * 3600)) * dt : 0.08 * effectiveDt;
+        sunMesh.rotation.y += sunRotDelta;
+      }
       if (sunCoronaSprite) {
         if (state.isPlaying) {
           const pulse = 73.5 + Math.sin(sunProminenceUniforms ? sunProminenceUniforms.uTime.value * 1.4 : 0) * 1.6;
@@ -13271,16 +13353,22 @@
         sunCoronaSprite.quaternion.copy(camera.quaternion);
       }
 
-      // 2. Perbarui Posisi & Rotasi 8 Planet Utama + 10 Planet Katai
+      // 2. Perbarui Posisi & Rotasi 8 Planet Utama + 10 Planet Katai + Asteroid + Komet
       for (let i = 0; i < planetEntities.length; i++) {
         const p = planetEntities[i];
         const d = p.data;
         const M = p.phase + state.planetSimTime * d.orbitSpeed;
         computeOrbitalPosition(d.orbitRadius, d.eccentricity, d.inclination, d.omega, M, p.pivot.position, d.ascNode || 0);
 
-        p.mesh.rotation.y += (d.rotationSpeed || 0.2) * effectiveDt;
+        let rotDelta = (d.rotationSpeed || 0.2) * effectiveDt;
+        if (state.isLiveRate && state.isPlaying) {
+          const realHrs = REAL_ROTATION_HOURS[d.id] || 24.0;
+          rotDelta = (Math.PI * 2 / (realHrs * 3600)) * dt;
+        }
+        p.mesh.rotation.y += rotDelta;
         if (p.cloudMesh) {
-          p.cloudMesh.rotation.y += (d.rotationSpeed * 1.32) * effectiveDt;
+          const cloudFactor = state.isLiveRate ? 1.08 : 1.32;
+          p.cloudMesh.rotation.y += rotDelta * cloudFactor;
           if (d.id === 'earth') {
             globalEarthCloudDeltaUniform.value = p.cloudMesh.rotation.y - p.mesh.rotation.y;
           }
@@ -13354,7 +13442,8 @@
               .addScaledVector(tang, Math.cos(haloAng) * 0.42);
             sc.pivot.position.y += Math.sin(haloAng) * 0.34;
           } else if (d.isEscapeTrajectory && sc.escapeDir) {
-            const drift = ((state.planetSimTime * (d.escapeDriftSpeed || 1.2)) % 70);
+            // Gerak mulus sepanjang lintasan hiperbolik (~3,5 SA/thn terskala) tanpa teleportasi mundur
+            const drift = Math.max(-35, Math.min(85, state.elapsedEarthYears * (d.escapeDriftSpeed || 1.2) * 0.45));
             sc.pivot.position.copy(sc.escapeDir).multiplyScalar((d.escapeBaseDist || 340) + drift);
           } else {
             const M = sc.phase + state.planetSimTime * d.orbitSpeed;
@@ -13383,13 +13472,21 @@
         saturnShadowUniforms.uRingNormal.value.set(0, 1, 0).applyQuaternion(saturnQuat).normalize();
       }
 
-      // 3. Perbarui Posisi & Rotasi Semua 34 Satelit Alami
+      // 3. Perbarui Posisi & Rotasi Semua 34 Satelit Alami (dengan penguncian pasang surut / tidal locking akurat)
       for (let i = 0; i < moonEntities.length; i++) {
         const m = moonEntities[i];
         const d = m.data;
         const M = m.phase + state.simTime * d.orbitSpeed;
         computeOrbitalPosition(d.orbitRadius, d.eccentricity || 0, d.inclination || 0, m.omega, M, m.pivot.position);
-        m.mesh.rotation.y += (d.rotationSpeed || 0.5) * effectiveDt;
+        if (m.tidallyLocked) {
+          // Kunci belahan muka satelit agar selalu menghadap langsung ke planet/planet katai induk di pusat lokal (0,0,0)
+          m.mesh.rotation.y = Math.atan2(-m.pivot.position.x, -m.pivot.position.z);
+        } else if (state.isLiveRate && state.isPlaying) {
+          const mHrs = REAL_ROTATION_HOURS[d.id] || 24.0;
+          m.mesh.rotation.y += (Math.PI * 2 / (mHrs * 3600)) * dt;
+        } else {
+          m.mesh.rotation.y += (d.rotationSpeed || 0.5) * effectiveDt;
+        }
       }
 
       // 3B. Sinkronkan Posisi Dunia & Radius Efektif untuk Bayangan Gerhana Analitik (Satelit <-> Planet Induk)
@@ -13428,7 +13525,7 @@
           const angle = beltPhase[i] + beltT * beltSpeed[i];
           const r = beltSemiMajor[i] * (1 - beltEcc[i] * Math.cos(angle));
           const x = Math.cos(angle) * r;
-          const z = Math.sin(angle) * r;
+          const z = -Math.sin(angle) * r;
           const y = Math.sin(angle * 2 + beltPhase[i]) * r * beltInc[i];
           const rot = beltT * 1.1 + i;
           setInstanceTransformFast(arr, i, x, y, z, beltScale[i], Math.cos(rot), Math.sin(rot));
@@ -13436,10 +13533,10 @@
         mainBeltInstanced.instanceMatrix.needsUpdate = true;
       }
 
-      // 5. Perbarui Trojan Jupiter (L4 +60° & L5 -60°)
+      // 5. Perbarui Trojan Jupiter (L4 +60° di depan & L5 -60° di belakang orbit CCW Jupiter)
       if (jupiterEntity && shouldUpdateBelts) {
         const jupPos = jupiterEntity.pivot.position;
-        const jupAngle = Math.atan2(jupPos.z, jupPos.x);
+        const jupAngle = Math.atan2(-jupPos.z, jupPos.x);
         const jupR = Math.hypot(jupPos.x, jupPos.z);
 
         const l4Reg = registry.get('trojan_l4');
@@ -13447,8 +13544,8 @@
         const l4Angle = jupAngle + Math.PI / 3;
         const l5Angle = jupAngle - Math.PI / 3;
 
-        if (l4Reg) l4Reg.mesh.position.set(Math.cos(l4Angle) * jupR, jupPos.y, Math.sin(l4Angle) * jupR);
-        if (l5Reg) l5Reg.mesh.position.set(Math.cos(l5Angle) * jupR, jupPos.y, Math.sin(l5Angle) * jupR);
+        if (l4Reg) l4Reg.mesh.position.set(Math.cos(l4Angle) * jupR, jupPos.y, -Math.sin(l4Angle) * jupR);
+        if (l5Reg) l5Reg.mesh.position.set(Math.cos(l5Angle) * jupR, jupPos.y, -Math.sin(l5Angle) * jupR);
 
         if (mobileOddFrame && trojanInstanced && trojanInstanced.visible) {
           const arr = trojanInstanced.instanceMatrix.array;
@@ -13460,13 +13557,13 @@
             const rad = jupR + trojanRadialSpread[i] + Math.cos(beltT * trojanLibFreq[i] + trojanLibPhase[i]) * 1.4;
             const y = jupPos.y + Math.sin(theta * 3 + trojanLibPhase[i]) * rad * trojanIncSpread[i];
             const rot = beltT * 0.8 + i;
-            setInstanceTransformFast(arr, i, Math.cos(theta) * rad, y, Math.sin(theta) * rad, trojanScale[i], Math.cos(rot), Math.sin(rot));
+            setInstanceTransformFast(arr, i, Math.cos(theta) * rad, y, -Math.sin(theta) * rad, trojanScale[i], Math.cos(rot), Math.sin(rot));
           }
           trojanInstanced.instanceMatrix.needsUpdate = true;
         }
       }
 
-      // 6. Perbarui Sabuk Kuiper & Piringan Tersebar (bergantian tiap frame agar tetap ringan di 60 FPS)
+      // 6. Perbarui Sabuk Kuiper & Piringan Tersebar (orbit CCW prograde, bergantian tiap frame agar tetap ringan di 60 FPS)
       if (shouldUpdateBelts && (!beltsInitialized || (frameCounter & 1) === 0) && kuiperBeltInstanced && kuiperBeltInstanced.visible) {
         const arr = kuiperBeltInstanced.instanceMatrix.array;
         for (let i = 0; i < KUIPER_COUNT; i++) {
@@ -13476,7 +13573,7 @@
           const r = a * (1 - e * Math.cos(M));
           const theta = M + 2 * e * Math.sin(M) + kuiperOmega[i];
           const x = Math.cos(theta) * r;
-          const z = Math.sin(theta) * r;
+          const z = -Math.sin(theta) * r;
           const y = Math.sin(M + kuiperOmega[i]) * r * kuiperInc[i];
           const rot = beltT * 0.5 + i;
           setInstanceTransformFast(arr, i, x, y, z, kuiperScale[i], Math.cos(rot), Math.sin(rot));
@@ -13490,18 +13587,18 @@
           const M = scatteredPhase[i] + beltT * scatteredSpeed[i];
           const a = scatteredSemiMajor[i];
           const e = scatteredEcc[i];
-          // Aproksimasi Kepler orde-2 cepat untuk orbit eksentrik
+          // Aproksimasi Kepler orde-2 cepat untuk orbit eksentrik (CCW)
           const E = M + e * Math.sin(M) * (1 + e * Math.cos(M));
           const b = a * Math.sqrt(1 - e * e);
           const xOrb = a * (Math.cos(E) - e);
-          const zOrb = b * Math.sin(E);
+          const zOrb = -b * Math.sin(E);
 
           const cosO = Math.cos(scatteredOmega[i]);
           const sinO = Math.sin(scatteredOmega[i]);
-          const x1 = xOrb * cosO - zOrb * sinO;
-          const z1 = xOrb * sinO + zOrb * cosO;
+          const x1 = xOrb * cosO + zOrb * sinO;
+          const z1 = -xOrb * sinO + zOrb * cosO;
           const inc = scatteredInc[i];
-          const y2 = z1 * Math.sin(inc);
+          const y2 = -z1 * Math.sin(inc);
           const z2 = z1 * Math.cos(inc);
 
           const rot = state.simTime * 0.45 + i;
@@ -13840,6 +13937,7 @@
       document.body.classList.toggle('dock-hidden', isSmall && panelOpen);
       document.getElementById('btn-toggle-controls').classList.toggle('is-on', !leftControlPanel.classList.contains('hidden'));
       document.getElementById('btn-toggle-drawer').classList.toggle('is-on', !telemetryDrawer.classList.contains('hidden'));
+      if (typeof positionFpsBadge === 'function') positionFpsBadge();
       if (typeof positionFloatingRecBadge === 'function') positionFloatingRecBadge();
     }
     const dockObserver = new MutationObserver(updateDockAutoHide);
@@ -13902,6 +14000,37 @@
     const topHudEl = document.getElementById('top-hud');
     const topHudLeftEl = document.getElementById('top-hud-left');
     const topHudActionsEl = document.getElementById('top-hud-actions');
+    const fpsBadgeEl = document.getElementById('fps-badge');
+    const dockPanelEl = document.getElementById('bottom-dock-panel');
+    function positionFpsBadge() {
+      if (!fpsBadgeEl) return;
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const isSmall = vw < 640;
+      const dockHidden = document.body.classList.contains('dock-hidden');
+      const fpsRect = fpsBadgeEl.getBoundingClientRect();
+      const fpsW = fpsRect.width > 10 ? fpsRect.width : 132;
+
+      if (!dockPanelEl || dockHidden) {
+        fpsBadgeEl.style.left = isSmall ? '12px' : '16px';
+        fpsBadgeEl.style.bottom = isSmall ? '12px' : '16px';
+        return;
+      }
+
+      const dRect = dockPanelEl.getBoundingClientRect();
+      // Jika posisi pojok kiri bawah bersinggungan dengan dock navigasi bawah (HP maupun Mobile Desktop Site),
+      // angkat badge FPS tepat ke atas sisi kiri dock navigasi bawah
+      if (dRect.height > 0 && dRect.left < fpsW + 24) {
+        const bottomPx = Math.max(12, Math.round(vh - dRect.top + 8));
+        const leftPx = isSmall ? 12 : Math.max(16, Math.round(dRect.left));
+        fpsBadgeEl.style.left = `${leftPx}px`;
+        fpsBadgeEl.style.bottom = `${bottomPx}px`;
+      } else {
+        fpsBadgeEl.style.left = '16px';
+        fpsBadgeEl.style.bottom = '16px';
+      }
+    }
+
     function updateHudOffset() {
       const fullBottom = Math.ceil(topHudEl.getBoundingClientRect().bottom);
       const leftBottom = topHudLeftEl ? Math.ceil(topHudLeftEl.getBoundingClientRect().bottom) : fullBottom;
@@ -13911,6 +14040,7 @@
       const rightTop = isDesktop ? Math.max(54, rightBottom + 10) : Math.max(80, fullBottom + 10);
       document.documentElement.style.setProperty('--hud-top', `${leftTop}px`);
       document.documentElement.style.setProperty('--hud-right-top', `${rightTop}px`);
+      positionFpsBadge();
     }
     if (window.ResizeObserver) {
       const hudResizeObserver = new ResizeObserver(() => {
@@ -13919,11 +14049,14 @@
       });
       hudResizeObserver.observe(topHudEl);
       if (topHudActionsEl) hudResizeObserver.observe(topHudActionsEl);
-      const dockPanelEl = document.getElementById('bottom-dock-panel');
       if (dockPanelEl) {
         new ResizeObserver(() => {
+          positionFpsBadge();
           if (typeof positionFloatingRecBadge === 'function') positionFloatingRecBadge();
         }).observe(dockPanelEl);
+      }
+      if (fpsBadgeEl) {
+        new ResizeObserver(() => positionFpsBadge()).observe(fpsBadgeEl);
       }
     }
     window.addEventListener('resize', updateHudOffset);
