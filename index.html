@@ -256,17 +256,17 @@
       #telemetry-drawer {
         top: var(--hud-top, 7.5rem);
         bottom: auto;
-        max-height: calc(100vh - var(--hud-top, 7.5rem) - 2rem);
-        max-height: calc(100dvh - var(--hud-top, 7.5rem) - 2rem);
+        max-height: calc(100vh - var(--hud-top, 7.5rem) - 3.75rem);
+        max-height: calc(100dvh - var(--hud-top, 7.5rem) - 3.75rem);
       }
       body.follow-bar-on #telemetry-drawer {
         top: var(--follow-top, calc(var(--hud-top, 7.5rem) + 3rem));
-        max-height: calc(100vh - var(--follow-top, calc(var(--hud-top, 7.5rem) + 3rem)) - 2rem);
-        max-height: calc(100dvh - var(--follow-top, calc(var(--hud-top, 7.5rem) + 3rem)) - 2rem);
+        max-height: calc(100vh - var(--follow-top, calc(var(--hud-top, 7.5rem) + 3rem)) - 3.75rem);
+        max-height: calc(100dvh - var(--follow-top, calc(var(--hud-top, 7.5rem) + 3rem)) - 3.75rem);
       }
       body.dock-hidden #left-control-panel {
-        max-height: calc(100vh - var(--hud-top, 7.5rem) - 2rem);
-        max-height: calc(100dvh - var(--hud-top, 7.5rem) - 2rem);
+        max-height: calc(100vh - var(--hud-top, 7.5rem) - 3.75rem);
+        max-height: calc(100dvh - var(--hud-top, 7.5rem) - 3.75rem);
       }
       /* Ruang ekstra di dasar daftar kontrol agar bagian Rekam bisa digulir sampai mentok */
       #left-control-panel > div.overflow-y-auto {
@@ -278,7 +278,7 @@
         top: var(--hud-top, 7.5rem);
       }
       body.follow-bar-on #quick-rec-panel {
-        top: calc(var(--hud-top, 7.5rem) + 3rem);
+        top: var(--follow-top, calc(var(--hud-top, 7.5rem) + 3rem));
       }
 
       /* Area sentuh tombol header minimal 44px dengan bentuk pill seragam seperti tombol bawah */
@@ -350,8 +350,8 @@
         top: var(--follow-top, calc(var(--hud-top, 7.5rem) + 3rem));
       }
       body.follow-bar-on.dock-hidden #left-control-panel {
-        max-height: calc(100vh - var(--follow-top, calc(var(--hud-top, 7.5rem) + 3rem)) - 2rem);
-        max-height: calc(100dvh - var(--follow-top, calc(var(--hud-top, 7.5rem) + 3rem)) - 2rem);
+        max-height: calc(100vh - var(--follow-top, calc(var(--hud-top, 7.5rem) + 3rem)) - 3.75rem);
+        max-height: calc(100dvh - var(--follow-top, calc(var(--hud-top, 7.5rem) + 3rem)) - 3.75rem);
       }
 
       /* Prev / Next / Exit rasi bintang: menyatu di dalam panel Telemetri */
@@ -1135,6 +1135,84 @@
         transform 0.18s ease-in !important;
     }
 
+    @media (max-height: 500px) {
+      /* Header 1 baris ringkas agar ruang vertikal 3D & panel lega di HP Landscape */
+      #top-hud {
+        padding: 0.45rem 0.65rem !important;
+        align-items: center !important;
+      }
+      #top-hud-left {
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 0.35rem !important;
+      }
+      #top-hud-left > div:first-child {
+        padding: 0.25rem 0.5rem !important;
+        gap: 0.4rem !important;
+      }
+      #top-hud-left h1,
+      #header-subtitle,
+      #top-hud-left #btn-toggle-controls > span,
+      #top-hud-actions .glass-btn:not(#btn-open-help) > span:not(#quick-rec-label):not(.w-2),
+      #top-hud-actions .glass-btn kbd {
+        display: none !important;
+      }
+      #top-hud-actions {
+        flex-wrap: nowrap !important;
+        gap: 4px !important;
+      }
+      #top-hud .glass-btn {
+        padding: 0.35rem 0.5rem !important;
+        min-width: 34px;
+        min-height: 34px;
+        justify-content: center;
+      }
+      #bottom-hud {
+        padding: 0.35rem 0.5rem !important;
+        gap: 0.25rem !important;
+      }
+      #bottom-dock-panel {
+        padding-top: 0.35rem !important;
+        padding-bottom: 0.35rem !important;
+        gap: 0.25rem !important;
+      }
+      body.dock-hidden #bottom-dock-panel,
+      body.dock-hidden #follow-cam-bar,
+      body.dock-hidden #nasa-time-bar {
+        transform: translateY(130%);
+        opacity: 0;
+        pointer-events: none !important;
+      }
+      body.nasa-time-open #bottom-moons-bar {
+        display: none !important;
+      }
+      #nasa-time-bar {
+        gap: 0.15rem !important;
+      }
+      #nasa-shuttle-wrap {
+        height: 26px !important;
+      }
+      #follow-cam-popup {
+        max-height: 44dvh;
+        overflow-y: auto;
+      }
+    }
+
+    @media (min-width: 640px) and (max-height: 500px) {
+      #left-control-panel {
+        top: var(--hud-top, 3.5rem) !important;
+        max-height: calc(100dvh - var(--hud-top, 3.5rem) - 0.75rem) !important;
+      }
+      #telemetry-drawer {
+        top: var(--hud-right-top, 3.5rem) !important;
+        max-height: calc(100dvh - var(--hud-right-top, 3.5rem) - 0.75rem) !important;
+      }
+      body.rec-panel-open #telemetry-drawer {
+        top: calc(var(--hud-right-top, 3.5rem) + 5.75rem) !important;
+        max-height: calc(100dvh - var(--hud-right-top, 3.5rem) - 6.5rem) !important;
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       #left-control-panel.hidden, #telemetry-drawer.hidden, #quick-rec-panel.hidden,
       #search-modal.hidden > div, #help-modal.hidden > div { transform: none; }
@@ -1697,6 +1775,23 @@
         </div>
       </div>
 
+      <!-- Opsi Khusus Bumi: Toggle Batas Negara & Pantai Vektor (Default OFF) -->
+      <div id="earth-borders-section" class="hidden pt-0.5">
+        <button
+          id="btn-toggle-earth-borders"
+          type="button"
+          class="w-full py-2 px-3 rounded-xl bg-slate-900/70 hover:bg-slate-800/80 border border-slate-700/80 text-xs font-medium text-slate-200 flex items-center justify-between gap-2 transition cursor-pointer"
+        >
+          <span class="flex items-center gap-2 min-w-0">
+            <svg class="w-3.5 h-3.5 text-sky-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span id="earth-borders-label" class="truncate">Batas Negara &amp; Pantai (Vektor)</span>
+          </span>
+          <span id="earth-borders-pill" class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700 shrink-0">OFF</span>
+        </button>
+      </div>
+
       <!-- Daftar Satelit Alami (Bulan) yang Dapat Diklik -->
       <div id="moons-section" class="hidden pt-1">
         <div class="flex items-center justify-between mb-2">
@@ -1982,14 +2077,14 @@
       </div>
 
       <!-- Baris Pil Objek Langit Sesuai Kategori -->
-      <nav id="quick-nav-pills" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar max-w-[92vw] sm:max-w-[86vw] pb-0.5">
+      <nav id="quick-nav-pills" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar w-full max-w-full min-w-0 pb-0.5">
         <!-- Diisi secara dinamis oleh JavaScript -->
       </nav>
 
       <!-- Baris Daftar Satelit Alami Planet / Planet Katai Terpilih -->
       <div
         id="bottom-moons-bar"
-        class="hidden items-center gap-1.5 pt-1.5 border-t border-slate-700/45 overflow-x-auto no-scrollbar max-w-[92vw] sm:max-w-[86vw]"
+        class="hidden items-center gap-1.5 pt-1.5 border-t border-slate-700/45 overflow-x-auto no-scrollbar w-full max-w-full min-w-0"
       >
         <span id="bottom-moons-label" class="text-[10px] font-mono uppercase tracking-wider text-sky-300 shrink-0 pr-1">Satelit:</span>
         <div id="bottom-moons-pills" class="flex items-center gap-1.5 shrink-0"></div>
@@ -2363,7 +2458,7 @@
       return mCtx.getImageData(0, 0, width, height).data;
     }
 
-    function createPlanetTexture(type, seed = 42, width = 512, height = 256) {
+    function createPlanetTexture(type, seed = 42, width = 512, height = 256, customEarthMask = null) {
       const canvas = document.createElement('canvas');
       canvas.width = width;
       canvas.height = height;
@@ -2372,7 +2467,7 @@
       const data = imgData.data;
       const noise = new ProceduralNoise(seed);
 
-      const earthLandMask = type === 'earth' ? createEarthLandMask(width, height) : null;
+      const earthLandMask = type === 'earth' ? (customEarthMask || createEarthLandMask(width, height)) : null;
       const craters = [];
       if (['mercury', 'moon', 'mars', 'callisto', 'oberon', 'ceres', 'rock', 'salacia', 'charon', 'vesta', 'psyche'].includes(type)) {
         let s = seed * 9973 + 17;
@@ -2456,7 +2551,7 @@
             const coastNoise = noise.fbm3D(sx * 9.5 + 0.4, sy * 9.5 - 0.2, sz * 9.5 + 0.7, 4);
             const biomeNoise = noise.fbm3D(sx * 4.6 - 0.8, sy * 4.6 + 0.5, sz * 4.6 + 0.3, 4);
             const detailNoise = noise.fbm3D(sx * 22.0, sy * 22.0, sz * 22.0, 3);
-            const landScore = maskVal + coastNoise * 0.22;
+            const landScore = customEarthMask ? maskVal : (maskVal + coastNoise * 0.22);
 
             const sm = (e0, e1, val) => {
               const t = Math.max(0, Math.min(1, (val - e0) / (e1 - e0)));
@@ -2906,14 +3001,14 @@
     }
 
     // Generator peta lampu kota sisi malam Bumi (prosedural berbasis topografi benua)
-    function createEarthNightTexture(width = 1024, height = 512) {
+    function createEarthNightTexture(width = 1024, height = 512, customLandMask = null) {
       const canvas = document.createElement('canvas');
       canvas.width = width;
       canvas.height = height;
       const ctx = canvas.getContext('2d');
       const imgData = ctx.createImageData(width, height);
       const data = imgData.data;
-      const landMask = createEarthLandMask(width, height);
+      const landMask = customLandMask || createEarthLandMask(width, height);
       const noise = new ProceduralNoise(3031);
 
       const sm = (e0, e1, v) => {
@@ -2971,7 +3066,7 @@
     }
 
     // Generator bumpMap ringan dari tekstur permukaan yang sudah ada (biaya startup < 2ms, 0 FPS drop)
-    function createBumpTextureFromAlbedo(albedoTex, isEarth = false) {
+    function createBumpTextureFromAlbedo(albedoTex, isEarth = false, customEarthMask = null) {
       if (!albedoTex || !albedoTex.image) return null;
       const w = isMobileDevice ? 256 : 512;
       const h = w / 2;
@@ -2982,7 +3077,7 @@
       ctx.drawImage(albedoTex.image, 0, 0, w, h);
       const img = ctx.getImageData(0, 0, w, h);
       const d = img.data;
-      const earthMask = isEarth ? createEarthLandMask(w, h) : null;
+      const earthMask = isEarth ? (customEarthMask || createEarthLandMask(w, h)) : null;
 
       for (let i = 0; i < d.length; i += 4) {
         if (isEarth && earthMask) {
@@ -5786,6 +5881,7 @@
         closePanelAria: 'Tutup Panel',
         moonsHeading: 'Satelit Alami',
         moonsCountSuffix: 'Satelit',
+        earthBordersLbl: 'Batas Negara & Pantai (Vektor)',
         backToPrefix: 'Kembali ke',
         statBody: ['Jarak Rata-Rata', 'Periode Orbit', 'Eksentrisitas (e)', 'Inklinasi Orbit', 'Periode Rotasi', 'Diameter', 'Suhu Permukaan', 'Satelit & Cincin'],
         statConst: ['Jarak Bintang Utama', 'Bintang Terterang', 'Belahan Langit', 'Bulan Terbaik', 'Luas Wilayah', 'Pola Utama', 'Objek Langit Dalam', 'Keluarga Rasi'],
@@ -5971,6 +6067,7 @@
         closePanelAria: 'Close Panel',
         moonsHeading: 'Natural Satellites',
         moonsCountSuffix: 'Moons',
+        earthBordersLbl: 'Country & Coast Borders (Vector)',
         backToPrefix: 'Back to',
         statBody: ['Mean Distance', 'Orbital Period', 'Eccentricity (e)', 'Orbital Inclination', 'Rotation Period', 'Diameter', 'Surface Temp.', 'Moons & Rings'],
         statConst: ['Primary Star Dist.', 'Brightest Star', 'Celestial Hemisphere', 'Best Viewing', 'Sky Area', 'Primary Pattern', 'Deep-Sky Objects', 'Constellation Family'],
@@ -6089,6 +6186,7 @@
       showGalacticOrbit: false,
       showSatGalaxies: true,
       showSatGalaxyOrbits: false,
+      showEarthBorders: false,
       galacticOrbitAngle: 0.72, // Posisi awal Tata Surya di Orion-Cygnus Spur
       galaxyTime: 0,            // Waktu khusus shader rotasi diferensial & gelombang kepadatan
       currentTiltRad: 0,
@@ -6398,7 +6496,7 @@
             if (r2 >= 1.0) discard;
             float r = sqrt(r2);
             // Smooth circular falloff menuju 0 sebelum batas quad -> 100% bebas kotak/pixel saat gerak
-            float edge = smoothstep(1.0, 0.22, r);
+            float edge = 1.0 - smoothstep(0.22, 1.0, r);
             float core = exp(-r2 * vTightness);
             float alpha = clamp(core * edge * vAlphaScale, 0.0, 0.94);
             if (alpha < 0.004) discard;
@@ -6407,7 +6505,7 @@
           }
         `,
         transparent: true,
-        blending: THREE.AdditiveBlending,
+        blending: THREE.NormalBlending,
         depthWrite: false,
         vertexColors: true,
       });
@@ -6880,7 +6978,7 @@
             float r2 = dot(p, p);
             if (r2 >= 0.96) discard;
             float r = sqrt(r2);
-            float edge = smoothstep(0.96, 0.22, r);
+            float edge = 1.0 - smoothstep(0.22, 0.96, r);
             float core = exp(-r2 * 8.5);
             float halo = exp(-r2 * 4.2) * 0.30;
             float a = clamp((core + halo) * edge * uAlpha, 0.0, 0.92);
@@ -6984,19 +7082,22 @@
             );
             vec3 wPos = pos + (warp - 0.5) * 0.18;
 
-            // Supergranulasi skala sedang + granulasi fotosfer halus
+            // Supergranulasi skala sedang + granulasi fotosfer halus (diredam lembut saat zoom-out agar bebas sub-pixel bloom flicker)
+            float camDist = length(cameraPosition - vWorldPosition);
+            float farSmooth = smoothstep(120.0, 420.0, camDist);
             float superGran = fbm(wPos * 7.5 + vec3(t * 0.8, -t * 0.5, t * 0.6));
             float fineGran  = granules(wPos * 22.0 - vec3(t * 1.3, t * 0.9, -t * 1.1));
-            float plasma = superGran * 0.58 + fineGran * 0.42;
+            float plasmaRaw = superGran * 0.58 + fineGran * 0.42;
+            float plasma = mix(plasmaRaw, 0.58, farSmooth * 0.62);
 
             // Sabuk bintik matahari (Sunspots) di lintang aktif 10°–35° utara & selatan
-            float latBand = smoothstep(0.06, 0.22, abs(pos.y)) * smoothstep(0.62, 0.32, abs(pos.y));
+            float latBand = smoothstep(0.06, 0.22, abs(pos.y)) * (1.0 - smoothstep(0.32, 0.62, abs(pos.y)));
             float spotField = fbm(pos * 5.2 + vec3(0.0, 2.4, 0.0) + (warp - 0.5) * 0.22);
-            float penumbra = smoothstep(0.28, 0.19, spotField) * latBand;
-            float umbra    = smoothstep(0.21, 0.14, spotField) * latBand;
+            float penumbra = (1.0 - smoothstep(0.19, 0.28, spotField)) * latBand * (1.0 - farSmooth * 0.75);
+            float umbra    = (1.0 - smoothstep(0.14, 0.21, spotField)) * latBand * (1.0 - farSmooth * 0.85);
 
             // Faculae (wilayah magnetik sangat terang di sekitar bintik matahari, makin jelas dekat limb)
-            float faculae = smoothstep(0.64, 0.80, superGran) * latBand;
+            float faculae = smoothstep(0.64, 0.80, superGran) * latBand * (1.0 - farSmooth * 0.85);
 
             vec3 viewDir = normalize(cameraPosition - vWorldPosition);
             float ndotv = max(0.0, dot(normalize(vWorldNormal), viewDir));
@@ -7025,6 +7126,10 @@
             col *= (0.56 + 0.54 * limb) * limbTint;
             col += chromoRed * chromoRim * 0.48;
 
+            // Redam puncak HDR saat Matahari jauh & kecil di layar agar tidak memicu flicker half-res bloom saat pindah planet
+            float hdrCap = mix(2.20, 1.12, farSmooth);
+            col = min(col, vec3(hdrCap));
+
             gl_FragColor = vec4(col, 1.0);
           }
         `,
@@ -7045,11 +7150,13 @@
           varying vec2 vUv;
           varying vec3 vNormal;
           varying vec3 vViewDir;
+          varying float vCamDist;
           void main() {
             vUv = uv;
             vec4 mvPos = modelViewMatrix * vec4(position, 1.0);
             vNormal = normalize(normalMatrix * normal);
             vViewDir = normalize(-mvPos.xyz);
+            vCamDist = length(mvPos.xyz);
             gl_Position = projectionMatrix * mvPos;
           }
         `,
@@ -7058,7 +7165,11 @@
           varying vec2 vUv;
           varying vec3 vNormal;
           varying vec3 vViewDir;
+          varying float vCamDist;
           void main() {
+            // Pudarkan halus saat sangat jauh agar tabung tipis tidak memicu sub-pixel bloom flicker
+            float distFade = 1.0 - smoothstep(110.0, 260.0, vCamDist);
+            if (distFade < 0.01) discard;
             // Pudar halus di kedua kaki lengkungan (vUv.x = 0 & 1) dan paling terang di puncak busur
             float arcFade = sin(vUv.x * 3.14159265);
             arcFade = pow(max(arcFade, 0.0), 0.75);
@@ -7069,7 +7180,7 @@
 
             // Efek lembut volumetrik di tepi tabung plasma
             float viewSoft = pow(max(abs(dot(normalize(vNormal), normalize(vViewDir))), 0.05), 0.85);
-            float alpha = arcFade * filament * viewSoft * 0.72;
+            float alpha = arcFade * filament * viewSoft * 0.72 * distFade;
             if (alpha < 0.01) discard;
 
             vec3 chromoRed  = vec3(1.55, 0.30, 0.06);
@@ -7120,7 +7231,7 @@
         sunMesh.add(promMesh);
       });
 
-      // 3. KORONA VOLUMETRIK REALISTIS (K-Corona + Helmet Streamers + Polar Plumes, bebas tepi kotak)
+      // 3. KORONA OPTIK ANALITIK HALUS (Multi-Exponent Full-Res Glow, Bebas Banding & Bebas Bloom Flicker)
       const coronaMat = new THREE.ShaderMaterial({
         uniforms: {
           uOpacity: { value: 0.96 },
@@ -7140,35 +7251,39 @@
           void main() {
             vec2 p = vUv * 2.0 - 1.0;
             float r = length(p);
-            if (r >= 1.0) discard;
+            if (r >= 0.99) discard;
 
+            // Jarak radial dari tepi fotosfer (radius 11 / half-quad 26 ≈ 0.423)
+            float d = max(0.0, r - 0.39);
+
+            // 3 kurva peluruhan eksponensial kalem (nyaman di mata & tidak menenggelamkan orbit Merkurius/Venus)
+            float tightRim  = exp(-d * 14.0) * 0.40;
+            float midCorona = exp(-d * 5.8)  * 0.15;
+            float wideVeil  = exp(-d * 2.8)  * 0.04;
+
+            // Jendela tepi C2 hanya aktif di luar r > 0.55 sehingga meluruh ke 0 mutlak tanpa batas kotak
+            float edgeWin = 1.0 - smoothstep(0.55, 0.98, r);
+            edgeWin *= edgeWin;
+
+            // Modulasi super lembut (3%) tanpa frekuensi tinggi agar bebas aliasing/flicker saat zoom out
             float ang = atan(p.y, p.x);
-            // Meluruh halus ke 0 mutlak sebelum tepi quad (r = 0.96)
-            float edge = smoothstep(0.96, 0.10, r);
+            float softBreath = 0.97 + 0.03 * sin(ang * 2.0 + uTime * 0.06);
 
-            // K-Corona dalam yang pekat + halo korona luar bertingkat
-            float kCorona = exp(-r * r * 15.5) * 1.08;
-            float midHalo = exp(-r * r * 5.6) * 0.48;
-            float outer   = exp(-r * r * 2.2) * 0.18;
+            float intensity = (tightRim + midCorona + wideVeil) * edgeWin * softBreath * uOpacity;
+            if (intensity < 0.0008) discard;
 
-            // Helmet streamers & polar plumes korona matahari yang bergerak perlahan
-            float s1 = 0.5 + 0.5 * sin(ang * 3.0 + uTime * 0.14 + sin(ang * 2.0 - uTime * 0.08) * 1.1);
-            float s2 = 0.5 + 0.5 * cos(ang * 7.0 - uTime * 0.18);
-            float s3 = 0.5 + 0.5 * sin(ang * 13.0 + uTime * 0.22);
-            float streamerMask = smoothstep(0.16, 0.30, r) * exp(-max(0.0, r - 0.22) * 4.8);
-            float streamers = (pow(s1, 2.0) * 0.55 + pow(s2, 2.4) * 0.30 + pow(s3, 3.0) * 0.15) * streamerMask * 0.42;
+            // Palet warna hangat kohesif (transisi halus tanpa lonjakan merah gelap)
+            vec3 coreCol  = vec3(1.00, 0.94, 0.74);
+            vec3 midCol   = vec3(0.98, 0.80, 0.42);
+            vec3 outerCol = vec3(0.88, 0.56, 0.20);
+            vec3 col = mix(coreCol, midCol, smoothstep(0.0, 0.26, d));
+            col = mix(col, outerCol, smoothstep(0.20, 0.55, d));
 
-            float intensity = (kCorona + midHalo + outer + streamers) * edge * edge * uOpacity;
-            if (intensity < 0.002) discard;
-
-            vec3 innerPearl = vec3(1.52, 1.38, 0.96);
-            vec3 warmGold   = vec3(1.24, 0.78, 0.24);
-            vec3 coronaAmber = vec3(0.92, 0.38, 0.08);
-            vec3 col = mix(innerPearl, warmGold, smoothstep(0.16, 0.46, r));
-            col = mix(col, coronaAmber, smoothstep(0.44, 0.86, r));
-            // Micro-dither anti-banding pada gradasi 8-bit ke ruang hitam
+            // Jaga puncak kalem <= 0.72 (jauh di bawah threshold bloom 1.14) & alpha = 1.0 agar bebas kuadrat ganda
+            vec3 finalCol = min(col * intensity, vec3(0.72));
             float dither = (fract(sin(dot(gl_FragCoord.xy, vec2(12.9898, 78.233))) * 43758.5453) - 0.5) / 255.0;
-            gl_FragColor = vec4(max(vec3(0.0), col * intensity + dither), clamp(intensity, 0.0, 1.0));
+            finalCol = max(vec3(0.0), finalCol + dither * smoothstep(0.0, 0.015, intensity));
+            gl_FragColor = vec4(finalCol, 1.0);
           }
         `,
         transparent: true,
@@ -7176,7 +7291,7 @@
         depthWrite: false,
       });
       sunCoronaSprite = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), coronaMat);
-      sunCoronaSprite.scale.set(74, 74, 1);
+      sunCoronaSprite.scale.set(52, 52, 1);
       sunCoronaSprite.renderOrder = 2;
       solarSystemGroup.add(sunCoronaSprite);
     }
@@ -7366,43 +7481,66 @@
       return group;
     }
 
-    function createIrregularRockGeometry(radius, seed = 1) {
-      const geo = new THREE.IcosahedronGeometry(radius, 2);
+    function smoothSphereSeamNormals(geo, wSegs, hSegs) {
+      const norm = geo.attributes.normal;
+      if (!norm) return;
+      const stride = wSegs + 1;
+      for (let iy = 0; iy <= hSegs; iy++) {
+        const i0 = iy * stride;
+        const i1 = i0 + wSegs;
+        const nx = norm.getX(i0) + norm.getX(i1);
+        const ny = norm.getY(i0) + norm.getY(i1);
+        const nz = norm.getZ(i0) + norm.getZ(i1);
+        const len = Math.hypot(nx, ny, nz) || 1;
+        norm.setXYZ(i0, nx / len, ny / len, nz / len);
+        norm.setXYZ(i1, nx / len, ny / len, nz / len);
+      }
+      norm.needsUpdate = true;
+    }
+
+    function createIrregularRockGeometry(radius, seed = 1, wSegs = null, hSegs = null) {
+      const ws = wSegs || (isMobileDevice ? 36 : 48);
+      const hs = hSegs || (isMobileDevice ? 28 : 36);
+      const geo = new THREE.SphereGeometry(radius, ws, hs);
       const pos = geo.attributes.position;
       const noise = new ProceduralNoise(seed);
       const v = new THREE.Vector3();
       for (let i = 0; i < pos.count; i++) {
         v.fromBufferAttribute(pos, i);
         const dir = v.clone().normalize();
-        const disp = 1.0 + noise.fbm3D(dir.x * 2.2, dir.y * 2.2, dir.z * 2.2, 3) * 0.34;
+        const disp = 1.0 + noise.fbm3D(dir.x * 2.2, dir.y * 2.2, dir.z * 2.2, 3) * 0.30;
         v.multiplyScalar(disp);
-        v.x *= 1.18;
-        v.y *= 0.84;
+        v.x *= 1.16;
+        v.y *= 0.86;
         pos.setXYZ(i, v.x, v.y, v.z);
       }
       geo.computeVertexNormals();
+      smoothSphereSeamNormals(geo, ws, hs);
       return geo;
     }
 
     function createBilobedCometGeometry(radius, seed = 67) {
-      const geo = new THREE.IcosahedronGeometry(radius, 3);
+      const ws = isMobileDevice ? 40 : 52;
+      const hs = isMobileDevice ? 30 : 40;
+      const geo = new THREE.SphereGeometry(radius, ws, hs);
       const pos = geo.attributes.position;
       const noise = new ProceduralNoise(seed);
       const v = new THREE.Vector3();
       for (let i = 0; i < pos.count; i++) {
         v.fromBufferAttribute(pos, i);
         const dir = v.clone().normalize();
-        // Regangkan sumbu X dan jepit bagian leher tengah untuk membentuk dua lobus asimetris khas 67P
+        // Regangkan sumbu X dan jepit bagian leher tengah untuk membentuk dua lobus asimetris mulus khas 67P & Arrokoth
         const xNorm = dir.x;
         const waistPinch = 1.0 - 0.56 * Math.exp(-Math.pow((xNorm - 0.08) * 3.1, 2));
         const lobeAsym = xNorm > 0.08 ? 0.78 : 1.08;
-        const crag = 1.0 + noise.fbm3D(dir.x * 3.2, dir.y * 3.2, dir.z * 3.2, 3) * 0.24;
+        const crag = 1.0 + noise.fbm3D(dir.x * 3.2, dir.y * 3.2, dir.z * 3.2, 3) * 0.22;
         v.x *= 1.55 * crag;
         v.y *= waistPinch * lobeAsym * crag * 0.88;
         v.z *= waistPinch * lobeAsym * crag * 0.92;
         pos.setXYZ(i, v.x, v.y, v.z);
       }
       geo.computeVertexNormals();
+      smoothSphereSeamNormals(geo, ws, hs);
       return geo;
     }
 
@@ -7498,20 +7636,34 @@
       el.className = `celestial-label${isMoon ? ' is-moon' : ''}${isTrojan ? ' is-trojan' : ''}${isDwarf ? ' is-dwarf' : ''}${isComet ? ' is-comet' : ''}${isSpacecraft ? ' is-spacecraft' : ''}`;
       el.dataset.bodyId = item.id;
       el.innerHTML = `<span class="label-dot" style="background:${item.color}"></span><span>${tNavLabel(item)}</span>`;
-      el._onTap = () => { stopAutoTour(); selectBody(item.id); if (window.innerWidth >= 640) telemetryDrawer.classList.remove('hidden'); };
+      el._onTap = () => { stopAutoTour(); selectBody(item.id); if (window.innerWidth >= 640 && window.innerHeight > 500) telemetryDrawer.classList.remove('hidden'); };
       labelsLayer.appendChild(el);
       return el;
+    }
+
+    // Pembatas HDR ringan di bawah ambang bloom (1.14) agar planet/bulan/wahana kecil bebas flicker bloom saat kamera menyapu
+    function clampMaterialHdrBelowBloom(mat, maxVal = 1.06) {
+      if (!mat) return mat;
+      const capStr = maxVal.toFixed(2);
+      mat.customProgramCacheKey = () => `hdr_cap_${capStr}`;
+      mat.onBeforeCompile = (shader) => {
+        shader.fragmentShader = shader.fragmentShader.replace(
+          '#include <tonemapping_fragment>',
+          `gl_FragColor.rgb = min(gl_FragColor.rgb, vec3(${capStr}));\n#include <tonemapping_fragment>`
+        );
+      };
+      return mat;
     }
 
     // Generator model 3D low-poly prosedural ringan untuk 4 wahana antariksa ikonik
     function createSpacecraftModel(type, bodyId) {
       const root = new THREE.Group();
-      const goldMat = new THREE.MeshStandardMaterial({ color: 0xf5b942, roughness: 0.24, metalness: 0.86, emissive: 0x3b2404, emissiveIntensity: 0.28 });
-      const silverMat = new THREE.MeshStandardMaterial({ color: 0xdbeafe, roughness: 0.32, metalness: 0.72, side: THREE.DoubleSide });
-      const foilMat = new THREE.MeshStandardMaterial({ color: 0xe2c7d9, roughness: 0.35, metalness: 0.62, side: THREE.DoubleSide });
-      const darkCarbonMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.75, metalness: 0.25 });
-      const whiteMat = new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.52, metalness: 0.14, side: THREE.DoubleSide });
-      const panelMat = new THREE.MeshStandardMaterial({ color: 0x1d4ed8, roughness: 0.28, metalness: 0.65, emissive: 0x0c2461, emissiveIntensity: 0.35 });
+      const goldMat = clampMaterialHdrBelowBloom(new THREE.MeshStandardMaterial({ color: 0xf5b942, roughness: 0.24, metalness: 0.86, emissive: 0x3b2404, emissiveIntensity: 0.28 }));
+      const silverMat = clampMaterialHdrBelowBloom(new THREE.MeshStandardMaterial({ color: 0xdbeafe, roughness: 0.32, metalness: 0.72, side: THREE.DoubleSide }));
+      const foilMat = clampMaterialHdrBelowBloom(new THREE.MeshStandardMaterial({ color: 0xe2c7d9, roughness: 0.35, metalness: 0.62, side: THREE.DoubleSide }));
+      const darkCarbonMat = clampMaterialHdrBelowBloom(new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.75, metalness: 0.25 }));
+      const whiteMat = clampMaterialHdrBelowBloom(new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.52, metalness: 0.14, side: THREE.DoubleSide }));
+      const panelMat = clampMaterialHdrBelowBloom(new THREE.MeshStandardMaterial({ color: 0x1d4ed8, roughness: 0.28, metalness: 0.65, emissive: 0x0c2461, emissiveIntensity: 0.35 }));
 
       if (type === 'jwst') {
         // Perisai panas Kapton 5 lapis berbentuk layang-layang (sisi +Z menghadap Matahari)
@@ -7631,6 +7783,12 @@
     const hostEclipseTrackers = []; // Bayangan satelit jatuh ke permukaan planet/planet katai induk
     const moonEclipseTrackers = []; // Bayangan planet/planet katai induk jatuh ke permukaan satelit
     let earthEntity = null;
+    let earthBordersGroup = null;
+    let earthBordersMat = null;
+    let earthAuroraGroup = null;
+    let earthAuroraUniforms = null;
+    let earthCloudUniforms = null;
+    let earthNightUniformRef = null;
     let jupiterEntity = null;
     let saturnEntity = null;
 
@@ -7970,7 +8128,7 @@
           const rImg = rCtx.createImageData(rCanvas.width, rCanvas.height);
           for (let p = 0; p < rImg.data.length; p += 4) {
             const isLand = rMask[p] > 118;
-            const roughVal = isLand ? 236 : 124; // Daratan matte (~0.93), samudra pantulan lembut (~0.48)
+            const roughVal = isLand ? 236 : 66; // Daratan matte (~0.93), samudra pantulan sun-glint tajam (~0.26)
             rImg.data[p] = rImg.data[p + 1] = rImg.data[p + 2] = roughVal;
             rImg.data[p + 3] = 255;
           }
@@ -7998,27 +8156,242 @@
           metalness: data.isMetallic ? 0.56 : (data.id === 'earth' ? 0.08 : 0.02),
           dithering: true,
         });
+        if (!data.moons || data.moons.length === 0) {
+          clampMaterialHdrBelowBloom(planetMat, 1.06);
+        }
 
         const planetMesh = new THREE.Mesh(planetGeo, planetMat);
         planetMesh.userData.bodyId = data.id;
         tiltGroup.add(planetMesh);
         clickableMeshes.push(planetMesh);
 
-        // Lapisan Awan Bumi
+        // Lapisan Awan Bumi (3D Spherical Noise + 3 Siklon Tropis Coriolis dengan LOD berbasis jarak kamera)
         let cloudMesh = null;
         if (data.id === 'earth') {
           const cloudTex = earthCloudTex;
           const cloudGeo = new THREE.SphereGeometry(data.radius * 1.016, isMobileDevice ? 48 : 64, isMobileDevice ? 48 : 64);
-          const cloudMat = new THREE.MeshStandardMaterial({
-            map: cloudTex,
+          earthCloudUniforms = {
+            uCloudMap: { value: cloudTex },
+            uSunPos: globalSunPosUniform,
+            uTime: globalWindTimeUniform,
+            uDetailMix: { value: 0.0 },
+          };
+          const cloudOctaves = isMobileDevice ? 3 : 4;
+          const cloudMat = new THREE.ShaderMaterial({
+            uniforms: earthCloudUniforms,
             transparent: true,
-            opacity: 0.85,
             depthWrite: false,
-            roughness: 0.9,
-            dithering: true,
+            vertexShader: `
+              varying vec2 vUv;
+              varying vec3 vUnitPos;
+              varying vec3 vWorldNormal;
+              varying vec3 vWorldPos;
+              void main() {
+                vUv = uv;
+                vUnitPos = normalize(position);
+                vec4 wp = modelMatrix * vec4(position, 1.0);
+                vWorldPos = wp.xyz;
+                vWorldNormal = normalize(mat3(modelMatrix) * normal);
+                gl_Position = projectionMatrix * viewMatrix * wp;
+              }
+            `,
+            fragmentShader: `
+              uniform sampler2D uCloudMap;
+              uniform vec3 uSunPos;
+              uniform float uTime;
+              uniform float uDetailMix;
+              varying vec2 vUv;
+              varying vec3 vUnitPos;
+              varying vec3 vWorldNormal;
+              varying vec3 vWorldPos;
+
+              float hash3c(vec3 p) {
+                p = fract(p * 0.3183099 + 0.1);
+                p *= 17.0;
+                return fract(p.x * p.y * p.z * (p.x + p.y + p.z));
+              }
+
+              float noise3c(vec3 x) {
+                vec3 i = floor(x);
+                vec3 f = fract(x);
+                f = f * f * (3.0 - 2.0 * f);
+                return mix(
+                  mix(mix(hash3c(i + vec3(0,0,0)), hash3c(i + vec3(1,0,0)), f.x),
+                      mix(hash3c(i + vec3(0,1,0)), hash3c(i + vec3(1,1,0)), f.x), f.y),
+                  mix(mix(hash3c(i + vec3(0,0,1)), hash3c(i + vec3(1,0,1)), f.x),
+                      mix(hash3c(i + vec3(0,1,1)), hash3c(i + vec3(1,1,1)), f.x), f.y),
+                  f.z
+                );
+              }
+
+              float fbm3c(vec3 p) {
+                float v = 0.0;
+                float a = 0.5;
+                for (int i = 0; i < ${cloudOctaves}; i++) {
+                  v += a * noise3c(p);
+                  p = p * 2.04 + vec3(1.7, 9.2, 4.3);
+                  a *= 0.5;
+                }
+                return v;
+              }
+
+              // Siklon tropis spiral logaritmik Coriolis (zero seam di ruang 3D bola)
+              float cycloneMask(vec3 p, vec3 cDir, float spinSign, float tVal) {
+                vec3 cn = normalize(cDir);
+                float dist = acos(clamp(dot(p, cn), -1.0, 1.0));
+                float radius = 0.21;
+                if (dist > radius) return 0.0;
+
+                vec3 up = abs(cn.y) < 0.9 ? vec3(0.0, 1.0, 0.0) : vec3(1.0, 0.0, 0.0);
+                vec3 tangent = normalize(cross(up, cn));
+                vec3 bitangent = cross(cn, tangent);
+
+                vec3 rel = p - cn * dot(p, cn);
+                float angle = atan(dot(rel, bitangent), dot(rel, tangent));
+
+                float eye = smoothstep(0.014, 0.036, dist);
+                float envelope = 1.0 - smoothstep(0.03, radius, dist);
+                float spiralPhase = angle * 2.0 + spinSign * (11.5 * log(dist + 0.025) + tVal * 0.45);
+                float arms = 0.55 + 0.45 * cos(spiralPhase);
+                float fine = fbm3c(p * 16.0 + vec3(tVal * 0.08));
+                return eye * envelope * arms * smoothstep(0.28, 0.72, fine + 0.25) * 0.92;
+              }
+
+              void main() {
+                float drift = uTime * 0.018;
+                vec2 driftedUv = vec2(fract(vUv.x - drift * 0.08), vUv.y);
+                float baseTex = texture2D(uCloudMap, driftedUv).a;
+
+                float alpha = baseTex * 0.80;
+                if (uDetailMix > 0.02) {
+                  vec3 p = normalize(vUnitPos);
+                  float cd = cos(drift), sd = sin(drift);
+                  vec3 q = vec3(p.x * cd - p.z * sd, p.y, p.x * sd + p.z * cd);
+                  float detail3D = fbm3c(q * 5.2 + vec3(0.0, uTime * 0.008, 0.0));
+                  float globalClouds = smoothstep(0.24, 0.78, baseTex * 0.70 + detail3D * 0.48);
+
+                  // 3 Siklon Tropis: Pasifik Barat (CCW), Atlantik Utara (CCW), Hindia Selatan (CW)
+                  float c1 = cycloneMask(p, vec3(-0.68, 0.30, -0.66), 1.0, uTime);
+                  float c2 = cycloneMask(p, vec3(0.54, 0.34, 0.77), 1.0, uTime * 0.9);
+                  float c3 = cycloneMask(p, vec3(0.18, -0.32, -0.93), -1.0, uTime * 1.1);
+                  float cyclones = clamp(c1 + c2 + c3, 0.0, 1.0);
+
+                  float hiAlpha = clamp(max(globalClouds * 0.78, cyclones), 0.0, 0.90);
+                  alpha = mix(alpha, hiAlpha, uDetailMix);
+                }
+
+                if (alpha < 0.01) discard;
+
+                vec3 N = normalize(vWorldNormal);
+                vec3 L = normalize(uSunPos - vWorldPos);
+                float ndotl = dot(N, L);
+                float dayLit = smoothstep(-0.16, 0.28, ndotl);
+                float twilight = exp(-pow((ndotl + 0.02) / 0.12, 2.0)) * 0.28;
+                vec3 cloudCol = mix(vec3(0.03, 0.05, 0.09), vec3(0.96, 0.98, 1.0), dayLit);
+                cloudCol += vec3(0.95, 0.46, 0.18) * twilight;
+                // Jaga di bawah threshold bloom (1.14) agar bebas flicker saat kamera menyapu
+                cloudCol = min(cloudCol, vec3(1.04));
+
+                gl_FragColor = vec4(cloudCol, alpha);
+              }
+            `,
           });
           cloudMesh = new THREE.Mesh(cloudGeo, cloudMat);
           tiltGroup.add(cloudMesh);
+
+          // Grup Batas Negara & Garis Pantai Vektor (TopoJSON — default OFF, toggle di Panel Telemetri)
+          earthBordersGroup = new THREE.Group();
+          earthBordersGroup.visible = false;
+          planetMesh.add(earthBordersGroup);
+
+          // Aurora Kutub Borealis & Australis (Pita Oval Lintang ±68.5° Sisi Malam, auto-fade saat zoom dekat)
+          earthAuroraGroup = new THREE.Group();
+          earthAuroraUniforms = {
+            uSunPos: globalSunPosUniform,
+            uTime: globalWindTimeUniform,
+            uFade: { value: 0.0 },
+          };
+          const auroraMat = new THREE.ShaderMaterial({
+            uniforms: earthAuroraUniforms,
+            transparent: true,
+            side: THREE.DoubleSide,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false,
+            vertexShader: `
+              varying vec2 vUv;
+              varying vec3 vWorldNormal;
+              varying vec3 vWorldPos;
+              void main() {
+                vUv = uv;
+                vec4 wp = modelMatrix * vec4(position, 1.0);
+                vWorldPos = wp.xyz;
+                vWorldNormal = normalize(mat3(modelMatrix) * normal);
+                gl_Position = projectionMatrix * viewMatrix * wp;
+              }
+            `,
+            fragmentShader: `
+              uniform vec3 uSunPos;
+              uniform float uTime;
+              uniform float uFade;
+              varying vec2 vUv;
+              varying vec3 vWorldNormal;
+              varying vec3 vWorldPos;
+              void main() {
+                if (uFade < 0.01) discard;
+                vec3 N = normalize(vWorldNormal);
+                vec3 L = normalize(uSunPos - vWorldPos);
+                // Tampak terutama pada belahan malam kutub
+                float nightVis = 1.0 - smoothstep(-0.32, 0.12, dot(N, L));
+                float wave1 = sin(vUv.x * 37.699 + uTime * 0.75);
+                float wave2 = sin(vUv.x * 75.398 - uTime * 1.15 + 1.3);
+                float curtain = smoothstep(0.05, 0.92, 0.5 + 0.32 * wave1 + 0.18 * wave2);
+                float vFade = smoothstep(0.0, 0.22, vUv.y) * (1.0 - smoothstep(0.35, 1.0, vUv.y));
+                vec3 greenOxygen = vec3(0.16, 0.92, 0.52);
+                vec3 violetNitrogen = vec3(0.56, 0.24, 0.90);
+                vec3 col = mix(greenOxygen, violetNitrogen, smoothstep(0.35, 0.95, vUv.y));
+                float alpha = curtain * vFade * nightVis * uFade * 0.58;
+                if (alpha < 0.005) discard;
+                gl_FragColor = vec4(min(col, vec3(0.92)), alpha);
+              }
+            `,
+          });
+
+          const buildAuroraOval = (isNorth) => {
+            const latRad = THREE.MathUtils.degToRad(isNorth ? 68.5 : -68.5);
+            const rBase = data.radius * 1.015 * Math.cos(latRad);
+            const yBase = data.radius * 1.015 * Math.sin(latRad);
+            const rTop = data.radius * 1.045 * Math.cos(latRad);
+            const yTop = data.radius * 1.045 * Math.sin(latRad);
+            const segs = isMobileDevice ? 72 : 128;
+            const positions = [];
+            const uvs = [];
+            const indices = [];
+            for (let i = 0; i <= segs; i++) {
+              const u = i / segs;
+              const theta = u * Math.PI * 2;
+              const cosT = Math.cos(theta);
+              const sinT = Math.sin(theta);
+              positions.push(rBase * cosT, yBase, -rBase * sinT);
+              uvs.push(u, 0);
+              positions.push(rTop * cosT, yTop, -rTop * sinT);
+              uvs.push(u, 1);
+              if (i < segs) {
+                const a = i * 2;
+                indices.push(a, a + 1, a + 2, a + 1, a + 3, a + 2);
+              }
+            }
+            const geo = new THREE.BufferGeometry();
+            geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+            geo.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
+            geo.setIndex(indices);
+            geo.computeVertexNormals();
+            return new THREE.Mesh(geo, auroraMat);
+          };
+
+          earthAuroraGroup.add(buildAuroraOval(true));
+          earthAuroraGroup.add(buildAuroraOval(false));
+          earthAuroraGroup.visible = false;
+          planetMesh.add(earthAuroraGroup);
         }
 
         // Halo Atmosfer Fresnel + Efek Sunset Terminator
@@ -8117,10 +8490,10 @@
                     shadow = mix(0.03, 1.0, smoothstep(uPlanetRadius * 0.95, uPlanetRadius * 1.025, dist));
                   }
 
-                  // Forward scattering partikel es saat cincin dilihat membelakangi Matahari
+                  // Forward scattering partikel es saat cincin dilihat membelakangi Matahari (dijaga <= 1.06 agar bebas bloom flicker)
                   vec3 viewDir = normalize(cameraPosition - vWorldPos);
                   float fwdScatter = pow(max(0.0, dot(viewDir, -sunDir)), 4.0) * 0.36;
-                  vec3 col = texCol.rgb * icyStreak * shadow * (1.0 + fwdScatter);
+                  vec3 col = min(texCol.rgb * icyStreak * shadow * (1.0 + fwdScatter), vec3(1.06));
                   gl_FragColor = vec4(col, texCol.a);
                 }
               `,
@@ -8131,14 +8504,14 @@
 
             // Bayangan cincin & satelit Saturnus diinjeksi bersama di blok gerhana planet
           } else {
-            ringMat = new THREE.MeshStandardMaterial({
+            ringMat = clampMaterialHdrBelowBloom(new THREE.MeshStandardMaterial({
               map: ringTex,
               transparent: true,
               side: THREE.DoubleSide,
               roughness: 0.72,
               metalness: 0.05,
               depthWrite: false,
-            });
+            }), 1.06);
           }
 
           const ringMesh = new THREE.Mesh(ringGeo, ringMat);
@@ -8260,6 +8633,9 @@
           };
           const isSaturnHost = data.id === 'saturn' && !!saturnShadowUniforms;
           const isEarthHost = data.id === 'earth' && !!earthNightTex && !!earthCloudTex;
+          if (isEarthHost) {
+            earthNightUniformRef = { value: earthNightTex };
+          }
           const giantWindType = data.id === 'jupiter' ? 1.0 : data.id === 'saturn' ? 2.0 : data.id === 'uranus' ? 3.0 : data.id === 'neptune' ? 4.0 : 0.0;
 
           // Injeksi bayangan satelit, bayangan cincin Saturnus, angin jet 4 raksasa, serta lampu kota & bayangan awan Bumi
@@ -8278,7 +8654,7 @@
               shader.uniforms.uRingOuter = saturnShadowUniforms.uRingOuter;
             }
             if (isEarthHost) {
-              shader.uniforms.uNightMap = { value: earthNightTex };
+              shader.uniforms.uNightMap = earthNightUniformRef;
               shader.uniforms.uCloudMap = { value: earthCloudTex };
               shader.uniforms.uCloudDelta = globalEarthCloudDeltaUniform;
             }
@@ -8312,10 +8688,15 @@
                    float cAlpha = texture2D(uCloudMap, cUv).a;
                    float dayMaskE = smoothstep(-0.04, 0.28, ndotlE);
                    gl_FragColor.rgb *= (1.0 - cAlpha * 0.24 * dayMaskE);
-                   // Lampu kota keemasan hanya menyala organik di sisi malam Bumi
-                   float nightMaskE = smoothstep(0.14, -0.22, ndotlE);
+                   // Pita senja hangat di garis terminator permukaan
+                   float twilightE = exp(-pow((ndotlE + 0.02) / 0.12, 2.0)) * 0.15;
+                   gl_FragColor.rgb += vec3(0.92, 0.42, 0.16) * twilightE * eclipseFactor;
+                   // Kontras sisi malam pekat + pendaran lampu kota keemasan tajam
+                   float nightDarken = mix(0.42, 1.0, smoothstep(-0.24, 0.10, ndotlE));
+                   gl_FragColor.rgb *= nightDarken;
+                   float nightMaskE = 1.0 - smoothstep(-0.22, 0.14, ndotlE);
                    vec3 cityCol = texture2D(uNightMap, vMapUv).rgb;
-                   gl_FragColor.rgb += cityCol * nightMaskE * 0.88;
+                   gl_FragColor.rgb += cityCol * nightMaskE * 1.38;
                  }`
               : '';
 
@@ -8360,7 +8741,7 @@
                     float latC = wUv.y - 0.5;
                     float absLat = abs(latC);
                     // Lindungi struktur kutub (vortex Jupiter & heksagon Saturnus) agar tidak terdistorsi shear
-                    float polarKeep = smoothstep(0.41, 0.29, absLat);
+                    float polarKeep = 1.0 - smoothstep(0.29, 0.41, absLat);
                     float uShift = 0.0;
                     float vRipple = 0.0;
 
@@ -8422,6 +8803,7 @@
                   ${saturnRingBlock}
                   gl_FragColor.rgb *= eclipseFactor;
                   ${earthNightCloudBlock}
+                  gl_FragColor.rgb = min(gl_FragColor.rgb, vec3(1.06));
                 }
                 #include <tonemapping_fragment>`
               );
@@ -8505,6 +8887,7 @@
                       vec3 umbraTint = mix(vec3(0.05, 0.05, 0.06), vec3(0.24, 0.07, 0.04), uIsEarthMoon);
                       gl_FragColor.rgb *= mix(umbraTint, vec3(1.0), pen);
                     }
+                    gl_FragColor.rgb = min(gl_FragColor.rgb, vec3(1.06));
                   }
                   #include <tonemapping_fragment>`
                 );
@@ -8642,7 +9025,8 @@
     }
 
     function buildSmallBodyPopulations() {
-      const rockGeo = createIrregularRockGeometry(1.0, 777);
+      // Geometri terindeks dengan smooth normals: jauh lebih mulus dari IcosahedronGeometry flat-shaded & tetap ringan di GPU
+      const rockGeo = createIrregularRockGeometry(1.0, 777, isMobileDevice ? 12 : 16, isMobileDevice ? 9 : 12);
       const createSmallBodyMaterial = (roughness, metalness) => {
         const mat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness, metalness });
         mat.onBeforeCompile = (shader) => {
@@ -8992,8 +9376,8 @@
             void main() {
               if (uOpacity <= 0.004) discard;
               float dist = abs(vSide);
-              // Badan pita lebih berisi (smoothstep 1.0 -> 0.34) agar warna tetap solid & jelas di atas latar terang
-              float edge = smoothstep(1.0, 0.34, dist);
+              // Badan pita lebih berisi (smoothstep 0.34 -> 1.0) agar warna tetap solid & jelas di atas latar terang
+              float edge = 1.0 - smoothstep(0.34, 1.0, dist);
               float core = exp(-dist * dist * 3.2);
               float fade = pow(clamp(vProgress, 0.0001, 1.0), 0.92);
 
@@ -10517,7 +10901,16 @@
       btnFollowCamToggle.addEventListener('click', (e) => {
         e.stopPropagation();
         if (!followCamPopup) return;
-        setFollowCamPopup(followCamPopup.classList.contains('hidden'));
+        const willOpen = followCamPopup.classList.contains('hidden');
+        if (willOpen) {
+          if (window.innerWidth < 640 && typeof setQuickRecPanel === 'function') {
+            setQuickRecPanel(false);
+          }
+          if (window.innerHeight <= 500) {
+            closeNasaTimeBar(true);
+          }
+        }
+        setFollowCamPopup(willOpen);
       });
     }
     // Tap/klik di mana saja di luar pop-up untuk menutup menu sudut kamera
@@ -10541,9 +10934,17 @@
       const bar = document.getElementById('nasa-time-bar');
       const badge = document.getElementById('cosmic-clock-badge');
       if (manual) nasaTimeManuallyPinned = true;
+      if (window.innerHeight <= 500) {
+        if (typeof leftControlPanel !== 'undefined' && leftControlPanel) leftControlPanel.classList.add('hidden');
+        if (typeof telemetryDrawer !== 'undefined' && telemetryDrawer) telemetryDrawer.classList.add('hidden');
+        if (typeof setQuickRecPanel === 'function') setQuickRecPanel(false);
+        setFollowCamPopup(false);
+      }
       if (bar) bar.classList.remove('hidden');
       if (badge) badge.classList.add('time-open');
+      document.body.classList.add('nasa-time-open');
       if (typeof syncNasaTimeControlsUI === 'function') syncNasaTimeControlsUI();
+      if (typeof positionFloatingRecBadge === 'function') requestAnimationFrame(() => positionFloatingRecBadge());
     }
 
     function closeNasaTimeBar(force = false) {
@@ -10553,6 +10954,8 @@
       const badge = document.getElementById('cosmic-clock-badge');
       if (bar) bar.classList.add('hidden');
       if (badge) badge.classList.remove('time-open');
+      document.body.classList.remove('nasa-time-open');
+      if (typeof positionFloatingRecBadge === 'function') requestAnimationFrame(() => positionFloatingRecBadge());
     }
 
     function showFollowCamBar(targetLabel, viewPreset = state.cameraView) {
@@ -10652,7 +11055,7 @@
 
       // Tampilkan data astronomi rasi bintang di panel Telemetri kanan (hanya auto-buka di desktop; di HP biar layar langit tetap lega)
       updateTelemetryDrawer({ data: entry.data });
-      if (window.innerWidth >= 640) telemetryDrawer.classList.remove('hidden');
+      if (window.innerWidth >= 640 && window.innerHeight > 500) telemetryDrawer.classList.remove('hidden');
 
       if (constellationNavBar) {
         constNavName.textContent = tName(entry.data);
@@ -11007,7 +11410,7 @@
       if (state.mode !== 'galaxy') return;
       if (id === 'orion_spur') {
         focusSolarSystemInGalaxy();
-        if (window.innerWidth >= 640) telemetryDrawer.classList.remove('hidden');
+        if (window.innerWidth >= 640 && window.innerHeight > 500) telemetryDrawer.classList.remove('hidden');
         return;
       }
 
@@ -11039,7 +11442,7 @@
 
       updateTelemetryDrawer(item);
       showFollowCamBar(tName(item.data), 'cinematic');
-      if (window.innerWidth >= 640) telemetryDrawer.classList.remove('hidden');
+      if (window.innerWidth >= 640 && window.innerHeight > 500) telemetryDrawer.classList.remove('hidden');
       if (state.activeCategory === 'galaxy_dwarf') renderNavPillsForCategory('galaxy_dwarf');
     }
 
@@ -11350,9 +11753,8 @@
         const offset = computeCameraViewOffset(state.cameraView, currTargetWorldPos, dist);
 
         controls.minDistance = Math.max(r * 1.35, 0.22);
-        setCameraNearPlane(DEFAULT_CAMERA_NEAR);
-
         if (instant) {
+          setCameraNearPlane(DEFAULT_CAMERA_NEAR);
           controls.target.copy(currTargetWorldPos);
           camera.position.copy(currTargetWorldPos).add(offset);
           cameraTransition.active = false;
@@ -11538,6 +11940,12 @@
         };
       } else {
         parentPlanetBar.classList.add('hidden');
+      }
+
+      const earthBordersSection = document.getElementById('earth-borders-section');
+      if (earthBordersSection) {
+        earthBordersSection.classList.toggle('hidden', d.id !== 'earth');
+        if (typeof syncEarthBordersToggleUI === 'function') syncEarthBordersToggleUI();
       }
 
       if (d.moons && d.moons.length > 0) {
@@ -11858,7 +12266,7 @@
           }
         } else {
           selectBody(bodyId);
-          if (window.innerWidth >= 640) telemetryDrawer.classList.remove('hidden');
+          if (window.innerWidth >= 640 && window.innerHeight > 500) telemetryDrawer.classList.remove('hidden');
         }
         return;
       }
@@ -12011,9 +12419,9 @@
       if (bodyId) {
         stopAutoTour();
         selectBody(bodyId);
-        if (window.innerWidth >= 640) telemetryDrawer.classList.remove('hidden');
-      } else if (window.innerWidth < 640) {
-        // HP: ketuk ruang kosong untuk menutup panel Kontrol / Telemetri yang sedang terbuka
+        if (window.innerWidth >= 640 && window.innerHeight > 500) telemetryDrawer.classList.remove('hidden');
+      } else if (window.innerWidth < 640 || window.innerHeight <= 500) {
+        // HP (portrait & landscape): ketuk ruang kosong untuk menutup panel Kontrol / Telemetri yang sedang terbuka
         const lp = document.getElementById('left-control-panel');
         if (lp) lp.classList.add('hidden');
         telemetryDrawer.classList.add('hidden');
@@ -12139,6 +12547,212 @@
       satelliteGalaxyEntities.forEach((sat) => {
         sat.group.visible = showGals;
       });
+    }
+
+    function syncEarthBordersToggleUI() {
+      const btn = document.getElementById('btn-toggle-earth-borders');
+      const pill = document.getElementById('earth-borders-pill');
+      const on = !!state.showEarthBorders;
+      if (btn) {
+        btn.classList.toggle('border-[#409cff]/65', on);
+        btn.classList.toggle('bg-[#0a84ff]/22', on);
+        btn.classList.toggle('border-slate-700/80', !on);
+        btn.classList.toggle('bg-slate-900/70', !on);
+      }
+      if (pill) {
+        pill.textContent = on ? 'ON' : 'OFF';
+        pill.classList.toggle('bg-[#0a84ff]/35', on);
+        pill.classList.toggle('text-[#e6f1ff]', on);
+        pill.classList.toggle('border-[#409cff]/65', on);
+        pill.classList.toggle('bg-slate-800', !on);
+        pill.classList.toggle('text-slate-400', !on);
+        pill.classList.toggle('border-slate-700', !on);
+      }
+      if (earthBordersGroup) {
+        earthBordersGroup.visible = on;
+      }
+      if (typeof requestRenderFrames === 'function') requestRenderFrames(12);
+    }
+
+    const btnToggleEarthBorders = document.getElementById('btn-toggle-earth-borders');
+    if (btnToggleEarthBorders) {
+      btnToggleEarthBorders.addEventListener('click', () => {
+        state.showEarthBorders = !state.showEarthBorders;
+        syncEarthBordersToggleUI();
+      });
+    }
+
+    // Loader TopoJSON zero-dependency (world-atlas@2/countries-110m.json):
+    // 1) Membangun garis batas negara & pantai vektor tajam (1 draw call)
+    // 2) Mempertajam peta benua, roughness samudra, bump & lampu kota Bumi secara hybrid (fallback aman saat offline)
+    async function loadHybridEarthVectorAtlas() {
+      if (!earthEntity || !earthBordersGroup) return;
+      try {
+        const res = await fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json');
+        if (!res.ok) return;
+        const topology = await res.json();
+        if (!topology || !topology.arcs || !topology.objects || !topology.objects.countries) return;
+
+        const scale = topology.transform ? topology.transform.scale : [1, 1];
+        const translate = topology.transform ? topology.transform.translate : [0, 0];
+
+        // Dekode semua arc TopoJSON menjadi koordinat [lon, lat] derajat
+        const decodedArcs = topology.arcs.map((arc) => {
+          let x = 0, y = 0;
+          const pts = new Array(arc.length);
+          for (let i = 0; i < arc.length; i++) {
+            x += arc[i][0];
+            y += arc[i][1];
+            pts[i] = [x * scale[0] + translate[0], y * scale[1] + translate[1]];
+          }
+          return pts;
+        });
+
+        // 1. Bangun LineSegments batas negara & garis pantai 3D di atas bola Bumi
+        const rVec = earthEntity.data.radius * 1.0045;
+        const DEG2RAD = Math.PI / 180;
+        const linePositions = [];
+        for (let a = 0; a < decodedArcs.length; a++) {
+          const pts = decodedArcs[a];
+          for (let i = 0; i < pts.length - 1; i++) {
+            const [lon1, lat1] = pts[i];
+            const [lon2, lat2] = pts[i + 1];
+            if (Math.abs(lon2 - lon1) > 180) continue; // Hindari garis melintang di antimeridian ±180°
+            const phi1 = lat1 * DEG2RAD, lam1 = lon1 * DEG2RAD;
+            const phi2 = lat2 * DEG2RAD, lam2 = lon2 * DEG2RAD;
+            linePositions.push(
+              rVec * Math.cos(phi1) * Math.cos(lam1),
+              rVec * Math.sin(phi1),
+              -rVec * Math.cos(phi1) * Math.sin(lam1),
+              rVec * Math.cos(phi2) * Math.cos(lam2),
+              rVec * Math.sin(phi2),
+              -rVec * Math.cos(phi2) * Math.sin(lam2)
+            );
+          }
+        }
+
+        const borderGeo = new THREE.BufferGeometry();
+        borderGeo.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
+        earthBordersMat = new THREE.LineBasicMaterial({
+          color: 0xbae6fd,
+          transparent: true,
+          opacity: 0.36,
+          depthWrite: false,
+        });
+        earthBordersGroup.add(new THREE.LineSegments(borderGeo, earthBordersMat));
+        earthBordersGroup.visible = !!state.showEarthBorders;
+
+        // 2. Rasterisasi poligon negara nyata ke masker daratan untuk mempertajam benua, pantai & lampu kota
+        const decodeRing = (arcIndices) => {
+          const ring = [];
+          for (let k = 0; k < arcIndices.length; k++) {
+            const idx = arcIndices[k];
+            const arc = idx < 0 ? decodedArcs[~idx] : decodedArcs[idx];
+            if (!arc) continue;
+            if (idx < 0) {
+              for (let j = arc.length - 1; j >= (k > 0 ? 1 : 0); j--) ring.push(arc[j]);
+            } else {
+              for (let j = (k > 0 ? 1 : 0); j < arc.length; j++) ring.push(arc[j]);
+            }
+          }
+          return ring;
+        };
+
+        const geoms = topology.objects.countries.geometries || [];
+        const rings = [];
+        for (let g = 0; g < geoms.length; g++) {
+          const geom = geoms[g];
+          if (geom.type === 'Polygon' && geom.arcs) {
+            for (let r = 0; r < geom.arcs.length; r++) rings.push(decodeRing(geom.arcs[r]));
+          } else if (geom.type === 'MultiPolygon' && geom.arcs) {
+            for (let p = 0; p < geom.arcs.length; p++) {
+              for (let r = 0; r < geom.arcs[p].length; r++) rings.push(decodeRing(geom.arcs[p][r]));
+            }
+          }
+        }
+
+        const rasterizeVectorLandMask = (w, h) => {
+          const mc = document.createElement('canvas');
+          mc.width = w;
+          mc.height = h;
+          const mctx = mc.getContext('2d');
+          mctx.fillStyle = '#000000';
+          mctx.fillRect(0, 0, w, h);
+          mctx.fillStyle = '#ffffff';
+          for (let r = 0; r < rings.length; r++) {
+            const ring = rings[r];
+            if (ring.length < 3) continue;
+            mctx.beginPath();
+            let prevLon = ring[0][0];
+            mctx.moveTo(((prevLon + 180) / 360) * w, ((90 - ring[0][1]) / 180) * h);
+            for (let i = 1; i < ring.length; i++) {
+              const lon = ring[i][0];
+              const lat = ring[i][1];
+              const px = ((lon + 180) / 360) * w;
+              const py = ((90 - lat) / 180) * h;
+              if (Math.abs(lon - prevLon) > 180) mctx.moveTo(px, py);
+              else mctx.lineTo(px, py);
+              prevLon = lon;
+            }
+            mctx.closePath();
+            mctx.fill();
+          }
+          return mctx.getImageData(0, 0, w, h).data;
+        };
+
+        // Bangun ulang tekstur Bumi secara non-blocking agar garis pantai 100% menempel dengan batas vektor
+        await yieldToBrowser();
+        const texW = isMobileDevice ? 512 : 1024;
+        const texH = texW / 2;
+        const vecMaskTex = rasterizeVectorLandMask(texW, texH);
+        const newAlbedo = createPlanetTexture('earth', earthEntity.data.seed || 303, texW, texH, vecMaskTex);
+
+        await yieldToBrowser();
+        const newNight = createEarthNightTexture(texW, texH, vecMaskTex);
+
+        // RoughnessMap baru (samudra sun-glint tajam, daratan matte)
+        const rCanvas = document.createElement('canvas');
+        rCanvas.width = texW;
+        rCanvas.height = texH;
+        const rCtx = rCanvas.getContext('2d');
+        const rImg = rCtx.createImageData(texW, texH);
+        for (let p = 0; p < rImg.data.length; p += 4) {
+          const isLand = vecMaskTex[p] > 118;
+          const roughVal = isLand ? 236 : 66;
+          rImg.data[p] = rImg.data[p + 1] = rImg.data[p + 2] = roughVal;
+          rImg.data[p + 3] = 255;
+        }
+        rCtx.putImageData(rImg, 0, 0);
+        const newRough = new THREE.CanvasTexture(rCanvas);
+        newRough.wrapS = THREE.RepeatWrapping;
+        newRough.wrapT = THREE.ClampToEdgeWrapping;
+        newRough.anisotropy = getTexAnisotropy();
+
+        const bumpW = isMobileDevice ? 256 : 512;
+        const vecMaskBump = (bumpW === texW) ? vecMaskTex : rasterizeVectorLandMask(bumpW, bumpW / 2);
+        const newBump = createBumpTextureFromAlbedo(newAlbedo, true, vecMaskBump);
+
+        const eMat = earthEntity.mesh.material;
+        const oldMap = eMat.map;
+        const oldRough = eMat.roughnessMap;
+        const oldBump = eMat.bumpMap;
+        const oldNight = earthNightUniformRef ? earthNightUniformRef.value : null;
+
+        eMat.map = newAlbedo;
+        eMat.roughnessMap = newRough;
+        eMat.bumpMap = newBump;
+        eMat.needsUpdate = true;
+        if (earthNightUniformRef) earthNightUniformRef.value = newNight;
+
+        if (oldMap) oldMap.dispose();
+        if (oldRough) oldRough.dispose();
+        if (oldBump) oldBump.dispose();
+        if (oldNight) oldNight.dispose();
+
+        if (typeof requestRenderFrames === 'function') requestRenderFrames(18);
+      } catch (_) {
+        // Fallback diam-diam ke peta prosedural lokal saat offline
+      }
     }
 
     const btnToggleSatGalaxies = document.getElementById('btn-toggle-sat-galaxies');
@@ -12377,10 +12991,16 @@
 
     function handleFullscreenViewportChange() {
       syncFullscreenButtonUI();
+      if (typeof requestRenderFrames === 'function') requestRenderFrames(24);
       if (typeof updateViewportSize === 'function' && !isRecording) updateViewportSize();
       if (typeof updateHudOffset === 'function') updateHudOffset();
       if (typeof updateDockAutoHide === 'function') updateDockAutoHide();
+      requestAnimationFrame(() => {
+        if (typeof updateViewportSize === 'function' && !isRecording) updateViewportSize();
+        if (typeof updateHudOffset === 'function') updateHudOffset();
+      });
       setTimeout(() => {
+        if (typeof requestRenderFrames === 'function') requestRenderFrames(18);
         if (typeof updateViewportSize === 'function' && !isRecording) updateViewportSize();
         if (typeof updateHudOffset === 'function') updateHudOffset();
       }, 150);
@@ -12477,9 +13097,18 @@
       });
     });
 
-    // Toggle Panel Kiri & Kanan
+    // Toggle Panel Kiri & Kanan (saling eksklusif di mobile < 640px agar tidak bertumpuk)
     const leftControlPanel = document.getElementById('left-control-panel');
     document.getElementById('btn-toggle-controls').addEventListener('click', () => {
+      const willOpen = leftControlPanel.classList.contains('hidden');
+      if (willOpen) {
+        if (window.innerWidth < 640) {
+          telemetryDrawer.classList.add('hidden');
+          setQuickRecPanel(false);
+          setFollowCamPopup(false);
+        }
+        if (window.innerHeight <= 500) closeNasaTimeBar(true);
+      }
       leftControlPanel.classList.toggle('hidden');
     });
     document.getElementById('btn-close-controls').addEventListener('click', () => {
@@ -12487,6 +13116,15 @@
     });
 
     document.getElementById('btn-toggle-drawer').addEventListener('click', () => {
+      const willOpen = telemetryDrawer.classList.contains('hidden');
+      if (willOpen) {
+        if (window.innerWidth < 640) {
+          leftControlPanel.classList.add('hidden');
+          setQuickRecPanel(false);
+          setFollowCamPopup(false);
+        }
+        if (window.innerHeight <= 500) closeNasaTimeBar(true);
+      }
       telemetryDrawer.classList.toggle('hidden');
     });
     document.getElementById('btn-close-drawer').addEventListener('click', () => {
@@ -12578,16 +13216,35 @@
         }
       }
 
-      // Mobile (< 640px): tepat di atas panel navigasi bawah agar mudah dijangkau ibu jari
-      const dockPanel = document.getElementById('bottom-dock-panel');
+      // Mobile (< 640px): hindari menimpa panel terbuka, FPS badge, tour banner, rasi, maupun kontrol waktu
       const dockHidden = document.body.classList.contains('dock-hidden');
-      let topPos = vh - bh - 18;
-      if (dockPanel && !dockHidden) {
-        const dRect = dockPanel.getBoundingClientRect();
-        if (dRect.height > 0 && dRect.top > bh + 16) {
-          topPos = dRect.top - bh - 8;
+      if (dockHidden) {
+        // Panel Kontrol / Telemetri terbuka: letakkan di pojok kanan bawah (berseberangan dengan FPS badge di kiri bawah)
+        const leftPos = Math.max(8, vw - bw - 12);
+        const topPos = Math.max(8, vh - bh - 12);
+        floatingRecBadge.style.left = `${leftPos}px`;
+        floatingRecBadge.style.top = `${topPos}px`;
+        return;
+      }
+
+      const bottomCandidates = [
+        document.getElementById('bottom-dock-panel'),
+        document.getElementById('nasa-time-bar'),
+        document.getElementById('constellation-nav-bar'),
+        document.getElementById('tour-banner'),
+        document.getElementById('fps-badge'),
+      ];
+      let highestTop = vh - 12;
+      for (let i = 0; i < bottomCandidates.length; i++) {
+        const el = bottomCandidates[i];
+        if (!el || el.classList.contains('hidden')) continue;
+        const r = el.getBoundingClientRect();
+        if (r.height > 0 && r.width > 0 && r.top < highestTop) {
+          highestTop = r.top;
         }
       }
+      const hudTopPx = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hud-top')) || 80;
+      const topPos = Math.max(hudTopPx + 4, highestTop - bh - 8);
       const leftPos = Math.max(8, (vw - bw) * 0.5);
       floatingRecBadge.style.left = `${leftPos}px`;
       floatingRecBadge.style.top = `${Math.max(8, topPos)}px`;
@@ -12648,6 +13305,7 @@
       floatingRecBadge.addEventListener('pointercancel', endDrag);
     })();
 
+    let _lastViewportKey = '';
     function updateViewportSize() {
       // Ukuran diambil dari kontainer (fixed inset:0) agar kanvas selalu pas penuh,
       // tidak terpengaruh 100vh yang lebih tinggi dari area terlihat di browser mobile
@@ -12690,6 +13348,14 @@
         renderer.domElement.classList.remove('framed-canvas');
       }
 
+      const vpKey = `${renderW}x${renderH}@${dpr.toFixed(3)}|${cssW}x${cssH}|${recordAspect}`;
+      if (vpKey === _lastViewportKey) {
+        const rectSame = renderer.domElement.getBoundingClientRect();
+        canvasRect = { left: rectSame.left, top: rectSame.top, width: rectSame.width, height: rectSame.height };
+        return;
+      }
+      _lastViewportKey = vpKey;
+
       renderer.setPixelRatio(dpr);
       renderer.setSize(renderW, renderH, false);
       renderer.domElement.style.width = `${cssW}px`;
@@ -12712,6 +13378,14 @@
 
       const rect = renderer.domElement.getBoundingClientRect();
       canvasRect = { left: rect.left, top: rect.top, width: rect.width, height: rect.height };
+
+      // Render sinkron 1 frame segera setelah setSize() agar tidak pernah ada jeda blackscreen saat Pause / keluar Fullscreen
+      if (typeof beltsInitialized !== 'undefined' && beltsInitialized) {
+        composer.render();
+      }
+      if (typeof requestRenderFrames === 'function') {
+        requestRenderFrames(18);
+      }
     }
 
     function setRecordAspectMode(aspect) {
@@ -13003,7 +13677,15 @@
     const quickRecLabel = document.getElementById('quick-rec-label');
     const quickRecPanel = document.getElementById('quick-rec-panel');
     function setQuickRecPanel(open) {
-      if (open) updateHudOffset();
+      if (open) {
+        updateHudOffset();
+        if (window.innerWidth < 640) {
+          leftControlPanel.classList.add('hidden');
+          telemetryDrawer.classList.add('hidden');
+          setFollowCamPopup(false);
+        }
+        if (window.innerHeight <= 500) closeNasaTimeBar(true);
+      }
       quickRecPanel.classList.toggle('hidden', !open);
       quickRecPanel.classList.toggle('flex', open);
       btnQuickRec.classList.toggle('rec-active', open || isRecording);
@@ -13116,6 +13798,9 @@
       btnToggleSatOrbits.classList.remove('active');
       btnToggleSatOrbits.style.opacity = '0.42';
       satelliteOrbitLines.forEach((l) => (l.visible = false));
+
+      state.showEarthBorders = false;
+      if (typeof syncEarthBordersToggleUI === 'function') syncEarthBordersToggleUI();
 
       // Reset lapisan populasi ke aktif & garis orbit default hanya Planet + Satelit
       const defaultOffOrbits = new Set(['tnoOrbits', 'asteroidOrbits', 'cometOrbits', 'spacecraftOrbits']);
@@ -13267,6 +13952,10 @@
         selectConstellation(entry.id);
       } else {
         selectBody(entry.id);
+        if (window.innerWidth < 640) {
+          leftControlPanel.classList.add('hidden');
+          setQuickRecPanel(false);
+        }
         telemetryDrawer.classList.remove('hidden');
       }
     }
@@ -13489,9 +14178,108 @@
       }
     }
 
+    // Sinkronisasi posisi sudut orbit 8 planet (J2000), fase Bulan & rotasi siang-malam Bumi (UTC nyata) saat mode LIVE
+    const J2000_EPOCH_MS = Date.UTC(2000, 0, 1, 12, 0, 0);
+    const NEW_MOON_REF_MS = Date.UTC(2000, 0, 6, 18, 14, 0);
+    const J2000_PLANET_LON = {
+      mercury: { L0: 252.2509, rate: 4.09233445 },
+      venus:   { L0: 181.9798, rate: 1.60213034 },
+      earth:   { L0: 100.4664, rate: 0.98564736 },
+      mars:    { L0: 355.4330, rate: 0.52403295 },
+      jupiter: { L0:  34.3515, rate: 0.08309121 },
+      saturn:  { L0:  50.0774, rate: 0.03345965 },
+      uranus:  { L0: 314.0550, rate: 0.01173129 },
+      neptune: { L0: 304.3487, rate: 0.00598103 },
+    };
+
+    const liveSyncTransition = {
+      active: false,
+      progress: 0,
+      duration: 1.35,
+      planetItems: [],
+      earthStartRotY: 0,
+      earthDeltaRotY: 0,
+      earthCloudDelta: 0,
+      moonItem: null,
+    };
+    const _liveEndEarthPos = new THREE.Vector3();
+
+    function shortestAngleDelta(fromAng, toAng) {
+      const twoPi = Math.PI * 2;
+      return (((toAng - fromAng) % twoPi) + Math.PI * 3) % twoPi - Math.PI;
+    }
+
+    function syncLivePositionsToRealTime(nowMs = Date.now()) {
+      const daysSinceJ2000 = (nowMs - J2000_EPOCH_MS) / 86400000;
+      const planetItems = [];
+      let earthEndM = 0;
+
+      // 1. Hitung jalur sudut terdekat untuk ke-8 planet menuju bujur ekliptika J2000 hari ini
+      // (+90° menyelaraskan sumbu +X dengan Solstis Juni agar kemiringan sumbu Bumi 23,44° sesuai musim nyata)
+      for (let i = 0; i < planetEntities.length; i++) {
+        const p = planetEntities[i];
+        const d = p.data;
+        const j2k = J2000_PLANET_LON[d.id];
+        if (!j2k) continue;
+        const lonDeg = (j2k.L0 + j2k.rate * daysSinceJ2000 + 90.0) % 360.0;
+        const targetM = THREE.MathUtils.degToRad(lonDeg - (d.omega || 0) - (d.ascNode || 0));
+        const curM = p.phase + state.planetSimTime * d.orbitSpeed;
+        const deltaM = shortestAngleDelta(curM, targetM);
+        planetItems.push({ entity: p, startPhase: p.phase, deltaPhase: deltaM });
+        if (d.id === 'earth') earthEndM = curM + deltaM;
+      }
+
+      liveSyncTransition.planetItems = planetItems;
+      liveSyncTransition.moonItem = null;
+
+      // 2. Hitung sudut rotasi siang-malam Bumi (UTC nyata) pada posisi akhir orbit Bumi
+      if (earthEntity) {
+        const ed = earthEntity.data;
+        computeOrbitalPosition(ed.orbitRadius, ed.eccentricity, ed.inclination, ed.omega, earthEndM, _liveEndEarthPos, ed.ascNode || 0);
+        const toSunLocal = new THREE.Vector3(-_liveEndEarthPos.x, -_liveEndEarthPos.y, -_liveEndEarthPos.z).normalize();
+        const invTilt = earthEntity.tiltGroup.quaternion.clone().invert();
+        const toSunEq = toSunLocal.clone().applyQuaternion(invTilt);
+        const sunAzEq = Math.atan2(-toSunEq.z, toSunEq.x);
+
+        const nowDate = new Date(nowMs);
+        const utcHours =
+          nowDate.getUTCHours() +
+          nowDate.getUTCMinutes() / 60 +
+          nowDate.getUTCSeconds() / 3600 +
+          nowDate.getUTCMilliseconds() / 3600000;
+        // Pada 12:00 UTC bujur 0° (Greenwich) menghadap Matahari; pada 05:00 UTC (12:00 WIB) bujur +105°E menghadap Matahari
+        const subsolarLonRad = (12.0 - utcHours) * (Math.PI / 12.0);
+        const targetRotY = sunAzEq - subsolarLonRad;
+        liveSyncTransition.earthStartRotY = earthEntity.mesh.rotation.y;
+        liveSyncTransition.earthDeltaRotY = shortestAngleDelta(earthEntity.mesh.rotation.y, targetRotY);
+        liveSyncTransition.earthCloudDelta = globalEarthCloudDeltaUniform.value;
+
+        // 3. Hitung jalur sudut terdekat fase orbit Bulan terhadap garis Bumi–Matahari
+        const synodicMonth = 29.530588853;
+        const lunarAge = (((nowMs - NEW_MOON_REF_MS) / 86400000) % synodicMonth + synodicMonth) % synodicMonth;
+        const lunarPhaseAngle = (lunarAge / synodicMonth) * Math.PI * 2;
+        const earthSunAz = Math.atan2(_liveEndEarthPos.z, -_liveEndEarthPos.x);
+        for (let i = 0; i < moonEntities.length; i++) {
+          const m = moonEntities[i];
+          if (m.data.id === 'moon') {
+            const targetMoonM = earthSunAz + lunarPhaseAngle - THREE.MathUtils.degToRad(m.omega || 0);
+            const curMoonM = m.phase + state.simTime * m.data.orbitSpeed;
+            const deltaMoonM = shortestAngleDelta(curMoonM, targetMoonM);
+            liveSyncTransition.moonItem = { entity: m, startPhase: m.phase, deltaPhase: deltaMoonM };
+            break;
+          }
+        }
+      }
+
+      liveSyncTransition.progress = 0;
+      liveSyncTransition.active = true;
+      if (typeof requestRenderFrames === 'function') requestRenderFrames(90);
+    }
+
     function setSimulationTimeScale(val, fromLive = false) {
       state.isLiveRate = fromLive;
       if (!fromLive) {
+        liveSyncTransition.active = false;
         const clamped = Math.max(-40, Math.min(40, Math.round(val * 2) / 2));
         state.timeScale = clamped;
         if (speedSlider) {
@@ -13509,6 +14297,7 @@
           syncSliderFill(speedSlider);
         }
         if (speedValue) speedValue.textContent = 'LIVE';
+        syncLivePositionsToRealTime(BASE_EPOCH_MS);
       }
       if (!state.isPlaying) togglePlayPause();
       else syncNasaTimeControlsUI();
@@ -13902,6 +14691,7 @@
         isRecording ||
         modeTransition.active ||
         cameraTransition.active ||
+        liveSyncTransition.active ||
         state.autoTour ||
         !beltsInitialized ||
         freeCamMoving;
@@ -14094,14 +14884,40 @@
         sunMesh.rotation.y += sunRotDelta;
       }
       if (sunCoronaSprite) {
-        if (state.isPlaying) {
-          const pulse = 73.5 + Math.sin(sunProminenceUniforms ? sunProminenceUniforms.uTime.value * 1.4 : 0) * 1.6;
-          sunCoronaSprite.scale.set(pulse, pulse, 1);
-          if (sunCoronaSprite.material && sunCoronaSprite.material.uniforms) {
-            sunCoronaSprite.material.uniforms.uTime.value += dt;
+        if (state.isPlaying && sunCoronaSprite.material && sunCoronaSprite.material.uniforms) {
+          sunCoronaSprite.material.uniforms.uTime.value += dt;
+        }
+        // Selaraskan billboard korona terhadap rotasi solarSystemGroup agar selalu tegak lurus kamera di semua 3 mode
+        sunCoronaSprite.quaternion.copy(solarSystemGroup.quaternion).invert().multiply(camera.quaternion);
+      }
+
+      // 1B. Transisi mulus (quintic smootherstep) saat menyelaraskan posisi planet, rotasi Bumi & fase Bulan ke mode LIVE
+      if (liveSyncTransition.active) {
+        liveSyncTransition.progress = Math.min(1, liveSyncTransition.progress + dt / liveSyncTransition.duration);
+        const lt = liveSyncTransition.progress;
+        const lEase = lt * lt * lt * (lt * (lt * 6 - 15) + 10);
+        for (let i = 0; i < liveSyncTransition.planetItems.length; i++) {
+          const item = liveSyncTransition.planetItems[i];
+          item.entity.phase = item.startPhase + item.deltaPhase * lEase;
+        }
+        if (liveSyncTransition.moonItem) {
+          const mi = liveSyncTransition.moonItem;
+          mi.entity.phase = mi.startPhase + mi.deltaPhase * lEase;
+        }
+        if (earthEntity) {
+          const rotY = liveSyncTransition.earthStartRotY + liveSyncTransition.earthDeltaRotY * lEase;
+          earthEntity.mesh.rotation.y = rotY;
+          if (earthEntity.cloudMesh) {
+            earthEntity.cloudMesh.rotation.y = rotY + liveSyncTransition.earthCloudDelta;
+            globalEarthCloudDeltaUniform.value = liveSyncTransition.earthCloudDelta;
           }
         }
-        sunCoronaSprite.quaternion.copy(camera.quaternion);
+        if (liveSyncTransition.progress >= 1) {
+          liveSyncTransition.active = false;
+          if ((state.mode === 'helical' || state.mode === 'galaxy') && typeof preseedHelicalTrails === 'function') {
+            preseedHelicalTrails();
+          }
+        }
       }
 
       // 2. Perbarui Posisi & Rotasi 8 Planet Utama + 10 Planet Katai + Asteroid + Komet
@@ -14110,6 +14926,8 @@
         const d = p.data;
         const M = p.phase + state.planetSimTime * d.orbitSpeed;
         computeOrbitalPosition(d.orbitRadius, d.eccentricity, d.inclination, d.omega, M, p.pivot.position, d.ascNode || 0);
+
+        if (liveSyncTransition.active && d.id === 'earth') continue;
 
         let rotDelta = (d.rotationSpeed || 0.2) * effectiveDt;
         if (state.isLiveRate && state.isPlaying) {
@@ -14123,6 +14941,24 @@
           if (d.id === 'earth') {
             globalEarthCloudDeltaUniform.value = p.cloudMesh.rotation.y - p.mesh.rotation.y;
           }
+        }
+      }
+
+      // 2A. LOD Adaptif khusus Bumi (Awan 3D + Siklon Tropis, Aurora Kutub & Batas Negara Vektor hanya aktif penuh saat dekat Bumi)
+      if (earthEntity) {
+        earthEntity.pivot.getWorldPosition(tempVec);
+        const camDistEarth = camera.position.distanceTo(tempVec);
+        const earthDetailLod = THREE.MathUtils.clamp(1.0 - (camDistEarth - 22.0) / 22.0, 0.0, 1.0);
+        if (earthCloudUniforms) earthCloudUniforms.uDetailMix.value = earthDetailLod;
+        if (earthAuroraUniforms && earthAuroraGroup) {
+          earthAuroraUniforms.uFade.value = earthDetailLod;
+          earthAuroraGroup.visible = state.layers.planets && earthDetailLod > 0.01;
+        }
+        if (earthBordersGroup) {
+          const borderFade = THREE.MathUtils.clamp(1.0 - (camDistEarth - 28.0) / 28.0, 0.0, 1.0);
+          const showB = !!state.showEarthBorders && state.layers.planets && borderFade > 0.02;
+          earthBordersGroup.visible = showB;
+          if (earthBordersMat && showB) earthBordersMat.opacity = 0.36 * borderFade;
         }
       }
 
@@ -14497,7 +15333,13 @@
         const targetNear = camDistToTarget < 10.0
           ? Math.max(0.03, Math.min(DEFAULT_CAMERA_NEAR, camDistToTarget * 0.08))
           : DEFAULT_CAMERA_NEAR;
-        setCameraNearPlane(targetNear);
+        // Haluskan perubahan near plane agar tidak terjadi loncatan/kedipan depth buffer saat pindah planet
+        const nextNear = Math.abs(camera.near - targetNear) > 0.005
+          ? THREE.MathUtils.lerp(camera.near, targetNear, Math.min(1, dt * 10.0))
+          : targetNear;
+        if (Math.abs(camera.near - nextNear) > 0.002) {
+          setCameraNearPlane(nextNear);
+        }
       }
 
       // 9. Proyeksi Label 2D di Layar (presisi mengikuti bingkai kanvas 16:9 / 9:16 / Penuh)
@@ -14698,11 +15540,11 @@
     // =========================================================================
     // 13. INISIALISASI & PELUNCURAN SIMULASI
     // =========================================================================
-    // Auto-hide dock navigasi bawah di HP selama panel Kontrol atau Telemetri terbuka
+    // Auto-hide dock navigasi bawah di HP (portrait & landscape) selama panel Kontrol atau Telemetri terbuka
     function updateDockAutoHide() {
-      const isSmall = window.innerWidth < 640;
+      const isCompact = window.innerWidth < 640 || window.innerHeight <= 500;
       const panelOpen = !leftControlPanel.classList.contains('hidden') || !telemetryDrawer.classList.contains('hidden');
-      document.body.classList.toggle('dock-hidden', isSmall && panelOpen);
+      document.body.classList.toggle('dock-hidden', isCompact && panelOpen);
       document.getElementById('btn-toggle-controls').classList.toggle('is-on', !leftControlPanel.classList.contains('hidden'));
       document.getElementById('btn-toggle-drawer').classList.toggle('is-on', !telemetryDrawer.classList.contains('hidden'));
       if (typeof positionFpsBadge === 'function') positionFpsBadge();
@@ -14804,8 +15646,9 @@
       const leftBottom = topHudLeftEl ? Math.ceil(topHudLeftEl.getBoundingClientRect().bottom) : fullBottom;
       const rightBottom = topHudActionsEl ? Math.ceil(topHudActionsEl.getBoundingClientRect().bottom) : fullBottom;
       const isDesktop = window.innerWidth >= 640;
-      const leftTop = isDesktop ? Math.max(80, leftBottom + 10) : Math.max(80, fullBottom + 10);
-      const rightTop = isDesktop ? Math.max(54, rightBottom + 10) : Math.max(80, fullBottom + 10);
+      const isShort = window.innerHeight <= 500;
+      const leftTop = isDesktop ? Math.max(isShort ? 48 : 80, leftBottom + 8) : Math.max(80, fullBottom + 10);
+      const rightTop = isDesktop ? Math.max(isShort ? 48 : 54, rightBottom + 8) : Math.max(80, fullBottom + 10);
       document.documentElement.style.setProperty('--hud-top', `${leftTop}px`);
       document.documentElement.style.setProperty('--hud-right-top', `${rightTop}px`);
       positionFpsBadge();
@@ -14822,6 +15665,12 @@
           positionFpsBadge();
           if (typeof positionFloatingRecBadge === 'function') positionFloatingRecBadge();
         }).observe(dockPanelEl);
+      }
+      const bottomHudEl = document.getElementById('bottom-hud');
+      if (bottomHudEl) {
+        new ResizeObserver(() => {
+          if (typeof positionFloatingRecBadge === 'function') positionFloatingRecBadge();
+        }).observe(bottomHudEl);
       }
 
     }
@@ -15005,6 +15854,8 @@
       if (btnCloseDrw) btnCloseDrw.setAttribute('aria-label', uiStr('closePanelAria'));
       const moonsHdr = document.querySelector('#moons-section h3 span');
       if (moonsHdr) moonsHdr.textContent = uiStr('moonsHeading');
+      const earthBordersLblEl = document.getElementById('earth-borders-label');
+      if (earthBordersLblEl) earthBordersLblEl.textContent = uiStr('earthBordersLbl');
 
       // Follow Cam Bar & Popup
       if (btnFollowCamToggle) btnFollowCamToggle.title = uiStr('followToggleTitle');
@@ -15193,6 +16044,8 @@
         createSun();
 
         await buildPlanetsAndMoons(setStatus);
+        // Muat batas negara vektor & pertajam benua Bumi secara asinkron di latar belakang (0 ms penundaan startup)
+        loadHybridEarthVectorAtlas();
 
         setStatus(uiStr('loadStepBelts'));
         await yieldToBrowser();
