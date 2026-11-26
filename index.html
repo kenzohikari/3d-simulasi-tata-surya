@@ -220,16 +220,30 @@
       box-shadow: 0 0 14px rgba(244, 63, 94, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.22);
     }
 
-    /* Indikator FPS & Frametime (diposisikan dinamis agar tidak pernah menumpuk dengan dock bawah) */
+    /* Indikator FPS & Frametime (terintegrasi di atas dock pada mobile, pojok kiri bawah pada desktop) */
     #fps-badge {
-      position: fixed;
-      left: 1rem;
-      bottom: 1rem;
-      min-width: 122px;
+      position: relative;
+      align-self: flex-start;
+      min-width: 118px;
       justify-content: center;
       z-index: 30;
       pointer-events: none;
-      transition: left 0.25s ease, bottom 0.25s ease, opacity 0.38s cubic-bezier(0.16, 1, 0.3, 1), transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: opacity 0.38s cubic-bezier(0.16, 1, 0.3, 1), transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @media (min-width: 640px) {
+      #fps-badge {
+        position: fixed;
+        left: 1rem;
+        bottom: 1rem;
+        align-self: auto;
+      }
+    }
+    @media (max-width: 639px) {
+      body.dock-hidden #fps-badge {
+        position: fixed;
+        left: 0.75rem;
+        bottom: 0.75rem;
+      }
     }
 
     /* Auto-hide dock bawah di HP saat panel Kontrol / Telemetri terbuka */
@@ -1152,19 +1166,6 @@
   <!-- Kanvas Utama Three.js -->
   <div id="canvas-container"></div>
 
-  <!-- Indikator FPS & Frametime Pojok Kiri Bawah -->
-  <div
-    id="fps-badge"
-    class="hud-element nasa-float-pill px-2.5 py-1 rounded-full flex items-center gap-1.5 text-[11px] font-mono select-none"
-    aria-label="Frame per detik dan frametime"
-  >
-    <span id="fps-dot" class="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></span>
-    <span id="fps-value" class="font-bold text-white tabular-nums">60</span>
-    <span id="fps-unit" class="text-[10px] font-semibold text-slate-300 tracking-wide">FPS</span>
-    <span id="fps-sep" class="text-slate-500">•</span>
-    <span id="frametime-value" class="text-[10.5px] font-medium text-slate-300 tabular-nums">16.7 ms</span>
-  </div>
-
   <!-- Lapisan Label Objek Langit 2D Terproyeksi -->
   <div id="labels-layer"></div>
 
@@ -1458,7 +1459,15 @@
     <div class="space-y-1.5">
       <div class="flex items-center justify-between text-xs">
         <span class="text-slate-400">Kecepatan Waktu</span>
-        <span id="speed-value" class="font-mono font-semibold text-[#7cc0ff]">0.0x</span>
+        <div class="flex items-center gap-1.5">
+          <span id="speed-value" class="font-mono font-semibold text-[#7cc0ff]">0.0x</span>
+          <button
+            id="btn-reset-speed"
+            type="button"
+            title="Reset Kecepatan Waktu ke 0.0x"
+            class="px-2 py-0.5 rounded-full bg-slate-800/85 hover:bg-[#0a84ff]/28 border border-slate-700/80 hover:border-[#409cff]/60 text-[10px] font-mono font-semibold text-slate-300 hover:text-white opacity-50 transition cursor-pointer"
+          >Reset</button>
+        </div>
       </div>
       <div class="flex items-center gap-2">
         <button
@@ -1696,8 +1705,20 @@
     </div>
   </aside>
 
-  <!-- DOCK BAWAH: Banner Tur + Bilah Sudut Kamera + Navigasi Kategori & Satelit -->
+  <!-- DOCK BAWAH: Indikator FPS + Banner Tur + Bilah Sudut Kamera + Navigasi Kategori & Satelit -->
   <footer id="bottom-hud" class="hud-element fixed bottom-0 left-0 right-0 z-20 p-2.5 sm:p-3.5 pointer-events-none flex flex-col items-center gap-2">
+    <!-- Indikator FPS & Frametime -->
+    <div
+      id="fps-badge"
+      class="nasa-float-pill px-2.5 py-1 rounded-full flex items-center gap-1.5 text-[11px] font-mono select-none"
+      aria-label="Frame per detik dan frametime"
+    >
+      <span id="fps-dot" class="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></span>
+      <span id="fps-value" class="font-bold text-white tabular-nums">60</span>
+      <span id="fps-unit" class="text-[10px] font-semibold text-slate-300 tracking-wide">FPS</span>
+      <span id="fps-sep" class="text-slate-500">•</span>
+      <span id="frametime-value" class="text-[10.5px] font-medium text-slate-300 tabular-nums">16.7 ms</span>
+    </div>
     <!-- BANNER CAPTION TUR SINEMATIK OTOMATIS -->
     <div
       id="tour-banner"
@@ -2026,7 +2047,7 @@
         <div class="space-y-2">
           <div class="text-[10px] font-mono uppercase tracking-wider text-sky-300 flex items-center gap-1.5">
             <span class="w-1.5 h-1.5 rounded-full bg-[#0a84ff]"></span>
-            Kontrol Orbit Normal (Mouse &amp; Layar Sentuh)
+            Kontrol Kamera (Mouse, Trackpad &amp; Layar Sentuh)
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
             <div class="rounded-xl bg-slate-900/70 border border-slate-800/80 px-3 py-2 flex items-center justify-between gap-2">
@@ -2034,12 +2055,12 @@
               <span class="font-mono text-[10px] text-sky-200">Klik Kiri / 1 Jari</span>
             </div>
             <div class="rounded-xl bg-slate-900/70 border border-slate-800/80 px-3 py-2 flex items-center justify-between gap-2">
-              <span class="text-slate-300">Zoom Dekat / Jauh</span>
-              <span class="font-mono text-[10px] text-sky-200">Scroll / Cubit 2 Jari</span>
+              <span class="text-slate-300">Zoom Cerdas</span>
+              <span class="font-mono text-[10px] text-sky-200">Double Klik/Tap • Scroll</span>
             </div>
             <div class="rounded-xl bg-slate-900/70 border border-slate-800/80 px-3 py-2 flex items-center justify-between gap-2">
-              <span class="text-slate-300">Geser Posisi (Pan)</span>
-              <span class="font-mono text-[10px] text-sky-200">Klik Kanan / 2 Jari</span>
+              <span class="text-slate-300">Geser Bebas (Pan)</span>
+              <span class="font-mono text-[10px] text-sky-200">Shift/Spasi+Klik • 2 Jari</span>
             </div>
             <div class="rounded-xl bg-slate-900/70 border border-slate-800/80 px-3 py-2 flex items-center justify-between gap-2">
               <span class="text-slate-300">Info Planet &amp; Rasi</span>
@@ -2048,24 +2069,24 @@
           </div>
         </div>
 
-        <!-- Bagian 2: Mode Free Cam & Eksplorasi Rasi Bintang -->
+        <!-- Bagian 2: Terbang Bebas Keyboard & Eksplorasi Rasi Bintang -->
         <div class="space-y-2 pt-2 border-t border-slate-800/80">
           <div class="text-[10px] font-mono uppercase tracking-wider text-emerald-300 flex items-center gap-1.5">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-            Mode Free Cam (G) &amp; Rasi Bintang
+            Navigasi Keyboard &amp; Mode Free Cam (G)
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
             <div class="rounded-xl bg-slate-900/70 border border-slate-800/80 px-3 py-2 flex items-center justify-between gap-2">
-              <span class="text-slate-300">Geser Bebas (Free Cam)</span>
-              <span class="font-mono text-[10px] text-emerald-200">Klik Kiri / 1 Jari</span>
-            </div>
-            <div class="rounded-xl bg-slate-900/70 border border-slate-800/80 px-3 py-2 flex items-center justify-between gap-2">
-              <span class="text-slate-300">Putar Sudut (Free Cam)</span>
-              <span class="font-mono text-[10px] text-emerald-200">Klik Kanan / 2 Jari</span>
-            </div>
-            <div class="rounded-xl bg-slate-900/70 border border-slate-800/80 px-3 py-2 flex items-center justify-between gap-2">
-              <span class="text-slate-300">Terbang Bebas</span>
+              <span class="text-slate-300">Terbang &amp; Geser Bebas</span>
               <span class="font-mono text-[10px] text-emerald-200">WASD / Panah + Q/E</span>
+            </div>
+            <div class="rounded-xl bg-slate-900/70 border border-slate-800/80 px-3 py-2 flex items-center justify-between gap-2">
+              <span class="text-slate-300">Akselerasi Cepat (2,5×)</span>
+              <span class="font-mono text-[10px] text-emerald-200">Tahan Shift + WASD</span>
+            </div>
+            <div class="rounded-xl bg-slate-900/70 border border-slate-800/80 px-3 py-2 flex items-center justify-between gap-2">
+              <span class="text-slate-300">Geser 1 Jari / Klik Kiri</span>
+              <span class="font-mono text-[10px] text-emerald-200">Mode Free Cam (G)</span>
             </div>
             <div class="rounded-xl bg-slate-900/70 border border-slate-800/80 px-3 py-2 flex items-center justify-between gap-2">
               <span class="text-slate-300">Ganti / Keluar Rasi</span>
@@ -2073,7 +2094,7 @@
             </div>
           </div>
           <p class="text-[11px] text-slate-400 leading-relaxed">
-            Aktifkan tombol <strong class="text-sky-200">Free Cam</strong> di kanan atas agar bisa menggeser kamera tanpa menahan klik kanan. Klik label <strong class="text-sky-200">Rasi Bintang</strong> di langit (Mode Heliosentris &amp; Heliks) untuk melihat data astronominya.
+            Setelah <strong class="text-sky-200">Release (Esc)</strong>, tombol <strong class="text-sky-200">WASD / Panah</strong> langsung aktif untuk terbang bebas tanpa perlu menyalakan Free Cam. Tahan <strong class="text-sky-200">Shift</strong> atau <strong class="text-sky-200">Spasi + Klik Kiri</strong> (atau Klik Tengah) untuk menggeser kamera kapan saja.
           </p>
         </div>
 
@@ -2105,8 +2126,8 @@
               <kbd class="font-mono text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-[#cfe6ff] border border-slate-700">1 – 6</kbd>
             </div>
             <div class="rounded-xl bg-slate-900/70 border border-slate-800/80 px-3 py-1.5 flex items-center justify-between">
-              <span class="text-slate-300">Next / Prev Rasi Bintang</span>
-              <kbd class="font-mono text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-sky-200 border border-slate-700">← / →</kbd>
+              <span class="text-slate-300">Pusatkan Tanpa Reset Zoom</span>
+              <kbd class="font-mono text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-sky-200 border border-slate-700">C / Home</kbd>
             </div>
             <div class="rounded-xl bg-slate-900/70 border border-slate-800/80 px-3 py-1.5 flex items-center justify-between">
               <span class="text-slate-300">Lepas Fokus / Exit Rasi</span>
@@ -5758,7 +5779,8 @@
     controls.dampingFactor = 0.055;
     controls.rotateSpeed = 0.72;
     controls.zoomSpeed = 0.95;
-    controls.panSpeed = 0.75;
+    controls.panSpeed = 0.85;
+    controls.mouseButtons.MIDDLE = THREE.MOUSE.PAN;
     controls.minDistance = 0.22;
     controls.maxDistance = 1850;
 
@@ -7032,6 +7054,7 @@
       const { isMoon = false, isTrojan = false, isDwarf = false, isComet = false, isSpacecraft = false } = options;
       const el = document.createElement('div');
       el.className = `celestial-label${isMoon ? ' is-moon' : ''}${isTrojan ? ' is-trojan' : ''}${isDwarf ? ' is-dwarf' : ''}${isComet ? ' is-comet' : ''}${isSpacecraft ? ' is-spacecraft' : ''}`;
+      el.dataset.bodyId = item.id;
       el.innerHTML = `<span class="label-dot" style="background:${item.color}"></span><span>${item.navLabel || item.name}</span>`;
       el._onTap = () => { stopAutoTour(); selectBody(item.id); if (window.innerWidth >= 640) telemetryDrawer.classList.remove('hidden'); };
       labelsLayer.appendChild(el);
@@ -10087,8 +10110,11 @@
       document.querySelectorAll('.cam-view-btn').forEach((btn) => {
         btn.classList.toggle('active', btn.dataset.camview === viewPreset);
       });
-      // Tampilkan panel kontrol waktu gaya NASA di bawah saat fokus/klik objek
-      openNasaTimeBar(false);
+      // Tampilkan panel kontrol waktu gaya NASA di bawah saat fokus/klik objek (kecuali mobile non-desktop-site agar layar tetap lega)
+      const isMobileNonDesktop = isMobileDevice && Math.max(window.innerWidth, window.innerHeight) < 900;
+      if (!isMobileNonDesktop) {
+        openNasaTimeBar(false);
+      }
     }
 
     function hideFollowCamBar() {
@@ -11308,6 +11334,111 @@
     let gestureWasMulti = false;
     let gestureActive = false;
     let pointerDownLabel = null;
+    let lastTapTime = 0;
+    let lastTapPos = { x: 0, y: 0 };
+    const _dblPlane = new THREE.Plane();
+    const _dblPlaneNormal = new THREE.Vector3();
+    const _dblPlaneOrigin = new THREE.Vector3();
+    const _dblHitPoint = new THREE.Vector3();
+
+    function handleSmartDoubleZoom(clientX, clientY, labelEl, bodyId, gId) {
+      stopAutoTour();
+      if (state.selectedConstellationIdx !== -1) exitConstellationMode(false);
+
+      // 1. Double-tap pada objek / label yang sudah difokuskan -> Zoom In lebih dekat ke permukaan
+      if (state.mode === 'galaxy' && gId) {
+        if (!state.isOverview && state.selectedGalaxyId === gId) {
+          const offset = camera.position.clone().sub(controls.target);
+          const curDist = offset.length();
+          const nextDist = Math.max(controls.minDistance * 1.25, curDist * 0.44);
+          offset.setLength(nextDist);
+          const gItem = galaxyRegistry.get(gId);
+          if (gItem) {
+            gItem.getWorldPos(currTargetWorldPos);
+            cameraTransition.active = true;
+            cameraTransition.progress = 0;
+            cameraTransition.duration = 0.65;
+            cameraTransition.startCamPos.copy(camera.position);
+            cameraTransition.startTarget.copy(controls.target);
+            cameraTransition.desiredOffset.copy(offset);
+            cameraTransition.desiredTargetOffset.set(0, 0, 0);
+          }
+        } else {
+          selectGalaxyObject(gId);
+        }
+        return;
+      }
+
+      if (bodyId) {
+        if (!state.isOverview && state.selectedId === bodyId) {
+          const item = registry.get(bodyId);
+          if (item) {
+            item.getWorldPos(currTargetWorldPos);
+            const offset = camera.position.clone().sub(controls.target);
+            const curDist = offset.length();
+            const nextDist = Math.max(controls.minDistance * 1.2, curDist * 0.42);
+            offset.setLength(nextDist);
+            cameraTransition.active = true;
+            cameraTransition.progress = 0;
+            cameraTransition.duration = 0.65;
+            cameraTransition.startCamPos.copy(camera.position);
+            cameraTransition.startTarget.copy(controls.target);
+            cameraTransition.desiredOffset.copy(offset);
+            cameraTransition.desiredTargetOffset.set(0, 0, 0);
+          }
+        } else {
+          selectBody(bodyId);
+          if (window.innerWidth >= 640) telemetryDrawer.classList.remove('hidden');
+        }
+        return;
+      }
+
+      // 2. Double-tap pada ruang kosong -> Meluncur & Zoom In ke titik bidang orbit di bawah kursor/jari
+      if (!state.isOverview) {
+        releaseFollowObject();
+      }
+      const rect = renderer.domElement.getBoundingClientRect();
+      if (rect.width <= 0 || rect.height <= 0) return;
+      pointer.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+      pointer.y = -((clientY - rect.top) / rect.height) * 2 + 1;
+      raycaster.setFromCamera(pointer, camera);
+
+      if (state.mode === 'galaxy') {
+        _dblPlaneNormal.set(0, 1, 0);
+        _dblPlaneOrigin.set(0, 0, 0);
+      } else {
+        _dblPlaneNormal.set(0, 1, 0).applyQuaternion(solarSystemGroup.quaternion).normalize();
+        solarSystemGroup.getWorldPosition(_dblPlaneOrigin);
+      }
+      _dblPlane.setFromNormalAndCoplanarPoint(_dblPlaneNormal, _dblPlaneOrigin);
+
+      const curOffset = camera.position.clone().sub(controls.target);
+      const curDist = curOffset.length();
+      const nextDist = Math.max(controls.minDistance * 1.5, curDist * 0.48);
+      const hit = raycaster.ray.intersectPlane(_dblPlane, _dblHitPoint);
+
+      let nextTarget;
+      if (hit && _dblHitPoint.distanceTo(_dblPlaneOrigin) < (state.mode === 'galaxy' ? 2400 : 1600)) {
+        // Blend 75% ke titik klik agar terasa sangat responsif tanpa loncat ekstrem di sudut miring
+        nextTarget = controls.target.clone().lerp(_dblHitPoint, 0.78);
+      } else {
+        const fwd = new THREE.Vector3();
+        camera.getWorldDirection(fwd);
+        nextTarget = controls.target.clone().addScaledVector(fwd, curDist * 0.35);
+      }
+
+      const nextCamPos = nextTarget.clone().add(curOffset.setLength(nextDist));
+      state.isOverview = true;
+      hasPrevTargetPos = false;
+      cameraTransition.active = true;
+      cameraTransition.progress = 0;
+      cameraTransition.duration = 0.72;
+      cameraTransition.startCamPos.copy(camera.position);
+      cameraTransition.startTarget.copy(controls.target);
+      cameraTransition.desiredOffset.copy(nextCamPos);
+      cameraTransition.desiredTargetOffset.set(0, 0, 0);
+      cameraTransition.customTarget = nextTarget;
+    }
 
     function findLabelAt(clientX, clientY) {
       const pad = 6;
@@ -11326,6 +11457,7 @@
     }
 
     function handleScenePointerDown(e) {
+      if (spaceHeld) spaceDraggedWhileHeld = true;
       if (e.pointerType === 'mouse' && e.button !== 0) return;
       activePointerIds.add(e.pointerId);
       if (activePointerIds.size > 1) gestureWasMulti = true;
@@ -11373,10 +11505,20 @@
       const maxMove = isTouch ? 18 : 14;
       if (moveDist > maxMove || tapDuration > 650) return;
 
+      const nowTap = performance.now();
+      const isDoubleTap = (nowTap - lastTapTime) < 340 && Math.hypot(e.clientX - lastTapPos.x, e.clientY - lastTapPos.y) < 28;
+      lastTapTime = isDoubleTap ? 0 : nowTap;
+      lastTapPos.x = e.clientX;
+      lastTapPos.y = e.clientY;
+
       // 1. Jika pointerdown atau pointerup mengenai label objek (meski label bergerak mengikuti orbit)
       const labelEl = downLbl || findLabelAt(e.clientX, e.clientY);
       if (labelEl && labelEl._onTap) {
-        labelEl._onTap();
+        if (isDoubleTap && labelEl.dataset && labelEl.dataset.bodyId) {
+          handleSmartDoubleZoom(e.clientX, e.clientY, labelEl, labelEl.dataset.bodyId, null);
+        } else {
+          labelEl._onTap();
+        }
         return;
       }
 
@@ -11384,6 +11526,11 @@
       const pickedUp = pick3DObjectAt(e.clientX, e.clientY, isTouch);
       const gId = pickedUp.galaxyId || pointerDownHitGalaxyId;
       const bodyId = pickedUp.bodyId || pointerDownHitBodyId;
+
+      if (isDoubleTap) {
+        handleSmartDoubleZoom(e.clientX, e.clientY, null, bodyId, gId);
+        return;
+      }
 
       if (state.mode === 'galaxy' && gId) {
         stopAutoTour();
@@ -11580,7 +11727,18 @@
     });
 
     const btnFreeCam = document.getElementById('btn-free-cam');
-    const freeCamKeys = { w: false, a: false, s: false, d: false, q: false, e: false };
+    const freeCamKeys = { w: false, a: false, s: false, d: false, q: false, e: false, shift: false, zoomIn: false, zoomOut: false };
+    let spaceHeld = false;
+    let spaceDraggedWhileHeld = false;
+    let shiftPanHeld = false;
+
+    function syncTempModifierPan() {
+      if (state.freeCam) return;
+      const wantPan = spaceHeld || shiftPanHeld;
+      controls.screenSpacePanning = wantPan;
+      controls.mouseButtons.LEFT = wantPan ? THREE.MOUSE.PAN : THREE.MOUSE.ROTATE;
+      renderer.domElement.style.cursor = wantPan ? 'grab' : '';
+    }
 
     function setFreeCamMode(enabled) {
       state.freeCam = enabled;
@@ -11644,6 +11802,39 @@
     function triggerZoomOutAutoCenter() {
       stopAutoTour();
       resetToOverview();
+    }
+
+    function centerCameraPreserveZoom() {
+      stopAutoTour();
+      if (state.selectedConstellationIdx !== -1) exitConstellationMode(false);
+      if (state.mode === 'galaxy' && state.galaxyFollowSun) {
+        releaseSolarSystemInGalaxy();
+      }
+      if (!state.isOverview) {
+        releaseFollowObject();
+      }
+      apsisInspectBodyId = null;
+      updateApsisMarkersForSelection();
+
+      const centerDest = new THREE.Vector3(0, 0, 0);
+      if (state.mode !== 'galaxy' && sunMesh) {
+        sunMesh.getWorldPosition(centerDest);
+      }
+      const currentOffset = camera.position.clone().sub(controls.target);
+      if (currentOffset.lengthSq() < 1.0) {
+        currentOffset.set(0, 120, 240);
+      }
+
+      state.isOverview = true;
+      hasPrevTargetPos = false;
+      cameraTransition.active = true;
+      cameraTransition.progress = 0;
+      cameraTransition.duration = 0.85;
+      cameraTransition.startCamPos.copy(camera.position);
+      cameraTransition.startTarget.copy(controls.target);
+      cameraTransition.desiredOffset.copy(centerDest).add(currentOffset);
+      cameraTransition.desiredTargetOffset.set(0, 0, 0);
+      cameraTransition.customTarget = centerDest;
     }
     document.getElementById('btn-quick-zoom-in').addEventListener('click', zoomToInnerSolarSystem);
     document.getElementById('btn-bar-zoom-in').addEventListener('click', zoomToInnerSolarSystem);
@@ -12808,6 +12999,13 @@
         }
         positionShuttleKnob(normX);
       }
+      const btnResetSpeedEl = document.getElementById('btn-reset-speed');
+      if (btnResetSpeedEl) {
+        const isModified = state.isLiveRate || Math.abs(state.timeScale) > 0.01;
+        btnResetSpeedEl.classList.toggle('opacity-50', !isModified);
+        btnResetSpeedEl.classList.toggle('border-[#409cff]/55', isModified);
+        btnResetSpeedEl.classList.toggle('text-[#cfe6ff]', isModified);
+      }
     }
 
     function setSimulationTimeScale(val, fromLive = false) {
@@ -12849,6 +13047,12 @@
     if (btnCloseNasaTime && nasaTimeBar) {
       btnCloseNasaTime.addEventListener('click', () => {
         closeNasaTimeBar(true);
+      });
+    }
+    const btnResetSpeed = document.getElementById('btn-reset-speed');
+    if (btnResetSpeed) {
+      btnResetSpeed.addEventListener('click', () => {
+        setSimulationTimeScale(0.0, false);
       });
     }
     if (btnNasaLive) {
@@ -12974,8 +13178,24 @@
       }
     }
 
+    function resetNavKeys() {
+      freeCamKeys.w = freeCamKeys.a = freeCamKeys.s = freeCamKeys.d = false;
+      freeCamKeys.q = freeCamKeys.e = freeCamKeys.shift = false;
+      freeCamKeys.zoomIn = freeCamKeys.zoomOut = false;
+      spaceHeld = false;
+      spaceDraggedWhileHeld = false;
+      shiftPanHeld = false;
+      syncTempModifierPan();
+    }
+    window.addEventListener('blur', resetNavKeys);
+
     window.addEventListener('keydown', (e) => {
       if (e.target.tagName === 'INPUT') return;
+      if (e.key === 'Shift') {
+        freeCamKeys.shift = true;
+        shiftPanHeld = true;
+        syncTempModifierPan();
+      }
       if (e.key === '/' || ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K'))) {
         e.preventDefault();
         openSearchModal();
@@ -13003,19 +13223,29 @@
 
       if (e.code === 'Space') {
         e.preventDefault();
-        togglePlayPause();
+        if (!e.repeat && !spaceHeld) {
+          spaceHeld = true;
+          spaceDraggedWhileHeld = false;
+          syncTempModifierPan();
+        }
+        return;
       } else if (e.key === 'h' || e.key === 'H') {
         setCinematicHidden(!document.body.classList.contains('cinematic-hidden'));
       } else if (e.key === 'r' || e.key === 'R') {
         stopAutoTour();
         exitConstellationMode(false);
         resetToOverview();
+      } else if (e.key === 'c' || e.key === 'C' || e.key === 'Home') {
+        e.preventDefault();
+        centerCameraPreserveZoom();
       } else if (!state.freeCam && state.selectedConstellationIdx !== -1 && e.key === 'ArrowRight') {
         e.preventDefault();
         selectConstellation(state.selectedConstellationIdx + 1);
+        return;
       } else if (!state.freeCam && state.selectedConstellationIdx !== -1 && e.key === 'ArrowLeft') {
         e.preventDefault();
         selectConstellation(state.selectedConstellationIdx - 1);
+        return;
       } else if (e.key === 'v' || e.key === 'V') {
         toggleVideoRecording();
       } else if (e.key === 'l' || e.key === 'L') {
@@ -13034,18 +13264,43 @@
         applyCameraViewPreset(presets[parseInt(e.key, 10) - 1]);
       }
 
-      if (state.freeCam) {
-        const k = e.key.toLowerCase();
-        if (k === 'w' || e.key === 'ArrowUp') freeCamKeys.w = true;
-        if (k === 's' || e.key === 'ArrowDown') freeCamKeys.s = true;
-        if (k === 'a' || e.key === 'ArrowLeft') freeCamKeys.a = true;
-        if (k === 'd' || e.key === 'ArrowRight') freeCamKeys.d = true;
-        if (k === 'q') freeCamKeys.q = true;
-        if (k === 'e') freeCamKeys.e = true;
+      // Navigasi WASD / Panah / Q-E / +- langsung aktif saat mode bebas maupun setelah Release!
+      const k = e.key.toLowerCase();
+      let isNavKey = false;
+      if (k === 'w' || e.key === 'ArrowUp') { freeCamKeys.w = true; isNavKey = true; }
+      if (k === 's' || e.key === 'ArrowDown') { freeCamKeys.s = true; isNavKey = true; }
+      if (k === 'a' || e.key === 'ArrowLeft') { freeCamKeys.a = true; isNavKey = true; }
+      if (k === 'd' || e.key === 'ArrowRight') { freeCamKeys.d = true; isNavKey = true; }
+      if (k === 'q') { freeCamKeys.q = true; isNavKey = true; }
+      if (k === 'e') { freeCamKeys.e = true; isNavKey = true; }
+      if (e.key === '+' || e.key === '=') { freeCamKeys.zoomIn = true; isNavKey = true; }
+      if (e.key === '-' || e.key === '_') { freeCamKeys.zoomOut = true; isNavKey = true; }
+
+      if (isNavKey) {
+        if (e.key.startsWith('Arrow')) e.preventDefault();
+        if (!state.isOverview) {
+          releaseFollowObject();
+        }
+        cameraTransition.active = false;
       }
     });
 
     window.addEventListener('keyup', (e) => {
+      if (e.key === 'Shift') {
+        freeCamKeys.shift = false;
+        shiftPanHeld = false;
+        syncTempModifierPan();
+      }
+      if (e.code === 'Space') {
+        const shouldToggle = spaceHeld && !spaceDraggedWhileHeld;
+        spaceHeld = false;
+        spaceDraggedWhileHeld = false;
+        syncTempModifierPan();
+        if (shouldToggle && searchModal.classList.contains('hidden') && helpModal.classList.contains('hidden')) {
+          togglePlayPause();
+        }
+        return;
+      }
       const k = e.key.toLowerCase();
       if (k === 'w' || e.key === 'ArrowUp') freeCamKeys.w = false;
       if (k === 's' || e.key === 'ArrowDown') freeCamKeys.s = false;
@@ -13053,6 +13308,8 @@
       if (k === 'd' || e.key === 'ArrowRight') freeCamKeys.d = false;
       if (k === 'q') freeCamKeys.q = false;
       if (k === 'e') freeCamKeys.e = false;
+      if (e.key === '+' || e.key === '=') freeCamKeys.zoomIn = false;
+      if (e.key === '-' || e.key === '_') freeCamKeys.zoomOut = false;
     });
 
     let resizeDebounceTimer = null;
@@ -13700,7 +13957,7 @@
         const t = cameraTransition.progress;
         const ease = t * t * t * (t * (t * 6 - 15) + 10);
 
-        const targetDest = cameraTransition.customTarget || currTargetWorldPos.set(0, 0, 0);
+        const targetDest = cameraTransition.customTarget || (state.mode !== 'galaxy' && sunMesh ? sunMesh.getWorldPosition(currTargetWorldPos) : currTargetWorldPos.set(0, 0, 0));
         camera.position.lerpVectors(cameraTransition.startCamPos, cameraTransition.desiredOffset, ease);
         controls.target.lerpVectors(cameraTransition.startTarget, targetDest, ease);
         if (cameraTransition.progress >= 1) {
@@ -13717,10 +13974,11 @@
         starfieldUniforms.uTime.value += dt;
       }
 
-      // Gerak meluncur bebas WASD / Panah saat Mode Free Cam aktif
-      if (state.freeCam && (freeCamKeys.w || freeCamKeys.s || freeCamKeys.a || freeCamKeys.d || freeCamKeys.q || freeCamKeys.e)) {
-        const camDist = Math.max(12, camera.position.distanceTo(controls.target));
-        const moveStep = camDist * 0.72 * dt;
+      // Gerak meluncur bebas WASD / Panah / Q-E / +- saat kamera bebas (termasuk setelah Release)
+      if (state.isOverview && (freeCamKeys.w || freeCamKeys.s || freeCamKeys.a || freeCamKeys.d || freeCamKeys.q || freeCamKeys.e || freeCamKeys.zoomIn || freeCamKeys.zoomOut)) {
+        const camDist = Math.max(6, camera.position.distanceTo(controls.target));
+        const turboMult = freeCamKeys.shift ? 2.5 : 1.0;
+        const moveStep = camDist * 0.78 * turboMult * dt;
         const forward = new THREE.Vector3();
         camera.getWorldDirection(forward);
         const right = new THREE.Vector3().crossVectors(forward, camera.up).normalize();
@@ -13733,6 +13991,14 @@
         if (freeCamKeys.q) moveDelta.addScaledVector(camera.up, -moveStep);
         camera.position.add(moveDelta);
         controls.target.add(moveDelta);
+
+        if (freeCamKeys.zoomIn || freeCamKeys.zoomOut) {
+          const offset = camera.position.clone().sub(controls.target);
+          const factor = freeCamKeys.zoomIn ? Math.pow(0.42, dt * turboMult) : Math.pow(2.35, dt * turboMult);
+          const nextD = Math.max(controls.minDistance * 1.1, Math.min(controls.maxDistance, offset.length() * factor));
+          offset.setLength(nextD);
+          camera.position.copy(controls.target).add(offset);
+        }
       }
 
       if (cameraTransition.active) {
@@ -14025,26 +14291,26 @@
     function positionFpsBadge() {
       if (!fpsBadgeEl) return;
       const vw = window.innerWidth;
-      const vh = window.innerHeight;
       const isSmall = vw < 640;
       const dockHidden = document.body.classList.contains('dock-hidden');
-      const fpsRect = fpsBadgeEl.getBoundingClientRect();
-      const fpsW = fpsRect.width > 10 ? fpsRect.width : 132;
 
-      if (!dockPanelEl || dockHidden) {
-        fpsBadgeEl.style.left = isSmall ? '12px' : '16px';
-        fpsBadgeEl.style.bottom = isSmall ? '12px' : '16px';
+      // Di layar HP (< 640px), biarkan CSS flex di dalam #bottom-hud mengatur posisi secara alami
+      // (dan fixed pojok kiri bawah saat dock-hidden), tanpa mengukur getBoundingClientRect() yang terpengaruh animasi CSS
+      if (isSmall || !dockPanelEl || dockHidden) {
+        fpsBadgeEl.style.left = '';
+        fpsBadgeEl.style.bottom = '';
         return;
       }
 
-      const dRect = dockPanelEl.getBoundingClientRect();
-      // Jika posisi pojok kiri bawah bersinggungan dengan dock navigasi bawah (HP maupun Mobile Desktop Site),
-      // angkat badge FPS tepat ke atas sisi kiri dock navigasi bawah
-      if (dRect.height > 0 && dRect.left < fpsW + 24) {
-        const bottomPx = Math.max(12, Math.round(vh - dRect.top + 8));
-        const leftPx = isSmall ? 12 : Math.max(16, Math.round(dRect.left));
-        fpsBadgeEl.style.left = `${leftPx}px`;
-        fpsBadgeEl.style.bottom = `${bottomPx}px`;
+      // Desktop / Tablet / Mobile Desktop Site: cek berdasarkan lebar layout aktual dock (bebas efek transform)
+      const dockW = dockPanelEl.offsetWidth || 0;
+      const dockH = dockPanelEl.offsetHeight || 0;
+      const dockLeft = Math.max(14, Math.round((vw - dockW) * 0.5));
+      const fpsW = fpsBadgeEl.offsetWidth || 124;
+
+      if (dockH > 0 && dockLeft < fpsW + 24) {
+        fpsBadgeEl.style.left = `${Math.max(16, dockLeft)}px`;
+        fpsBadgeEl.style.bottom = `${dockH + 22}px`;
       } else {
         fpsBadgeEl.style.left = '16px';
         fpsBadgeEl.style.bottom = '16px';
