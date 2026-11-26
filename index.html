@@ -1348,6 +1348,14 @@
       </button>
 
       <button
+        id="btn-lang-toggle"
+        type="button"
+        title="Bahasa: Indonesia (Klik untuk English)"
+        aria-label="Switch Language ID / EN"
+        class="glass-btn px-2.5 h-8 text-[11px] font-bold font-mono text-[#cfe6ff] hover:border-[#409cff]/60 flex items-center justify-center cursor-pointer tracking-wider"
+      >ID</button>
+
+      <button
         id="btn-open-help"
         title="Panduan Kontrol Sentuh & Pintasan Keyboard (?)"
         class="glass-btn w-8 h-8 text-xs font-bold font-mono text-slate-200 hover:border-[#409cff]/60 flex items-center justify-center cursor-pointer"
@@ -5637,10 +5645,442 @@
       },
     ];
 
+
+    // =========================================================================
+    // 2B. DUKUNGAN DWIBAHASA LENGKAP (INDONESIA / ENGLISH)
+    // =========================================================================
+    const I18N_DATA_EN = {"solar": {"sun": {"name": "Sun", "subtitle": "Sol • Central Star of the Solar System", "category": "Main-Sequence Star (G2V)", "stats": {"distance": "0.00 AU (Center)", "orbit": "230 Myr Galactic Orbit", "eccentricity": "0.000", "inclination": "0.00°", "rotation": "25.4 Days (Equator)", "diameter": "1,392,700 km", "temp": "5,500 °C (Photosphere)", "system": "8 Planets • 10 Dwarfs"}, "description": "The Sun is a G-type yellow dwarf star containing 99.86% of the Solar System's total mass. Nuclear fusion in its 15-million-°C core converts hydrogen into helium, radiating energy across the entire heliosphere."}, "mercury": {"name": "Mercury", "subtitle": "Innermost Planet • Smallest in the Solar System", "category": "Terrestrial Planet", "stats": {"distance": "0.39 AU (57.9 Million km)", "orbit": "88.0 Earth Days", "eccentricity": "0.2056", "inclination": "7.00°", "rotation": "58.6 Earth Days", "diameter": "4,879 km", "temp": "-180 °C to 430 °C", "system": "0 Moons • 0 Rings"}, "description": "Mercury is the closest planet to the Sun and has the highest orbital eccentricity among the eight major planets. Lacking a substantial heat-retaining atmosphere, its surface experiences extreme day-night temperature swings."}, "venus": {"name": "Venus", "subtitle": "Morning Star • Runaway Greenhouse Effect", "category": "Terrestrial Planet", "stats": {"distance": "0.72 AU (108.2 Million km)", "orbit": "224.7 Earth Days", "eccentricity": "0.0068", "inclination": "3.39°", "rotation": "243.0 Days (Retrograde)", "diameter": "12,104 km", "temp": "465 °C (Hottest Planet)", "system": "0 Moons • 0 Rings"}, "description": "Venus is shrouded in thick sulfuric acid clouds and a dense carbon dioxide atmosphere that drives an extreme greenhouse effect. It rotates backward (retrograde), causing the Sun to rise in the west."}, "earth": {"name": "Earth", "subtitle": "The Blue Marble • Inhabited World", "category": "Terrestrial Planet", "stats": {"distance": "1.00 AU (149.6 Million km)", "orbit": "365.25 Days", "eccentricity": "0.0167", "inclination": "0.00° (Ecliptic)", "rotation": "23 Hrs 56 Mins", "diameter": "12,742 km", "temp": "15 °C (Average)", "system": "1 Moon (Luna)"}, "description": "Earth is the largest planet in the inner Solar System, with 71% of its surface covered by liquid water oceans. Its 23.44° axial tilt drives four distinct seasons and sustains a rich biosphere."}, "moon": {"name": "Moon", "subtitle": "Earth's Natural Satellite (Luna)", "category": "Earth's Natural Satellite", "stats": {"distance": "384,400 km from Earth", "orbit": "27.3 Days", "eccentricity": "0.0549", "inclination": "5.14°", "rotation": "27.3 Days (Tidally Locked)", "diameter": "3,474 km", "temp": "-173 °C to 127 °C", "system": "Sole Satellite of Earth"}, "description": "The Moon is the fifth-largest natural satellite in the Solar System, stabilizing Earth's axial tilt and driving ocean tides."}, "mars": {"name": "Mars", "subtitle": "The Red Planet • Olympus Mons & Valles Marineris", "category": "Terrestrial Planet", "stats": {"distance": "1.52 AU (227.9 Million km)", "orbit": "687.0 Earth Days", "eccentricity": "0.0934", "inclination": "1.85°", "rotation": "24 Hrs 37 Mins", "diameter": "6,779 km", "temp": "-65 °C (Average)", "system": "2 Moons (Phobos, Deimos)"}, "description": "Mars owes its rusty red-orange hue to iron oxide across its surface. It hosts the tallest volcano in the Solar System (Olympus Mons, 21.9 km) and polar caps of water and carbon dioxide ice."}, "phobos": {"name": "Phobos", "subtitle": "Inner Moon of Mars", "category": "Martian Natural Satellite", "stats": {"distance": "9,376 km from Mars", "orbit": "7 Hrs 39 Mins", "eccentricity": "0.0151", "inclination": "1.09°", "rotation": "Tidally Locked", "diameter": "22.2 km", "temp": "-40 °C", "system": "Inner Moon of Mars"}, "description": "Phobos orbits Mars faster than the planet rotates, rising in the west and setting in the east three times each Martian day."}, "deimos": {"name": "Deimos", "subtitle": "Outer Moon of Mars", "category": "Martian Natural Satellite", "stats": {"distance": "23,463 km from Mars", "orbit": "30 Hrs 18 Mins", "eccentricity": "0.0002", "inclination": "1.79°", "rotation": "Tidally Locked", "diameter": "12.6 km", "temp": "-40 °C", "system": "Outer Moon of Mars"}, "description": "Deimos is a small, irregularly shaped outer moon orbiting beyond Phobos."}, "ceres": {"name": "Ceres", "navLabel": "Ceres", "subtitle": "Innermost Dwarf Planet • Largest Object in the Asteroid Belt", "category": "Dwarf Planet — Asteroid Belt", "stats": {"distance": "2.77 AU (414 Million km)", "orbit": "4.60 Earth Years", "eccentricity": "0.0758", "inclination": "10.59°", "rotation": "9 Hrs 4 Mins", "diameter": "939 km", "temp": "-105 °C", "system": "0 Moons • Main Belt"}, "description": "Ceres is the only dwarf planet in the inner Solar System and accounts for roughly one-third of the Main Asteroid Belt's total mass (2.1–3.3 AU). Bright sodium carbonate deposits gleam inside Occator Crater."}, "vesta": {"name": "4 Vesta", "navLabel": "4 Vesta", "subtitle": "Brightest Asteroid • Giant Rheasilvia Impact Basin", "category": "Asteroid — Main Belt", "stats": {"distance": "2.36 AU (353 Million km)", "orbit": "3.63 Earth Years", "eccentricity": "0.0887", "inclination": "7.14°", "rotation": "5 Hrs 20 Mins", "diameter": "525 km (2nd Largest)", "temp": "-188 °C to -18 °C", "system": "0 Moons • Visited by Dawn"}, "description": "4 Vesta is the second-most massive body in the Main Asteroid Belt and the only asteroid occasionally visible to the naked eye from Earth. Its south pole features the 505-km Rheasilvia basin with a 22-km central peak."}, "pallas": {"name": "2 Pallas", "navLabel": "2 Pallas", "subtitle": "Large Asteroid with Extreme 34.8° Inclination", "category": "Asteroid — Main Belt", "stats": {"distance": "2.77 AU (414 Million km)", "orbit": "4.62 Earth Years", "eccentricity": "0.2313", "inclination": "34.84° (Highly Inclined)", "rotation": "7 Hrs 49 Mins", "diameter": "512 km (3rd Largest)", "temp": "-109 °C", "system": "0 Moons • Silicate-Rich"}, "description": "2 Pallas is the third-largest asteroid in the Main Belt, distinguished by an unusually steep 34.84° orbital inclination and high eccentricity. Its heavily cratered 'golf-ball' surface is a relic of a primordial protoplanet."}, "juno": {"name": "3 Juno", "navLabel": "3 Juno", "subtitle": "S-Type Stony Asteroid • Eccentric Orbit", "category": "Asteroid — Main Belt", "stats": {"distance": "2.67 AU (399 Million km)", "orbit": "4.36 Earth Years", "eccentricity": "0.2555", "inclination": "12.98°", "rotation": "7 Hrs 13 Mins", "diameter": "254 km", "temp": "-110 °C", "system": "0 Moons • S-Type Asteroid"}, "description": "3 Juno is one of the largest stony silicate (S-type) asteroids, featuring high reflectivity and an elongated orbit that brings it closer to the Sun than Vesta at perihelion."}, "psyche": {"name": "16 Psyche", "navLabel": "16 Psyche", "subtitle": "Iron-Nickel Metallic Asteroid • NASA Psyche Target", "category": "Metallic Asteroid (M-Type)", "stats": {"distance": "2.92 AU (437 Million km)", "orbit": "5.00 Earth Years", "eccentricity": "0.1339", "inclination": "3.10°", "rotation": "4 Hrs 12 Mins", "diameter": "222 km", "temp": "-113 °C", "system": "Exposed Protoplanet Core"}, "description": "16 Psyche is the most massive M-type asteroid rich in iron and nickel, believed to be the exposed metallic core of an early planetesimal. NASA's Psyche spacecraft is en route to map its surface directly."}, "hygiea": {"name": "10 Hygiea", "navLabel": "10 Hygiea", "subtitle": "4th Largest Asteroid • Dark Carbonaceous Surface", "category": "Asteroid — Main Belt", "stats": {"distance": "3.14 AU (470 Million km)", "orbit": "5.57 Earth Years", "eccentricity": "0.1124", "inclination": "3.83°", "rotation": "13 Hrs 49 Mins", "diameter": "434 km (Nearly Spherical)", "temp": "-109 °C", "system": "0 Moons • Dark C-Type"}, "description": "10 Hygiea is the fourth-largest object in the Main Asteroid Belt, boasting a nearly spherical shape and a dark carbonaceous (C-type) surface similar in composition to Ceres."}, "arrokoth": {"name": "486958 Arrokoth", "navLabel": "Arrokoth", "subtitle": "Contact-Binary Kuiper Belt Object • New Horizons Flyby", "category": "Kuiper Belt Object (Cold Classical TNO)", "stats": {"distance": "44.58 AU (6.67 Billion km)", "orbit": "297.6 Earth Years", "eccentricity": "0.0417", "inclination": "2.45° (Cold Classical KBO)", "rotation": "15 Hrs 55 Mins", "diameter": "36 × 20 × 10 km (2 Lobes)", "temp": "-233 °C", "system": "Farthest Object Visited by Probe"}, "description": "486958 Arrokoth is the farthest celestial body ever explored up close by a spacecraft (NASA New Horizons, 2019). Its reddish, snowman-like bilobed shape formed from the gentle merger of two primordial icy planetesimals."}, "jupiter": {"name": "Jupiter", "subtitle": "King of Planets • Largest Gas Giant", "category": "Gas Giant Planet", "stats": {"distance": "5.20 AU (778.5 Million km)", "orbit": "11.86 Earth Years", "eccentricity": "0.0489", "inclination": "1.30°", "rotation": "9 Hrs 55 Mins", "diameter": "139,820 km (11× Earth)", "temp": "-110 °C (Cloud Tops)", "system": "95 Moons (4 Galilean)"}, "description": "Jupiter holds more than twice the mass of all other planets combined. Its rapid rotation whips up turbulent cloud bands, the Great Red Spot, and stabilizes two swarms of Trojan asteroids at Lagrange points L4 and L5."}, "io": {"name": "Io", "subtitle": "Most Volcanically Active World", "category": "Galilean Satellite (Jupiter)", "stats": {"distance": "421,700 km from Jupiter", "orbit": "1.77 Days", "eccentricity": "0.0041", "inclination": "0.05°", "rotation": "Tidally Locked", "diameter": "3,643 km", "temp": "-143 °C (1,600 °C Lava)", "system": "Galilean Moon I"}, "description": "Intense gravitational tidal heating drives over 400 active volcanoes across Io's sulfur-coated surface."}, "europa": {"name": "Europa", "subtitle": "Subsurface Saltwater Ocean Beneath Ice Crust", "category": "Galilean Satellite (Jupiter)", "stats": {"distance": "671,034 km from Jupiter", "orbit": "3.55 Days", "eccentricity": "0.0090", "inclination": "0.47°", "rotation": "Tidally Locked", "diameter": "3,122 km", "temp": "-171 °C", "system": "Galilean Moon II"}, "description": "Beneath its fractured water-ice shell, Europa harbors a global liquid ocean containing twice the volume of Earth's oceans."}, "ganymede": {"name": "Ganymede", "subtitle": "Largest Natural Satellite in the Solar System", "category": "Galilean Satellite (Jupiter)", "stats": {"distance": "1,070,400 km from Jupiter", "orbit": "7.15 Days", "eccentricity": "0.0013", "inclination": "0.20°", "rotation": "Tidally Locked", "diameter": "5,268 km (> Mercury)", "temp": "-163 °C", "system": "Galilean Moon III"}, "description": "Ganymede is larger than the planet Mercury and is the only moon known to generate its own intrinsic magnetic field."}, "callisto": {"name": "Callisto", "subtitle": "Ancient 4-Billion-Year-Old Cratered Landscape", "category": "Galilean Satellite (Jupiter)", "stats": {"distance": "1,882,700 km from Jupiter", "orbit": "16.69 Days", "eccentricity": "0.0074", "inclination": "0.19°", "rotation": "Tidally Locked", "diameter": "4,821 km", "temp": "-139 °C", "system": "Galilean Moon IV"}, "description": "Callisto preserves the oldest and most densely cratered surface observed anywhere in the Solar System."}, "trojan_l4": {"name": "Jupiter Trojans L4", "navLabel": "Trojans L4", "subtitle": "Greek Camp • Lagrange Point +60° Ahead of Jupiter", "category": "Trojan Asteroid Group (L4)", "stats": {"distance": "5.20 AU (Jupiter Co-orbital)", "orbit": "11.86 Earth Years", "eccentricity": "0.00 – 0.15", "inclination": "0° – 35°", "rotation": "Varies (Asteroids)", "diameter": "~600+ Simulated Asteroids", "temp": "-150 °C", "system": "Lagrange Point L4 (+60°)"}, "description": "The L4 Trojan asteroids (Greek Camp) remain stably trapped 60° ahead of Jupiter along its orbit through the gravitational balance of the Sun and Jupiter."}, "trojan_l5": {"name": "Jupiter Trojans L5", "navLabel": "Trojans L5", "subtitle": "Trojan Camp • Lagrange Point -60° Behind Jupiter", "category": "Trojan Asteroid Group (L5)", "stats": {"distance": "5.20 AU (Jupiter Co-orbital)", "orbit": "11.86 Earth Years", "eccentricity": "0.00 – 0.15", "inclination": "0° – 35°", "rotation": "Varies (Asteroids)", "diameter": "~600+ Simulated Asteroids", "temp": "-150 °C", "system": "Lagrange Point L5 (-60°)"}, "description": "The L5 Trojan asteroids (Trojan Camp) trail 60° behind Jupiter, preserving pristine rocky-icy relics from the outer Solar System's formation."}, "saturn": {"name": "Saturn", "subtitle": "Jewel of the Solar System • Multi-Tiered Ice Ring System", "category": "Gas Giant Planet", "stats": {"distance": "9.58 AU (1.43 Billion km)", "orbit": "29.45 Earth Years", "eccentricity": "0.0565", "inclination": "2.48°", "rotation": "10 Hrs 33 Mins", "diameter": "116,460 km", "temp": "-140 °C (Cloud Tops)", "system": "146 Moons • Main Ring System"}, "description": "Saturn is adorned with a 282,000-km-wide ring system of pure water ice and cosmic dust, sculpted by gaps such as the Cassini and Encke Divisions."}, "mimas": {"name": "Mimas", "subtitle": "Sweeper of the Cassini Division", "category": "Saturnian Natural Satellite", "stats": {"distance": "185,539 km from Saturn", "orbit": "22 Hrs 37 Mins", "eccentricity": "0.0196", "inclination": "1.57°", "rotation": "Tidally Locked", "diameter": "396 km", "temp": "-209 °C", "system": "Inner Moon of Saturn"}, "description": "Mimas's 2:1 orbital resonance clears ring particles out of the Cassini Division."}, "enceladus": {"name": "Enceladus", "subtitle": "Cryovolcanic Geysers & Subsurface Ocean", "category": "Saturnian Natural Satellite", "stats": {"distance": "238,020 km from Saturn", "orbit": "1.37 Days", "eccentricity": "0.0047", "inclination": "0.02°", "rotation": "Tidally Locked", "diameter": "504 km", "temp": "-198 °C", "system": "Source of Saturn's E Ring"}, "description": "South-polar geysers on Enceladus vent water vapor and organic molecules directly from a global subsurface ocean."}, "tethys": {"name": "Tethys", "subtitle": "Icy Moon with Ithaca Chasma Canyon", "category": "Saturnian Natural Satellite", "stats": {"distance": "294,619 km from Saturn", "orbit": "1.89 Days", "eccentricity": "0.0001", "inclination": "1.12°", "rotation": "Tidally Locked", "diameter": "1,062 km", "temp": "-187 °C", "system": "Major Moon of Saturn"}, "description": "Tethys is composed almost entirely of pure water ice and scarred by the 2,000-km-long Ithaca Chasma rift."}, "dione": {"name": "Dione", "subtitle": "Bright Ice Cliffs & Rocky Core", "category": "Saturnian Natural Satellite", "stats": {"distance": "377,396 km from Saturn", "orbit": "2.74 Days", "eccentricity": "0.0022", "inclination": "0.02°", "rotation": "Tidally Locked", "diameter": "1,123 km", "temp": "-186 °C", "system": "Major Moon of Saturn"}, "description": "Dione features bright tectonic ice fractures reflecting Saturn's golden light."}, "rhea": {"name": "Rhea", "subtitle": "Second-Largest Moon of Saturn", "category": "Saturnian Natural Satellite", "stats": {"distance": "527,108 km from Saturn", "orbit": "4.52 Days", "eccentricity": "0.0013", "inclination": "0.35°", "rotation": "Tidally Locked", "diameter": "1,527 km", "temp": "-174 °C", "system": "Major Moon of Saturn"}, "description": "Rhea is a heavily cratered icy world possessing a tenuous oxygen-carbon dioxide exosphere."}, "titan": {"name": "Titan", "subtitle": "Dense Nitrogen Atmosphere & Liquid Methane Seas", "category": "Saturnian Natural Satellite", "stats": {"distance": "1,221,870 km from Saturn", "orbit": "15.95 Days", "eccentricity": "0.0288", "inclination": "0.35°", "rotation": "Tidally Locked", "diameter": "5,149 km (> Mercury)", "temp": "-179 °C", "system": "Largest Moon of Saturn"}, "description": "Titan is the only natural satellite with a thick atmosphere and stable rivers, lakes, and seas of liquid methane and ethane on its surface."}, "iapetus": {"name": "Iapetus", "subtitle": "Two-Tone Moon & Equatorial Ridge", "category": "Saturnian Natural Satellite", "stats": {"distance": "3,560,820 km from Saturn", "orbit": "79.32 Days", "eccentricity": "0.0286", "inclination": "15.47°", "rotation": "Tidally Locked", "diameter": "1,469 km", "temp": "-143 °C to -173 °C", "system": "Outermost Major Moon of Saturn"}, "description": "Iapetus exhibits an extreme two-tone color dichotomy between its coal-dark leading hemisphere and snow-bright trailing face."}, "uranus": {"name": "Uranus", "subtitle": "Rolling Ice Giant • 97.8° Axial Tilt", "category": "Ice Giant Planet", "stats": {"distance": "19.22 AU (2.87 Billion km)", "orbit": "84.01 Earth Years", "eccentricity": "0.0457", "inclination": "0.77°", "rotation": "17 Hrs 14 Mins (Retrograde)", "diameter": "50,724 km", "temp": "-224 °C (Coldest Atmosphere)", "system": "28 Moons • 13 Vertical Rings"}, "description": "Uranus glows pale cyan-blue due to atmospheric methane gas. Its extreme 97.77° axial tilt causes it to roll around the Sun on its side."}, "miranda": {"name": "Miranda", "subtitle": "20-km-Tall Verona Rupes Ice Cliff", "category": "Uranian Natural Satellite", "stats": {"distance": "129,390 km from Uranus", "orbit": "1.41 Days", "eccentricity": "0.0013", "inclination": "4.23°", "rotation": "Tidally Locked", "diameter": "472 km", "temp": "-213 °C", "system": "Inner Moon of Uranus"}, "description": "Miranda boasts the tallest known vertical cliff in the Solar System, Verona Rupes."}, "ariel": {"name": "Ariel", "subtitle": "Brightest Moon in the Uranian System", "category": "Uranian Natural Satellite", "stats": {"distance": "191,020 km from Uranus", "orbit": "2.52 Days", "eccentricity": "0.0012", "inclination": "0.26°", "rotation": "Tidally Locked", "diameter": "1,158 km", "temp": "-213 °C", "system": "Major Moon of Uranus"}, "description": "Ariel is crisscrossed by tectonic rift valleys and geologically young icy plains."}, "umbriel": {"name": "Umbriel", "subtitle": "Dark Ancient Moon of Uranus", "category": "Uranian Natural Satellite", "stats": {"distance": "266,000 km from Uranus", "orbit": "4.14 Days", "eccentricity": "0.0039", "inclination": "0.13°", "rotation": "Tidally Locked", "diameter": "1,169 km", "temp": "-198 °C", "system": "Major Moon of Uranus"}, "description": "Umbriel is the darkest of Uranus's major moons, highlighted by a bright ring inside Wunda Crater."}, "titania": {"name": "Titania", "subtitle": "Largest Moon of Uranus", "category": "Uranian Natural Satellite", "stats": {"distance": "435,910 km from Uranus", "orbit": "8.71 Days", "eccentricity": "0.0011", "inclination": "0.34°", "rotation": "Tidally Locked", "diameter": "1,577 km", "temp": "-203 °C", "system": "Largest Moon of Uranus"}, "description": "Titania is scarred by the 1,500-km-long Messina Chasma fault canyon system."}, "oberon": {"name": "Oberon", "subtitle": "Outermost Major Moon of Uranus", "category": "Uranian Natural Satellite", "stats": {"distance": "583,520 km from Uranus", "orbit": "13.46 Days", "eccentricity": "0.0014", "inclination": "0.06°", "rotation": "Tidally Locked", "diameter": "1,523 km", "temp": "-198 °C", "system": "Outermost Major Moon of Uranus"}, "description": "Oberon features a 6-km mountain peak and impact craters floored with dark carbonaceous material."}, "neptune": {"name": "Neptune", "subtitle": "Outermost Major Planet • 2,100 km/h Supersonic Winds", "category": "Ice Giant Planet", "stats": {"distance": "30.05 AU (4.50 Billion km)", "orbit": "164.8 Earth Years", "eccentricity": "0.0086", "inclination": "1.77°", "rotation": "16 Hrs 6 Mins", "diameter": "49,244 km", "temp": "-214 °C", "system": "16 Moons • 5 Faint Rings"}, "description": "Neptune is the outermost major planet, marking the inner boundary of the Trans-Neptunian Objects (TNOs). Its deep cobalt atmosphere is whipped by the fastest winds in the Solar System."}, "proteus": {"name": "Proteus", "subtitle": "Largest Inner Moon of Neptune", "category": "Neptunian Natural Satellite", "stats": {"distance": "117,647 km from Neptune", "orbit": "26 Hrs 54 Mins", "eccentricity": "0.0005", "inclination": "0.52°", "rotation": "Tidally Locked", "diameter": "420 km", "temp": "-222 °C", "system": "Inner Moon of Neptune"}, "description": "Proteus is a dark, polyhedral inner moon orbiting close to Neptune's Adams ring."}, "triton": {"name": "Triton", "subtitle": "Captured Kuiper Belt Object • Retrograde Orbit", "category": "Neptunian Natural Satellite", "stats": {"distance": "354,759 km from Neptune", "orbit": "5.88 Days (Retrograde)", "eccentricity": "0.00002", "inclination": "156.8° (Retrograde)", "rotation": "Tidally Locked", "diameter": "2,707 km", "temp": "-235 °C (Coldest Surface)", "system": "Captured KBO of Neptune"}, "description": "Triton orbits opposite to Neptune's rotation on a steep tilt—strong evidence that it was once a Kuiper Belt dwarf planet captured by Neptune's gravity."}, "nereid": {"name": "Nereid", "subtitle": "Moon with Highly Eccentric Orbit", "category": "Neptunian Natural Satellite", "stats": {"distance": "5.51 Million km from Neptune", "orbit": "360.1 Days", "eccentricity": "0.7507", "inclination": "7.23°", "rotation": "11 Hrs 31 Mins", "diameter": "340 km", "temp": "-220 °C", "system": "Outer Moon of Neptune"}, "description": "Nereid's highly eccentric orbit was likely perturbed during Neptune's gravitational capture of Triton."}, "orcus": {"name": "Orcus", "navLabel": "Orcus", "subtitle": "'Anti-Pluto' Plutino • 2:3 Resonance with Neptune", "category": "Dwarf Planet — Plutino (TNO)", "stats": {"distance": "39.42 AU (5.90 Billion km)", "orbit": "247.5 Earth Years", "eccentricity": "0.2270", "inclination": "20.58°", "rotation": "13 Hrs 11 Mins", "diameter": "910 km", "temp": "-229 °C", "system": "1 Moon (Vanth)"}, "description": "Nicknamed 'Anti-Pluto', Orcus shares Pluto's 2:3 orbital resonance with Neptune at nearly identical distance and period, yet always stays on the opposite side of the Sun from Pluto. Its surface is rich in crystalline water ice and ammonia."}, "vanth": {"name": "Vanth", "subtitle": "Large Moon of Orcus (Binary System)", "category": "Dwarf Planet Satellite (Orcus)", "stats": {"distance": "9,000 km from Orcus", "orbit": "9.54 Days", "eccentricity": "0.0070", "inclination": "0.50°", "rotation": "Tidally Locked", "diameter": "443 km (~½ Orcus)", "temp": "-229 °C", "system": "Sole Satellite of Orcus"}, "description": "Vanth is nearly half the diameter of Orcus, locked in a circular, mutually tidally locked binary orbit in the Kuiper Belt."}, "pluto": {"name": "Pluto", "navLabel": "Pluto", "subtitle": "King of the Kuiper Belt • Pluto–Charon Binary System", "category": "Dwarf Planet — Plutino (TNO)", "stats": {"distance": "39.48 AU (5.91 Billion km)", "orbit": "247.9 Earth Years", "eccentricity": "0.2488", "inclination": "17.16°", "rotation": "6.39 Days (Retrograde)", "diameter": "2,377 km (Largest Volume)", "temp": "-229 °C", "system": "5 Moons (Charon, Styx, Nix, Kerberos, Hydra)"}, "description": "Pluto is the largest dwarf planet by volume in the Solar System and the archetype of the Plutino group (2:3 resonance with Neptune). Its surface displays the bright nitrogen-ice glacier Sputnik Planitia and dark reddish Cthulhu Macula, orbited by five moons."}, "charon": {"name": "Charon", "subtitle": "Largest Binary Companion of Pluto", "category": "Dwarf Planet Satellite (Pluto)", "stats": {"distance": "19,591 km from Pluto", "orbit": "6.39 Days (Mutually Locked)", "eccentricity": "0.0002", "inclination": "0.08°", "rotation": "6.39 Days", "diameter": "1,212 km (>½ Pluto)", "temp": "-220 °C", "system": "Pluto Binary Companion"}, "description": "Charon is over half Pluto's diameter, placing their shared center of mass (barycenter) outside Pluto's surface. Its reddish north pole (Mordor Macula) is stained by escaping methane gas from Pluto."}, "styx": {"name": "Styx", "subtitle": "Small Inner Moon of Pluto", "category": "Dwarf Planet Satellite (Pluto)", "stats": {"distance": "42,656 km from Pluto", "orbit": "20.16 Days", "eccentricity": "0.0058", "inclination": "0.81°", "rotation": "3.24 Days (Chaotic)", "diameter": "16 × 9 km", "temp": "-229 °C", "system": "Circumbinary Moon of Pluto"}, "description": "Styx is Pluto's smallest known moon, orbiting between Charon and Nix."}, "nix": {"name": "Nix", "subtitle": "Chaotically Rotating Circumbinary Moon of Pluto", "category": "Dwarf Planet Satellite (Pluto)", "stats": {"distance": "48,694 km from Pluto", "orbit": "24.85 Days", "eccentricity": "0.0020", "inclination": "0.13°", "rotation": "1.83 Days (Chaotic)", "diameter": "50 × 35 km", "temp": "-229 °C", "system": "Circumbinary Moon of Pluto"}, "description": "Nix tumbles chaotically in the shifting dual gravitational field of Pluto and Charon."}, "kerberos": {"name": "Kerberos", "subtitle": "Double-Lobed Moon of Pluto", "category": "Dwarf Planet Satellite (Pluto)", "stats": {"distance": "57,783 km from Pluto", "orbit": "32.17 Days", "eccentricity": "0.0033", "inclination": "0.39°", "rotation": "5.31 Days", "diameter": "19 × 10 km", "temp": "-229 °C", "system": "Circumbinary Moon of Pluto"}, "description": "Kerberos consists of two merged lobes coated in bright, clean water ice."}, "hydra": {"name": "Hydra", "subtitle": "Outermost Moon of the Pluto System", "category": "Dwarf Planet Satellite (Pluto)", "stats": {"distance": "64,738 km from Pluto", "orbit": "38.20 Days", "eccentricity": "0.0059", "inclination": "0.24°", "rotation": "10.3 Hrs (Rapid Spin)", "diameter": "51 × 30 km", "temp": "-229 °C", "system": "Outermost Moon of Pluto"}, "description": "Hydra orbits at the outer edge of the Pluto system and spins nearly 90 times for every single orbital revolution."}, "salacia": {"name": "Salacia", "navLabel": "Salacia", "subtitle": "Dark Cubewano • Very Low Albedo", "category": "Dwarf Planet — Cubewano (Classical KBO)", "stats": {"distance": "42.18 AU (6.31 Billion km)", "orbit": "274.0 Earth Years", "eccentricity": "0.1060", "inclination": "23.92°", "rotation": "6.09 Hrs", "diameter": "846 km", "temp": "-230 °C", "system": "1 Moon (Actaea)"}, "description": "Salacia is a high-inclination classical Kuiper Belt object (Cubewano) with one of the darkest surfaces among dwarf planets (albedo ~0.04), composed of water ice mixed with dark carbonaceous compounds."}, "actaea": {"name": "Actaea", "subtitle": "Natural Satellite of Salacia", "category": "Dwarf Planet Satellite (Salacia)", "stats": {"distance": "5,724 km from Salacia", "orbit": "5.49 Days", "eccentricity": "0.0084", "inclination": "0.40°", "rotation": "Tidally Locked", "diameter": "286 km", "temp": "-230 °C", "system": "Sole Satellite of Salacia"}, "description": "Actaea orbits very close to Salacia along a nearly circular path."}, "haumea": {"name": "Haumea", "navLabel": "Haumea", "subtitle": "Triaxial Ellipsoid • Fastest 3.9-Hr Spin & Ice Ring", "category": "Dwarf Planet — Classical / Resonant KBO", "stats": {"distance": "43.13 AU (6.45 Billion km)", "orbit": "283.3 Earth Years", "eccentricity": "0.1950", "inclination": "28.19°", "rotation": "3 Hrs 55 Mins (Fastest!)", "diameter": "2,322 × 1,704 × 1,026 km", "temp": "-241 °C", "system": "2 Moons (Hiʻiaka, Namaka) • 1 Ring"}, "description": "Spun up to a 3.9-hour rotation by an ancient collision, centrifugal force stretches Haumea into a rugby-ball-like triaxial ellipsoid. Coated in bright crystalline water ice with a dark red spot, it is encircled by a thin ring and two moons."}, "namaka": {"name": "Namaka", "subtitle": "Inner Moon of Haumea", "category": "Dwarf Planet Satellite (Haumea)", "stats": {"distance": "25,657 km from Haumea", "orbit": "18.28 Days", "eccentricity": "0.2490", "inclination": "13.0°", "rotation": "Varies", "diameter": "170 km", "temp": "-241 °C", "system": "Inner Moon of Haumea"}, "description": "Namaka is Haumea's smaller inner moon, following an eccentric, inclined orbit perturbed by Hiʻiaka."}, "hiiaka": {"name": "Hiʻiaka", "subtitle": "Largest Outer Moon of Haumea", "category": "Dwarf Planet Satellite (Haumea)", "stats": {"distance": "49,880 km from Haumea", "orbit": "49.12 Days", "eccentricity": "0.0513", "inclination": "1.00°", "rotation": "9.8 Hrs", "diameter": "310 km", "temp": "-241 °C", "system": "Main Moon of Haumea"}, "description": "Hiʻiaka is coated in pure crystalline water ice excavated from Haumea's icy mantle during a giant impact."}, "quaoar": {"name": "Quaoar", "navLabel": "Quaoar", "subtitle": "Cubewano • Double Ring System Outside the Roche Limit", "category": "Dwarf Planet — Cubewano (Classical KBO)", "stats": {"distance": "43.69 AU (6.54 Billion km)", "orbit": "288.8 Earth Years", "eccentricity": "0.0410", "inclination": "7.99°", "rotation": "17 Hrs 41 Mins", "diameter": "1,110 km", "temp": "-229 °C", "system": "1 Moon (Weywot) • Double Ring"}, "description": "Quaoar surprised astronomers with a dense double ring system orbiting more than 7 planetary radii away—well outside the classical Roche limit where rings should coalesce into a moon. Its surface is rich in reddish-brown tholins."}, "weywot": {"name": "Weywot", "subtitle": "Natural Satellite of Quaoar", "category": "Dwarf Planet Satellite (Quaoar)", "stats": {"distance": "14,500 km from Quaoar", "orbit": "12.44 Days", "eccentricity": "0.1400", "inclination": "1.50°", "rotation": "Tidally Locked", "diameter": "170 km", "temp": "-229 °C", "system": "Sole Satellite of Quaoar"}, "description": "Weywot orbits beyond Quaoar's double ring system and helps confine the rings through gravitational resonance."}, "makemake": {"name": "Makemake", "navLabel": "Makemake", "subtitle": "Largest Cubewano • Bright Reddish-Orange Surface", "category": "Dwarf Planet — Cubewano (Classical KBO)", "stats": {"distance": "45.79 AU (6.85 Billion km)", "orbit": "306.2 Earth Years", "eccentricity": "0.1610", "inclination": "28.98°", "rotation": "22 Hrs 50 Mins", "diameter": "1,430 km", "temp": "-239 °C", "system": "1 Moon (MK2)"}, "description": "Makemake is the largest classical Kuiper Belt object (Cubewano) and the second-brightest KBO after Pluto, covered in frozen methane and ethane that solar radiation tints reddish-orange."}, "mk2": {"name": "MK2", "subtitle": "S/2015 (136472) 1 • Dark Moon of Makemake", "category": "Dwarf Planet Satellite (Makemake)", "stats": {"distance": "21,100 km from Makemake", "orbit": "12.4 Days", "eccentricity": "0.0200", "inclination": "2.00°", "rotation": "Tidally Locked", "diameter": "175 km", "temp": "-239 °C", "system": "Sole Satellite of Makemake"}, "description": "MK2 has a charcoal-dark surface that contrasts sharply with Makemake's bright icy crust."}, "gonggong": {"name": "Gonggong", "navLabel": "Gonggong", "subtitle": "Scattered Disc • Deep Red Tholin-Rich Object", "category": "Dwarf Planet — Scattered Disc (TNO)", "stats": {"distance": "67.48 AU (33.6 – 101.3 AU)", "orbit": "554.1 Earth Years", "eccentricity": "0.5030", "inclination": "30.74°", "rotation": "22 Hrs 24 Mins", "diameter": "1,230 km", "temp": "-243 °C", "system": "1 Moon (Xiangliu)"}, "description": "Gonggong is one of the largest dwarf planets in the Scattered Disc, following a highly eccentric orbit with a deep crimson surface coated in radiation-processed organic tholins."}, "xiangliu": {"name": "Xiangliu", "subtitle": "Natural Satellite of Gonggong", "category": "Dwarf Planet Satellite (Gonggong)", "stats": {"distance": "24,020 km from Gonggong", "orbit": "25.22 Days", "eccentricity": "0.2900", "inclination": "4.00°", "rotation": "Tidally Locked", "diameter": "100 km", "temp": "-243 °C", "system": "Sole Satellite of Gonggong"}, "description": "Xiangliu orbits Gonggong on an eccentric path with retrograde motion."}, "eris": {"name": "Eris", "navLabel": "Eris", "subtitle": "Most Massive Dwarf Planet • Extreme 44.0° Inclination", "category": "Dwarf Planet — Scattered Disc (TNO)", "stats": {"distance": "67.86 AU (38.3 – 97.5 AU)", "orbit": "559.1 Earth Years", "eccentricity": "0.4360", "inclination": "44.04° (Extreme!)", "rotation": "25 Hrs 54 Mins", "diameter": "2,326 km (Most Massive)", "temp": "-243 °C", "system": "1 Moon (Dysnomia)"}, "description": "Eris is the most massive dwarf planet in the Solar System (27% heavier than Pluto), whose discovery prompted the IAU's formal 2006 definition of 'Dwarf Planet'. Its orbit is tilted an extreme 44.04° from the ecliptic with a dazzlingly bright methane-ice surface."}, "dysnomia": {"name": "Dysnomia", "subtitle": "Natural Satellite of Eris", "category": "Dwarf Planet Satellite (Eris)", "stats": {"distance": "37,273 km from Eris", "orbit": "15.79 Days", "eccentricity": "0.0062", "inclination": "0.30°", "rotation": "Tidally Locked", "diameter": "700 km", "temp": "-243 °C", "system": "Sole Satellite of Eris"}, "description": "Dysnomia is the second-largest known natural satellite in the Trans-Neptunian region after Charon."}, "sedna": {"name": "Sedna", "navLabel": "Sedna", "subtitle": "Sednoid / Inner Oort Cloud • 11,400-Year Orbit", "category": "Dwarf Planet — Sednoid (Inner Oort)", "stats": {"distance": "506 AU (76 – 937 AU)", "orbit": "~11,400 Earth Years", "eccentricity": "0.8496 (Highly Elongated)", "inclination": "11.93°", "rotation": "10 Hrs 16 Mins", "diameter": "~995 km", "temp": "-249 °C", "system": "0 Moons • Distant Sednoid"}, "description": "Sedna is the prototype of the Sednoid population whose orbit never approaches Neptune or the Kuiper Belt (perihelion 76 AU) and stretches out to 937 AU at the gateway of the Inner Oort Cloud."}, "comet_halley": {"name": "1P/Halley", "navLabel": "1P/Halley", "subtitle": "Legendary Periodic Comet • 162.3° Retrograde Orbit", "category": "Periodic Comet (Halley-Type)", "stats": {"distance": "0.59 – 35.1 AU (Mean 17.8 AU)", "orbit": "75.3 Earth Years", "eccentricity": "0.9671 (Highly Elongated)", "inclination": "162.26° (Retrograde)", "rotation": "~2.2 – 7.4 Days (Complex)", "diameter": "15 × 8 km (Dark Icy Nucleus)", "temp": "Ice Sublimation < 3 AU", "system": "Blue Ion Tail & Dust Tail"}, "description": "Comet 1P/Halley is the most famous short-period comet visible to the naked eye every ~76 years (next returning in 2061). Its 162.26° retrograde orbit moves opposite the planets, sprouting a straight blue ion tail away from the Sun and a curved golden dust tail near perihelion."}, "comet_halebopp": {"name": "C/1995 O1 (Hale-Bopp)", "navLabel": "Hale-Bopp", "subtitle": "Great Super-Bright Comet • 89.4° Polar Inclination", "category": "Long-Period Comet (Oort Cloud)", "stats": {"distance": "0.91 – ~370 AU", "orbit": "~2,533 Earth Years", "eccentricity": "0.9951 (Near-Parabolic)", "inclination": "89.43° (Polar Orbit)", "rotation": "11 Hrs 28 Mins", "diameter": "~60 km (Giant Nucleus)", "temp": "Massive Coma & Sodium Tail", "system": "One of Brightest Comets Observed"}, "description": "Hale-Bopp was one of the brightest comets ever observed by humanity, remaining visible to the naked eye for 18 months in 1996–1997. Its ~60 km nucleus is nearly four times wider than Halley's, plunging almost perpendicularly (89.4°) through the ecliptic plane."}, "comet_encke": {"name": "2P/Encke", "navLabel": "2P/Encke", "subtitle": "Shortest-Period Comet • Parent of the Taurid Meteors", "category": "Jupiter-Family Comet (Encke-Type)", "stats": {"distance": "0.34 – 4.09 AU (Mean 2.21 AU)", "orbit": "3.30 Earth Years (Shortest)", "eccentricity": "0.8483", "inclination": "11.78°", "rotation": "11 Hrs 5 Mins", "diameter": "4.8 km", "temp": "Frequent Close Solar Passes", "system": "Parent of Taurid Meteor Shower"}, "description": "2P/Encke holds the shortest orbital period of any known bright comet (just 3.3 years). Diving closer to the Sun than Mercury at perihelion, its ion tail is frequently buffeted by coronal mass ejections."}, "comet_67p": {"name": "67P/Churyumov–Gerasimenko", "navLabel": "67P/Rosetta", "subtitle": "Bilobed Nucleus ('Rubber Duck') • ESA Rosetta Mission", "category": "Jupiter-Family Comet (JFC)", "stats": {"distance": "1.24 – 5.68 AU (Mean 3.46 AU)", "orbit": "6.44 Earth Years", "eccentricity": "0.6410", "inclination": "7.04°", "rotation": "12 Hrs 24 Mins", "diameter": "4.3 × 4.1 km (Two Lobes)", "temp": "-70 °C to 0 °C (Perihelion)", "system": "Landed by Philae Probe (2014)"}, "description": "Comet 67P/Churyumov–Gerasimenko is famous for its double-lobed 'rubber duck' nucleus formed by the low-speed merger of two icy bodies. In 2014, ESA's Rosetta spacecraft orbited it and deployed the Philae lander onto its dark, organic-rich surface."}, "jwst": {"name": "James Webb (JWST)", "navLabel": "JWST", "subtitle": "Infrared Space Observatory • Sun–Earth L2 Point", "category": "Spacecraft — L2 Observatory", "stats": {"distance": "1.5 Million km Behind Earth (L2)", "orbit": "365.25 Days (L2 Halo Orbit)", "eccentricity": "0.0167 (Earth Co-orbital)", "inclination": "0.00° (Ecliptic)", "rotation": "December 25, 2021 (Ariane 5)", "diameter": "Shield 21.2 × 14.2 m • Mirror 6.5 m", "temp": "2 kW Solar Array • Cold Side -233 °C", "system": "Active • NASA / ESA / CSA"}, "description": "The James Webb Space Telescope (JWST) orbits the Sun–Earth L2 Lagrange point 1.5 million km beyond Earth's night side. Its five-layer Kapton sunshield faces the Sun continuously to keep its 18 gold-coated mirror segments at -233 °C for deep infrared astronomy."}, "parker": {"name": "Parker Solar Probe", "navLabel": "Parker Probe", "subtitle": "Fastest Human-Made Object • Touching the Solar Corona", "category": "Spacecraft — Solar Orbiter", "stats": {"distance": "0.046 – 0.73 AU (6.1 Million km from Sun)", "orbit": "88 Days • Record 692,000 km/h", "eccentricity": "0.881 (Highly Eccentric)", "inclination": "3.40°", "rotation": "August 12, 2018 (Delta IV Heavy)", "diameter": "Carbon Shield 2.3 m × Height 3.0 m", "temp": "Water-Cooled Solar Arrays • 1,370 °C", "system": "Active • NASA (Venus Gravity Assists)"}, "description": "Parker Solar Probe is the fastest human-made object in history (~692,000 km/h at perihelion), repeatedly diving directly through the Sun's outer corona behind an 11.4-cm carbon-composite heat shield."}, "voyager1": {"name": "Voyager 1", "navLabel": "Voyager 1", "subtitle": "Farthest Human-Made Object • Beyond 1 Light-Day from Earth", "category": "Spacecraft — Interstellar Mission", "stats": {"distance": "~173 AU (~25.9 Billion km • 1 Light-Day)", "orbit": "Hyperbolic Trajectory • 17.0 km/s", "eccentricity": "> 1.0 (Solar Escape)", "inclination": "+35° (North of Ecliptic)", "rotation": "September 5, 1977 (Titan IIIE)", "diameter": "3.7 m Dish Antenna • 13 m Boom", "temp": "3× Plutonium-238 RTGs (~220 W)", "system": "Active in Interstellar Medium • NASA"}, "description": "Voyager 1 is humanity's most distant spacecraft, having crossed the heliopause into interstellar space in 2012. As of November 2026, it reached a historic milestone of one full light-day (~25.9 billion km or ~173 AU) from Earth."}, "voyager2": {"name": "Voyager 2", "navLabel": "Voyager 2", "subtitle": "Only Explorer of All 4 Giant Planets (Grand Tour)", "category": "Spacecraft — Interstellar Mission", "stats": {"distance": "~144.5 AU (~21.6 Billion km from Sun)", "orbit": "Hyperbolic Trajectory • 15.4 km/s", "eccentricity": "> 1.0 (Solar Escape)", "inclination": "-48° (South of Ecliptic)", "rotation": "August 20, 1977 (Titan IIIE)", "diameter": "3.7 m Dish Antenna • 13 m Boom", "temp": "3× Plutonium-238 RTGs (~225 W)", "system": "Active in Interstellar Medium • NASA"}, "description": "Voyager 2 is the only spacecraft ever to visit all four giant planets—Jupiter, Saturn, Uranus, and Neptune—during its historic Grand Tour, now cruising through interstellar space toward the southern celestial hemisphere."}}, "galaxy": {"sgr_a": {"name": "Sagittarius A*", "label": "Sagittarius A* (Galactic Center)", "subtitle": "Supermassive Black Hole • Center of the Milky Way", "category": "Galactic Core (SMBH)", "stats": {"distance": "26,670 Light-Years from Earth", "orbit": "Gravitational Center of Milky Way", "eccentricity": "—", "inclination": "0.00° (Galactic Plane)", "rotation": "Approaching Relativistic Limit", "diameter": "~24 Million km (Event Horizon)", "temp": ">10 Billion °C (Accretion Disk)", "system": "Mass ~4.3 Million × Sun"}, "description": "Sagittarius A* is a supermassive black hole of ~4.3 million solar masses at the heart of the Milky Way. Surrounded by high-velocity young stars (such as S2) and a dense stellar bar, its event horizon shadow was first imaged by the Event Horizon Telescope in 2022."}, "orion_spur": {"name": "Solar System • Orion Spur", "label": "Solar System • Orion Spur", "subtitle": "Orion–Cygnus Local Arm • Home of Our Solar System", "category": "Local Spiral Branch", "stats": {"distance": "26,670 Light-Years from Sgr A*", "orbit": "230 Million Years (1 Cosmic Year)", "eccentricity": "0.07 (Nearly Circular)", "inclination": "60.2° (Ecliptic vs Galactic Plane)", "rotation": "230 km/s (~828,000 km/h)", "diameter": "~3,500 Wide × 10,000 Ly Long", "temp": "Vertical Oscillation ±230 Ly", "system": "Between Sagittarius & Perseus Arms"}, "description": "The Orion–Cygnus Spur is the minor spiral branch where the Sun and entire Solar System reside. Within it, the Sun speeds at ~230 km/s pulling eight planets and thousands of TNOs along a 60.2°-tilted helical path while bobbing through the galactic disk every ~64 million years."}, "perseus_arm": {"name": "Perseus Arm", "label": "Perseus Arm", "subtitle": "One of the Two Major Spiral Arms of the Milky Way", "category": "Major Spiral Arm", "stats": {"distance": "~6,400 Light-Years Outside Solar Orbit", "orbit": "Density Wave Pattern", "eccentricity": "Logarithmic Spiral", "inclination": "0.00° (Main Disk)", "rotation": "Stable Density Wave", "diameter": "Radius ~33,000–50,000 Ly", "temp": "Rich in Young O & B Stars", "system": "Crab Nebula & Double Cluster"}, "description": "The Perseus Arm is the outer major spiral arm wrapping around the Milky Way just beyond the Solar System's orbit. This colossal density wave triggers massive blue star formation and hosts the Crab Nebula (M1) and the Perseus Double Cluster."}, "scutum_arm": {"name": "Scutum–Centaurus Arm", "label": "Scutum–Centaurus Arm", "subtitle": "Inner Major Spiral Arm • Connected to the Galactic Bar", "category": "Major Spiral Arm", "stats": {"distance": "~10,000–25,000 Light-Years", "orbit": "Density Wave Pattern", "eccentricity": "Logarithmic Spiral", "inclination": "0.00° (Main Disk)", "rotation": "Attached to Galactic Bar End", "diameter": "Spans >60,000 Light-Years", "temp": "Active Star-Forming Region", "system": "RSGC Red Supergiant Clusters"}, "description": "The Scutum–Centaurus Arm is the symmetric counterpart to the Perseus Arm and one of the Milky Way's two primary spiral arms, meeting the near end of the galactic bar where dense clusters of red supergiants reside."}, "sagittarius_arm": {"name": "Sagittarius–Carina Arm", "label": "Sagittarius–Carina Arm", "subtitle": "Inner Minor Spiral Arm • Rich in Bright Nebulae", "category": "Minor Spiral Arm", "stats": {"distance": "~5,000–12,000 Ly Inward", "orbit": "Density Wave Pattern", "eccentricity": "Logarithmic Spiral", "inclination": "0.00° (Main Disk)", "rotation": "Minor Density Wave", "diameter": "Between Scutum & Orion Spur", "temp": "Rich in H-II Emission Nebulae", "system": "Carina, Lagoon & Eagle Nebulae"}, "description": "The Sagittarius–Carina Arm lies just inward of the Solar System toward the galactic center. Though a minor arm with lower old-star density, it brims with star-forming nurseries including the Carina, Lagoon (M8), and Eagle (M16) Nebulae."}, "norma_arm": {"name": "Norma Arm (Outer Arm)", "label": "Norma Arm", "subtitle": "Minor Spiral Arm • Extending to the Galactic Outskirts", "category": "Minor Spiral Arm", "stats": {"distance": "~15,000–45,000 Light-Years", "orbit": "Density Wave Pattern", "eccentricity": "Logarithmic Spiral", "inclination": "0.00° (Outer Disk)", "rotation": "Winds from Core to Outer Edge", "diameter": "Radius up to ~55,000 Ly", "temp": "Cold Neutral Hydrogen Gas", "system": "Outermost Arm of the Milky Way"}, "description": "The Norma Arm originates near the galactic center and winds outward into the Outer Arm at the Milky Way's frontier, mapped primarily via radio and infrared surveys through thick galactic dust."}, "omega_centauri": {"name": "Omega Centauri (NGC 5139)", "label": "Omega Centauri (Globular Cluster)", "subtitle": "Largest & Most Massive Globular Cluster in the Milky Way", "category": "Globular Cluster — Galactic Halo", "stats": {"distance": "17,090 Light-Years from Earth", "orbit": "Retrograde Orbit in 3D Halo", "eccentricity": "0.67 (Highly Eccentric)", "inclination": "High (Above Galactic Disk)", "rotation": "Age ~11.5 Billion Years", "diameter": "~150 Light-Years", "temp": "~10 Million Dense Stars", "system": "Suspected Dwarf Galaxy Remnant"}, "description": "Omega Centauri is the largest of ~150 globular clusters orbiting the Milky Way's halo, packing ~10 million ancient stars. Its multiple stellar generations and retrograde orbit suggest it is the stripped core of a dwarf galaxy absorbed billions of years ago."}, "lmc": {"name": "Large Magellanic Cloud (LMC)", "label": "Large Magellanic Cloud (LMC)", "subtitle": "Largest Satellite Galaxy Orbiting the Milky Way", "category": "Satellite Galaxy (Dwarf Spiral)", "stats": {"distance": "163,000 Light-Years from Earth", "orbit": "~1.5 Billion Years (Southern Halo)", "eccentricity": "Tidal Orbit", "inclination": "Southern Galactic Halo", "rotation": "Barred Dwarf Spiral Galaxy", "diameter": "~32,200 Light-Years", "temp": "~20–30 Billion Stars", "system": "Tarantula Nebula & SN 1987A"}, "description": "The Large Magellanic Cloud is the Milky Way's most massive satellite galaxy, clearly visible to the naked eye from Earth's southern hemisphere and home to the Tarantula Nebula and Supernova 1987A."}, "smc": {"name": "Small Magellanic Cloud (SMC)", "label": "Small Magellanic Cloud (SMC)", "subtitle": "Irregular Dwarf Satellite Galaxy • Companion to LMC", "category": "Satellite Galaxy (Dwarf Irregular)", "stats": {"distance": "200,000 Light-Years from Earth", "orbit": "Gravitationally Bound to LMC", "eccentricity": "Tidal Orbit", "inclination": "Southern Galactic Halo", "rotation": "Tidally Distorted", "diameter": "~18,900 Light-Years", "temp": "~3 Billion Stars", "system": "Linked by Gas Bridge to LMC"}, "description": "The Small Magellanic Cloud is a dwarf irregular galaxy paired with the LMC. Tidal interactions among the SMC, LMC, and Milky Way draw out the giant Magellanic Stream of hydrogen gas across our galactic halo."}, "sgr_dsph": {"name": "Sagittarius Dwarf (Sgr dSph)", "label": "Sagittarius Dwarf Galaxy", "subtitle": "Closest Satellite Galaxy • Being Accreted by Milky Way", "category": "Satellite Galaxy (Dwarf Spheroidal)", "stats": {"distance": "~65,000 Light-Years from Earth", "orbit": "~600 Myr (Polar Orbit)", "eccentricity": "0.32 (Elongated)", "inclination": "78° (Pierces Galactic Disk)", "rotation": "Tidally Disrupted", "diameter": "~10,000 Light-Years", "temp": "Source of Sagittarius Stream", "system": "Hosts Globular Cluster M54"}, "description": "Sagittarius Dwarf Spheroidal (Sgr dSph) repeatedly plunges through the Milky Way's disk on a polar orbit, shedding long tidal streams of stars and potentially triggering episodes of star formation near the Sun."}, "sculptor_dsph": {"name": "Sculptor Dwarf Galaxy", "label": "Sculptor Dwarf Galaxy", "subtitle": "First Dwarf Spheroidal Galaxy Ever Discovered (1937)", "category": "Satellite Galaxy (Dwarf Spheroidal)", "stats": {"distance": "~280,000 Light-Years from Earth", "orbit": "~2.2 Billion Yrs (Polar Orbit)", "eccentricity": "0.25", "inclination": "82° (South Galactic Pole)", "rotation": "Dark Matter Dominated", "diameter": "~6,000 Light-Years", "temp": "Ancient Metal-Poor Stars", "system": "Southern Galactic Halo"}, "description": "Discovered in 1937 near the South Galactic Pole, the Sculptor Dwarf was the first dwarf spheroidal galaxy ever identified, preserving ancient, metal-poor stars from the early universe."}, "draco_dsph": {"name": "Draco Dwarf Galaxy", "label": "Draco Dwarf Galaxy", "subtitle": "One of the Most Dark-Matter-Dominated Galaxies Known", "category": "Satellite Galaxy (Dwarf Spheroidal)", "stats": {"distance": "~260,000 Light-Years from Earth", "orbit": "~1.8 Billion Yrs (Northern Halo)", "eccentricity": "0.28", "inclination": "68° (Northern Galactic Halo)", "rotation": "Mass-to-Light Ratio >300", "diameter": "~2,700 Light-Years", "temp": "Virtually Devoid of Free Gas", "system": "Northern Galactic Halo"}, "description": "Orbiting in the northern galactic halo, the Draco Dwarf is one of the most dark-matter-dominated objects in the universe, with over 99% of its mass residing in an invisible dark matter halo."}, "umi_dsph": {"name": "Ursa Minor Dwarf Galaxy", "label": "Ursa Minor Dwarf Galaxy", "subtitle": "Ancient Metal-Poor Galaxy in the Northern Halo", "category": "Satellite Galaxy (Dwarf Spheroidal)", "stats": {"distance": "~225,000 Light-Years from Earth", "orbit": "~1.5 Billion Yrs (Northern Halo)", "eccentricity": "0.24", "inclination": "74° (Northern Galactic Halo)", "rotation": "Stellar Age >11 Billion Yrs", "diameter": "~2,000 Light-Years", "temp": "No Active Star Formation", "system": "Paired Near Draco Halo Orbit"}, "description": "The Ursa Minor Dwarf orbits the northern Milky Way halo; nearly all of its stars formed in a single brief burst more than 11 billion years ago before its gas was stripped away."}, "fornax_dsph": {"name": "Fornax Dwarf Galaxy", "label": "Fornax Dwarf Galaxy", "subtitle": "Brightest & Most Massive Dwarf Spheroidal Companion", "category": "Satellite Galaxy (Dwarf Spheroidal)", "stats": {"distance": "~460,000 Light-Years from Earth", "orbit": "~3.2 Billion Yrs (Outer Halo)", "eccentricity": "0.20", "inclination": "64° (Outer Southern Halo)", "rotation": "Hosts 6 Own Globular Clusters", "diameter": "~7,000 Light-Years", "temp": "Tens of Millions of Stars", "system": "Largest Milky Way dSph"}, "description": "The Fornax Dwarf is the brightest and most massive dwarf spheroidal satellite around the Milky Way—large enough to host six globular clusters of its own, including NGC 1049."}, "milky_way": {"name": "Milky Way Galaxy", "subtitle": "Barred Spiral (SBbc) • Our Cosmic Home", "category": "Galactic Map • Cosmic Year", "stats": {"distance": "26,670 Light-Years (Orion Spur)", "orbit": "230 Million Years (1 Cosmic Year)", "eccentricity": "0.07 (Nearly Circular)", "inclination": "60.2° (Ecliptic Tilt)", "rotation": "230 km/s (~828,000 km/h)", "diameter": "105,700 Light-Years", "temp": "100–400 Billion Stars", "system": "4 Major Arms + Orion Spur"}, "description": "The Milky Way rotates differentially like a whirlpool—inner stars overtake outer ones—while its four spiral arms are sustained by a steadily rotating Density Wave. The Solar System resides in the Orion–Cygnus Spur (~26,670 light-years from Sagittarius A*), completing one galactic orbit every 230 million years along a 60.2° helical trajectory."}}, "constellations": {"const_orion": {"name": "Orion", "subtitle": "The Hunter • Orion's Belt & Orion Nebula (M42)", "category": "Constellation — Celestial Equator", "stats": {"distance": "Rigel 860 Ly • Betelgeuse 548 Ly", "orbit": "Rigel (α/β Ori, Mag +0.13)", "eccentricity": "Equatorial (Visible Globally)", "inclination": "December – February", "rotation": "594 Sq. Degrees (Rank 26)", "diameter": "7 Bright Primary Stars", "temp": "Orion Nebula (M42) & Horsehead", "system": "Orion Family"}, "description": "Orion is one of the most recognizable constellations worldwide thanks to the three aligned stars of Orion's Belt (Alnitak, Alnilam, Mintaka), flanked by red supergiant Betelgeuse, blue supergiant Rigel, and the Orion Nebula (M42)."}, "const_ursa_major": {"name": "Ursa Major (Big Dipper)", "subtitle": "Great Bear • Big Dipper Asterism Pointer to Polaris", "category": "Constellation — Northern Sky", "stats": {"distance": "Alioth 82.6 Ly • Dubhe 123 Ly", "orbit": "Alioth (ε UMa, Mag +1.77)", "eccentricity": "Northern Celestial Hemisphere", "inclination": "March – May", "rotation": "1,280 Sq. Degrees (3rd Largest)", "diameter": "7 Big Dipper Asterism Stars", "temp": "M81, M82 & Pinwheel Galaxy M101", "system": "Ursa Major Family"}, "description": "Ursa Major is the third-largest constellation in the sky and home to the famous Big Dipper asterism, whose pointer stars Merak and Dubhe guide observers straight to Polaris, the North Star."}, "const_cassiopeia": {"name": "Cassiopeia", "subtitle": "The Queen • 'W' Pattern Along the Northern Milky Way", "category": "Constellation — Northern Sky", "stats": {"distance": "Schedar 228 Ly • Caph 54.7 Ly", "orbit": "Schedar (α Cas, Mag +2.24)", "eccentricity": "Northern Celestial Hemisphere", "inclination": "October – December", "rotation": "598 Sq. Degrees (Rank 25)", "diameter": "5 Primary Stars ('W' Shape)", "temp": "Open Cluster M52 & Pacman Nebula", "system": "Perseus Family"}, "description": "Cassiopeia stands out with five bright stars forming an unmistakable 'W' or 'M' across the northern Milky Way, rich in open star clusters and Tycho's Supernova Remnant."}, "const_crux": {"name": "Crux (Southern Cross)", "subtitle": "Southern Cross • Traditional Southern Navigation Compass", "category": "Constellation — Southern Sky", "stats": {"distance": "Acrux 321 Ly • Gacrux 88.6 Ly", "orbit": "Acrux (α Cru, Mag +0.76)", "eccentricity": "Southern Celestial Hemisphere", "inclination": "April – June", "rotation": "68 Sq. Degrees (Smallest of 88)", "diameter": "4 Bright Cross Stars", "temp": "Coalsack Dark Nebula & Jewel Box", "system": "Hercules Family"}, "description": "Though the smallest of the 88 official IAU constellations by area, Crux (the Southern Cross) is brilliantly bright and has served southern mariners for centuries as a pointer toward the South Celestial Pole."}, "const_scorpius": {"name": "Scorpius", "subtitle": "The Scorpion • Red Supergiant Heart Antares", "category": "Constellation — Southern Zodiac", "stats": {"distance": "Antares 550 Ly • Shaula 570 Ly", "orbit": "Antares (α Sco, Mag +0.96)", "eccentricity": "Zodiac / Southern Sky", "inclination": "June – August", "rotation": "497 Sq. Degrees (Rank 33)", "diameter": "8 Primary Hook-Tail Stars", "temp": "Globular Cluster M4 & Butterfly M6", "system": "Zodiac Family"}, "description": "Scorpius sweeps across the star-rich Milky Way core with its distinctive curved scorpion tail and glowing red supergiant heart Antares ('Rival of Mars'), roughly 680 times wider than the Sun."}, "const_cygnus": {"name": "Cygnus", "subtitle": "The Swan • Northern Cross & Supergiant Deneb", "category": "Constellation — Northern Sky", "stats": {"distance": "Deneb ~2,600 Ly • Albireo 434 Ly", "orbit": "Deneb (α Cyg, Mag +1.25)", "eccentricity": "Northern Celestial Hemisphere", "inclination": "July – October", "rotation": "804 Sq. Degrees (Rank 16)", "diameter": "5 Northern Cross Stars", "temp": "North America Nebula & Cygnus X-1", "system": "Hercules Family"}, "description": "Cygnus forms the Northern Cross soaring along the Milky Way plane, anchored by Deneb (~200,000× the Sun's luminosity) and housing the famous black hole binary Cygnus X-1."}, "const_leo": {"name": "Leo", "subtitle": "The Lion • The Sickle & Blue-White Star Regulus", "category": "Constellation — Northern Zodiac", "stats": {"distance": "Regulus 79.3 Ly • Denebola 35.9 Ly", "orbit": "Regulus (α Leo, Mag +1.36)", "eccentricity": "Zodiac / Northern Sky", "inclination": "March – May", "rotation": "947 Sq. Degrees (Rank 12)", "diameter": "7 Primary Lion-Pattern Stars", "temp": "Leo Triplet (M65, M66, NGC 3628)", "system": "Zodiac Family"}, "description": "Leo is a classic zodiacal constellation shaped like a crouching lion with a backward question-mark 'Sickle' head, anchored by the rapidly spinning quadruple star system Regulus."}, "const_taurus": {"name": "Taurus", "subtitle": "The Bull • Red Eye Aldebaran, Hyades & Pleiades", "category": "Constellation — Northern Zodiac", "stats": {"distance": "Aldebaran 65.3 Ly • Elnath 134 Ly", "orbit": "Aldebaran (α Tau, Mag +0.86)", "eccentricity": "Zodiac / Northern Sky", "inclination": "December – February", "rotation": "797 Sq. Degrees (Rank 17)", "diameter": "6 Primary 'V'-Horn Stars", "temp": "Pleiades (M45) & Crab Nebula (M1)", "system": "Zodiac Family"}, "description": "Northwest of Orion, Taurus charges with a 'V'-shaped face (the Hyades cluster) and fiery orange giant eye Aldebaran, also hosting the Pleiades (M45) and Crab Nebula (M1)."}, "const_canis_major": {"name": "Canis Major", "subtitle": "Great Dog • Home of Sirius, Brightest Star in the Night Sky", "category": "Constellation — Southern Sky", "stats": {"distance": "Sirius 8.60 Ly (Very Close!)", "orbit": "Sirius (α CMa, Mag -1.46)", "eccentricity": "Southern Celestial Hemisphere", "inclination": "January – March", "rotation": "380 Sq. Degrees (Rank 43)", "diameter": "5 Bright Primary Stars", "temp": "Open Cluster M41 & Hypergiant VY CMa", "system": "Orion Family"}, "description": "Following Orion across the sky, Canis Major shines with Sirius—the brightest star in Earth's night sky at just 8.6 light-years away, orbited by white dwarf companion Sirius B."}, "const_lyra": {"name": "Lyra", "subtitle": "The Harp • Blue Star Vega & Ring Nebula (M57)", "category": "Constellation — Northern Sky", "stats": {"distance": "Vega 25.04 Ly (Nearby Star)", "orbit": "Vega (α Lyr, Mag +0.03)", "eccentricity": "Northern Celestial Hemisphere", "inclination": "July – September", "rotation": "286 Sq. Degrees (Rank 52)", "diameter": "5 Parallelogram Stars", "temp": "Ring Nebula (M57) & Lyrid Meteors", "system": "Hercules Family"}, "description": "Lyra is a compact northern constellation dominated by Vega—the fifth-brightest star in the night sky and a vertex of the Summer Triangle—which axial precession will make Earth's North Star around 14,000 CE."}, "const_aquila": {"name": "Aquila", "subtitle": "The Eagle • Fast-Spinning Altair in the Summer Triangle", "category": "Constellation — Celestial Equator", "stats": {"distance": "Altair 16.73 Ly (Very Close)", "orbit": "Altair (α Aql, Mag +0.76)", "eccentricity": "Equatorial (Visible Globally)", "inclination": "July – October", "rotation": "652 Sq. Degrees (Rank 22)", "diameter": "5 Primary Wing Stars", "temp": "Milky Way Band & Barnard's E Nebula", "system": "Hercules Family"}, "description": "Aquila spreads its wings right across the celestial equator, led by Altair—just 16.7 light-years away and spinning so rapidly (under 9 hours) that it bulges noticeably at its equator."}, "const_gemini": {"name": "Gemini", "subtitle": "The Twins • Castor & Pollux • Geminid Meteor Radiant", "category": "Constellation — Northern Zodiac", "stats": {"distance": "Pollux 33.8 Ly • Castor 51 Ly", "orbit": "Pollux (β Gem, Mag +1.14)", "eccentricity": "Zodiac / Northern Sky", "inclination": "January – March", "rotation": "514 Sq. Degrees (Rank 30)", "diameter": "6 Twin-Figure Stars", "temp": "Open Cluster M35 & Eskimo Nebula", "system": "Zodiac Family"}, "description": "Gemini is crowned by the twin stars Pollux (an orange giant with a confirmed exoplanet) and Castor (a sextuple star system), serving as the radiant for the annual Geminid meteor shower."}}, "tourStops": [{"title": "THE SUN (SOL)", "caption": "Gravitational center of the Solar System (0.00 AU) — a G-type yellow dwarf star with animated convective plasma shaders."}, {"title": "MERCURY", "caption": "The innermost planet (0.39 AU) with a heavily cratered surface and extreme day-night temperature swings."}, {"title": "VENUS", "caption": "The second planet (0.72 AU) wrapped in chevron sulfuric acid clouds, a runaway greenhouse effect, and retrograde spin."}, {"title": "EARTH & THE MOON", "caption": "Our inhabited blue planet (1.00 AU) with dynamic cloud cover, Rayleigh atmosphere, and its natural satellite, the Moon."}, {"title": "MARS, PHOBOS & DEIMOS", "caption": "The Red Planet (1.52 AU) featuring Olympus Mons, Valles Marineris, and its two captured-like inner moons."}, {"title": "4 VESTA (MAIN ASTEROID BELT)", "caption": "Second-most massive and brightest asteroid (2.36 AU) scarred by the giant Rheasilvia impact basin at its south pole."}, {"title": "3 JUNO (S-TYPE ASTEROID)", "caption": "A stony silicate asteroid (2.67 AU) following an elongated orbit through the heart of the Main Asteroid Belt."}, {"title": "CERES (ASTEROID BELT DWARF PLANET)", "caption": "The innermost dwarf planet and largest body in the Asteroid Belt (2.77 AU), gleaming with bright salt deposits in Occator Crater."}, {"title": "2 PALLAS (EXTREME 34.8° INCLINATION)", "caption": "Third-largest asteroid in the Main Belt (2.77 AU), tilted at an extraordinary 34.8-degree orbital inclination."}, {"title": "16 PSYCHE (M-TYPE METALLIC ASTEROID)", "caption": "An iron-nickel metallic world (2.92 AU), thought to be an exposed protoplanet core and target of NASA's Psyche mission."}, {"title": "10 HYGIEA (OUTER ASTEROID BELT)", "caption": "Fourth-largest body in the Asteroid Belt (3.14 AU) with a nearly spherical shape and dark carbonaceous surface."}, {"title": "JUPITER & GALILEAN MOONS", "caption": "Largest gas giant (5.20 AU) with the Great Red Spot, polar cyclones, plus Io, Europa, Ganymede, and Callisto."}, {"title": "JUPITER TROJANS L4 (GREEK CAMP)", "caption": "Swarms of Trojan asteroids stably locked at the L4 Lagrange point +60° ahead of Jupiter's orbit."}, {"title": "JUPITER TROJANS L5 (TROJAN CAMP)", "caption": "Swarms of Trojan asteroids trailing stably 60° behind Jupiter at the L5 Lagrange point."}, {"title": "SATURN & TITAN", "caption": "Jewel of the Solar System (9.58 AU) with multi-tiered icy rings, the Cassini Division, north polar hexagon, and Titan."}, {"title": "URANUS (97.8° AXIAL TILT)", "caption": "Pale cyan ice giant (19.22 AU) rolling on its side at 97.8° alongside vertical rings and five major moons."}, {"title": "NEPTUNE & RETROGRADE TRITON", "caption": "Outermost major planet (30.05 AU) swept by supersonic winds and orbited backward by captured Kuiper Belt moon Triton."}, {"title": "ORCUS & VANTH ('ANTI-PLUTO')", "caption": "First Plutino dwarf planet (39.42 AU) locked in a 2:3 resonance with Neptune opposite Pluto's orbital phase."}, {"title": "PLUTO & CHARON (BINARY SYSTEM)", "caption": "King of the Kuiper Belt (39.48 AU) with Sputnik Planitia's nitrogen-ice heart plus Charon, Styx, Nix, Kerberos, and Hydra."}, {"title": "SALACIA & ACTAEA (CUBEWANO)", "caption": "High-inclination classical Kuiper Belt dwarf planet (42.18 AU) with a very dark carbon-ice crust."}, {"title": "HAUMEA (TRIAXIAL ELLIPSOID & RING)", "caption": "Spinning in just 3.9 hours (43.13 AU) into an elongated ellipsoid encircled by an icy ring, Hiʻiaka, and Namaka."}, {"title": "QUAOAR & DOUBLE RING SYSTEM", "caption": "Cubewano dwarf planet (43.69 AU) boasting an anomalous double ring system well outside the classical Roche limit."}, {"title": "486958 ARROKOTH (CONTACT-BINARY KBO)", "caption": "Farthest Kuiper Belt object visited by New Horizons (44.58 AU), shaped like two reddish merged lobes."}, {"title": "MAKEMAKE & MK2", "caption": "Bright reddish-orange methane-covered Cubewano dwarf planet (45.79 AU) accompanied by its dark moon MK2."}, {"title": "GONGGONG & XIANGLIU (SCATTERED DISC)", "caption": "Deep crimson tholin-rich dwarf planet in the Scattered Disc (67.48 AU) orbited by Xiangliu."}, {"title": "ERIS & DYSNOMIA (44° INCLINATION)", "caption": "Most massive dwarf planet in the Scattered Disc (67.86 AU), tilted at an extreme 44-degree orbital inclination."}, {"title": "SEDNA (INNER OORT CLOUD)", "caption": "Distant sednoid (506 AU mean) tracing a 11,400-year eccentric orbit to the gateway of the Inner Oort Cloud."}, {"title": "COMET 2P/ENCKE (3.3-YEAR PERIOD)", "caption": "Shortest-period bright comet diving inside Mercury's orbit and feeding the annual Taurid meteor shower."}, {"title": "COMET 67P/CHURYUMOV–GERASIMENKO", "caption": "Double-lobed Jupiter-family comet explored up close and landed upon by ESA's Rosetta and Philae missions."}, {"title": "COMET 1P/HALLEY (RETROGRADE ORBIT)", "caption": "Legendary 75.3-year comet cruising retrograde at 162.3° with a straight blue ion tail and curved golden dust tail."}, {"title": "COMET C/1995 O1 (HALE-BOPP)", "caption": "Giant ~60 km comet on a near-polar 89.4° trajectory unleashing a massive coma and twin tails."}, {"title": "FULL PANORAMA OF THE SOLAR SYSTEM & TNOS", "caption": "Concluding the tour with a sweeping vista from the Sun and eight major planets out to the Kuiper Belt and Sedna."}], "galaxyTourStops": [{"title": "SAGITTARIUS A* (GALACTIC CENTER)", "caption": "A 4.3-million-solar-mass supermassive black hole at the heart of the Milky Way's central stellar bar."}, {"title": "SCUTUM–CENTAURUS ARM (MAJOR)", "caption": "Inner primary spiral arm connecting directly to the near end of the galactic bar."}, {"title": "SAGITTARIUS–CARINA ARM", "caption": "Star-forming nursery region rich in bright nebulae including Carina, Lagoon, and the Pillars of Creation."}, {"title": "SOLAR SYSTEM • ORION SPUR (60.2° HELIX)", "caption": "Following our Solar System at 230 km/s as it pulls all eight planets along a 60.2°-tilted helical path."}, {"title": "PERSEUS ARM (MAJOR)", "caption": "Outer primary spiral density wave sweeping beyond the Solar System's orbit and igniting massive blue stars."}, {"title": "NORMA ARM (OUTER ARM)", "caption": "Minor spiral arm winding from the inner galaxy out to the Milky Way's outer frontier."}, {"title": "OMEGA CENTAURI (GLOBULAR CLUSTER)", "caption": "Largest globular cluster in the Milky Way's 3D halo, packing ~10 million ancient 11.5-billion-year-old stars."}, {"title": "SAGITTARIUS DWARF GALAXY (Sgr dSph)", "caption": "Closest satellite galaxy plunging repeatedly through the Milky Way's disk on a polar orbit."}, {"title": "LARGE MAGELLANIC CLOUD (LMC)", "caption": "Largest satellite galaxy in the southern galactic halo, home to the Tarantula Nebula and Supernova 1987A."}, {"title": "SMALL MAGELLANIC CLOUD (SMC)", "caption": "Irregular dwarf satellite galaxy gravitationally bound to the LMC and the Milky Way."}, {"title": "MILKY WAY GALAXY PANORAMA", "caption": "75,000 stars rotating differentially like a whirlpool with four spiral density-wave arms and seven satellite galaxies."}]};
+
+    // Sematkan properti .en ke seluruh entitas data tanpa mengubah ID internal
+    SOLAR_SYSTEM_DATA.forEach((item) => {
+      if (I18N_DATA_EN.solar[item.id]) item.en = I18N_DATA_EN.solar[item.id];
+      if (item.moons && item.moons.length > 0) {
+        item.moons.forEach((m) => {
+          if (I18N_DATA_EN.solar[m.id]) m.en = I18N_DATA_EN.solar[m.id];
+        });
+      }
+    });
+    CINEMATIC_TOUR_STOPS.forEach((s, idx) => {
+      if (I18N_DATA_EN.tourStops[idx]) s.en = I18N_DATA_EN.tourStops[idx];
+    });
+    GALAXY_TOUR_STOPS.forEach((s, idx) => {
+      if (I18N_DATA_EN.galaxyTourStops[idx]) s.en = I18N_DATA_EN.galaxyTourStops[idx];
+    });
+
+    function isEn() {
+      return state.lang === 'en';
+    }
+    function tData(obj, field) {
+      if (!obj) return '';
+      if (isEn() && obj.en && obj.en[field] !== undefined) return obj.en[field];
+      return obj[field];
+    }
+    function tName(obj) {
+      return tData(obj, 'name');
+    }
+    function tNavLabel(obj) {
+      if (!obj) return '';
+      if (isEn() && obj.en) return obj.en.navLabel || obj.en.name || obj.navLabel || obj.name;
+      return obj.navLabel || obj.name;
+    }
+    function tStats(obj) {
+      if (!obj) return {};
+      return (isEn() && obj.en && obj.en.stats) ? obj.en.stats : obj.stats;
+    }
+    function tGalaxyLabel(id) {
+      const g = GALAXY_OBJECTS_DATA[id];
+      if (!g) return id;
+      if (isEn() && g.en) return g.en.label || g.en.name;
+      return g.defaultLabel || g.name;
+    }
+
+    const UI_STRINGS = {
+      id: {
+        docTitle: 'Simulasi Interaktif Tata Surya & Galaksi',
+        loadTitle: 'SIMULASI INTERAKTIF TATA SURYA & GALAKSI',
+        restoreHud: 'Tampilkan HUD (H)',
+        restoreHudTitle: 'Tampilkan Antarmuka (H)',
+        floatingRecTitle: 'Geser untuk memindahkan posisi indikator rekam',
+        headerTitle: 'Simulasi Interaktif Tata Surya & Galaksi',
+        headerModeBadgeTitle: 'Ganti Mode Simulasi (M)',
+        controlsBtn: 'Kontrol',
+        controlsBtnTitle: 'Buka/Tutup Panel Kontrol Kiri',
+        zoomInBtn: 'Zoom In',
+        zoomInTitle: 'Zoom In ke Tata Surya Dalam (Matahari, Merkurius, Venus, Bumi & Mars)',
+        zoomOutBtn: 'Zoom Out',
+        zoomOutTitle: 'Zoom Out & Auto Center ke Tampilan Penuh (Pintasan: R)',
+        freeCamBtn: 'Free Cam',
+        freeCamTitle: 'Mode Free Cam: Geser bebas dengan Klik Kiri / 1 Jari & WASD tanpa tahan Klik Kanan (Pintasan: G)',
+        searchBtn: 'Cari',
+        searchTitle: 'Pencarian Cepat Objek Langit (Pintasan: /)',
+        telemetryBtn: 'Telemetri',
+        telemetryTitle: 'Buka/Tutup Panel Telemetri Kanan',
+        cinematicBtn: 'Sinematik',
+        cinematicTitle: 'Sembunyikan Antarmuka (Pintasan: H)',
+        quickRecTitle: 'Rekam klip video',
+        resetAllBtn: 'Reset',
+        resetAllTitle: 'Reset Semua Pengaturan, Lapisan, Bingkai Rekam & Tampilan ke Awal',
+        helpTitle: 'Panduan Kontrol Sentuh & Pintasan Keyboard (?)',
+        langTitle: 'Bahasa: Indonesia (Klik untuk English)',
+        aspectFull: 'Layar',
+        recStart: 'Mulai Rekam',
+        recStopSave: 'Stop & Simpan',
+        recSaving: 'Menyimpan...',
+        recUnsupported: 'Browser ini belum mendukung perekaman kanvas WebGL secara langsung.',
+        recFailed: 'Gagal menyimpan rekaman. Coba FPS 30 atau mode Layar.',
+        ctrlPanelTitle: 'Kontrol Simulasi',
+        hideTitle: 'Sembunyikan',
+        refModeLabel: 'Mode Referensi (M)',
+        modeHelioBtn: 'Heliosentris',
+        modeHelicalBtn: 'Heliks 60°',
+        modeGalaxyBtn: 'Bima Sakti',
+        modeHelioBadge: 'HELIOSENTRIS',
+        modeHelicalBadge: 'HELIKS GALAKTIK',
+        modeGalaxyBadge: 'PETA BIMA SAKTI',
+        modeHelioShort: 'Helio',
+        modeHelicalShort: 'Heliks',
+        modeGalaxyShort: 'Galaksi',
+        tiltHelio: 'Ekliptika 0°',
+        tiltHelical: 'Ekliptika 60,2°',
+        tiltGalaxy: 'Heliks 60,2° • 105k Ly',
+        subHelio: '8 Planet • 10 Planet Katai • 34 Satelit • Sabuk Kuiper & Scattered Disc',
+        subHelical: 'Model Heliks 60,2° • Laju 230 km/dtk • Lintasan Lurus Matahari • Vortex 8 Planet',
+        subGalaxy: 'Galaksi Bima Sakti (SBbc) • 75.000 Bintang • Rotasi Diferensial & Gelombang Kepadatan',
+        helicalSpeedLbl: 'Laju Heliks (230 km/dtk)',
+        helicalWidthLbl: 'Tebal Jejak Heliks',
+        helicalTrailsBtn: 'Jejak Heliks',
+        galacticBobbingBtn: 'Osilasi Galaksi',
+        dwarfGalaxiesBtn: 'Galaksi Katai',
+        satGalaxyOrbitsBtn: 'Orbit Gal. Satelit',
+        solarSystemOrbitBtn: 'Orbit Tata Surya',
+        followSolarBtn: 'Ikuti Tata Surya (F)',
+        releaseSolarBtn: 'Lepas Tata Surya (F)',
+        followSolarTitle: 'Ikuti atau lepaskan pelacakan kamera pada Tata Surya di Bima Sakti (Pintasan: F)',
+        timeSpeedLbl: 'Kecepatan Waktu',
+        resetSpeedTitle: 'Reset Kecepatan Waktu ke 0.0x',
+        playPauseTitle: 'Jeda / Putar Simulasi (Spasi)',
+        bodyScaleLbl: 'Skala Ukuran Planet & Katai',
+        layersHeader: 'Lapisan Orbit & Populasi',
+        layerPlanets: 'Planet Utama',
+        layerOrbits: 'Orbit Planet',
+        layerDwarfPlanets: 'Planet Katai',
+        layerTnoOrbits: 'Orbit Katai',
+        layerMoons: 'Satelit Alami',
+        layerMoonOrbits: 'Orbit Satelit',
+        layerAsteroids: 'Asteroid',
+        layerAsteroidOrbits: 'Orbit Asteroid',
+        layerComets: 'Komet Aktif',
+        layerCometOrbits: 'Orbit Komet',
+        layerSpacecraft: 'Wahana',
+        layerSpacecraftOrbits: 'Orbit Wahana',
+        layerLabels: 'Label Nama',
+        layerConstellations: 'Rasi Bintang',
+        fullscreenEnter: 'Layar Penuh',
+        fullscreenExit: 'Keluar',
+        fullscreenTitle: 'Masuk / Keluar Mode Layar Penuh Perangkat (Pintasan: L)',
+        tourStart: 'Tur Sinematik',
+        tourStop: 'Hentikan Tur',
+        tourPrefixCinematic: 'TUR SINEMATIK',
+        tourPrefixGalaxy: 'TUR GALAKSI',
+        tourChapter: 'BAB',
+        closePanelAria: 'Tutup Panel',
+        moonsHeading: 'Satelit Alami',
+        moonsCountSuffix: 'Satelit',
+        backToPrefix: 'Kembali ke',
+        statBody: ['Jarak Rata-Rata', 'Periode Orbit', 'Eksentrisitas (e)', 'Inklinasi Orbit', 'Periode Rotasi', 'Diameter', 'Suhu Permukaan', 'Satelit & Cincin'],
+        statConst: ['Jarak Bintang Utama', 'Bintang Terterang', 'Belahan Langit', 'Bulan Terbaik', 'Luas Wilayah', 'Pola Utama', 'Objek Langit Dalam', 'Keluarga Rasi'],
+        statSpacecraft: ['Lokasi / Jarak', 'Lintasan / Laju', 'Eksentrisitas (e)', 'Inklinasi', 'Peluncuran', 'Dimensi Wahana', 'Daya & Suhu', 'Status Misi'],
+        camViews: { cinematic: 'Sinematik', day: 'Sisi Siang', chase: 'Belakang', top: 'Atas', side: 'Ekuator', atmosphere: 'Atmosfer' },
+        camViewTitles: [
+          'Sudut 3/4 Sinematik (1)',
+          'Sisi Terang Menghadap Matahari (2)',
+          'Dari Belakang Arah Gerak (3)',
+          'Tampak Atas / Kutub (4)',
+          'Profil Ekuator / Cincin (5)',
+          'Ngintip Cakrawala & Atmosfer Orbit Rendah (6)'
+        ],
+        followToggleTitle: 'Buka / Tutup Opsi Sudut Kamera & Pelacakan (Pintasan: 1–6)',
+        barZoomInTitle: 'Zoom In ke Tata Surya Dalam (Matahari – Mars)',
+        barZoomOutTitle: 'Zoom Out & Auto Center ke Tampilan Penuh (R)',
+        releaseFollowTitle: 'Berhenti mengikuti objek di tempat (Pintasan: Esc)',
+        nasaLiveTitle: 'Sinkronkan ke waktu & laju nyata saat ini (LIVE / REAL RATE)',
+        nasaCloseTitle: 'Tutup Kontrol Waktu',
+        nasaRewindTitle: 'Putar Mundur / Perlambat Waktu',
+        nasaPlayTitle: 'Jeda / Putar Waktu (Spasi)',
+        nasaForwardTitle: 'Percepat Waktu Maju',
+        nasaShuttleTitle: 'Geser kiri untuk mundur (Rewind) atau kanan untuk percepat (Fast-Forward). Klik ganda untuk LIVE.',
+        cosmicClockTitle: 'Klik untuk membuka Kontrol Waktu (Arc Shuttle, Rewind & LIVE)',
+        catMajor: 'Planet Utama (8)',
+        catDwarf: 'Planet Katai (10)',
+        catTno: 'Asteroid & Komet',
+        catSpacecraft: 'Wahana (4)',
+        catGalaxyDwarf: 'Galaksi & Galaksi Katai',
+        moonsBarFmt: (host, n) => `Satelit ${host} (${n}):`,
+        galDwarfNav: { sgr_a: 'Sagittarius A*', lmc: 'LMC', smc: 'SMC', sgr_dsph: 'Katai Sagitarius', sculptor_dsph: 'Sculptor', draco_dsph: 'Draco', umi_dsph: 'Ursa Minor', fornax_dsph: 'Fornax' },
+        ratePaused: 'JEDA',
+        rateYrs: 'THN/DTK',
+        rateMos: 'BLN/DTK',
+        rateDays: 'HARI/DTK',
+        months: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+        cosmicTimeFmt: (myrStr, pctStr) => `Waktu Kosmik: ${myrStr} Juta Thn • ${pctStr}% Orbit`,
+        helicalClockUnit: 'Miliar km',
+        earthYearsUnit: 'Thn Bumi',
+        searchPlaceholder: 'Cari planet, bulan, planet katai, atau objek galaksi...',
+        searchClose: 'Tutup',
+        searchCountFmt: (n) => `${n} objek ditemukan`,
+        searchEmptyHtml: 'Objek tidak ditemukan. Coba kata kunci seperti <span class="text-sky-300">Saturnus</span>, <span class="text-[#7cc0ff]">Pluto</span>, <span class="text-[#7cc0ff]">Sagittarius</span>, atau <span class="text-[#7cc0ff]">LMC</span>.',
+        searchFooterHint: '↑↓ Pilih • Enter Fokus • Esc Tutup',
+        badges: { star: 'Bintang', spacecraft: 'Wahana', comet: 'Komet', kuiper: 'Sabuk Kuiper', asteroid: 'Asteroid', dwarf: 'Planet Katai', trojan: 'Trojan', planet: 'Planet', moon: 'Satelit', galaxy: 'Bima Sakti', constellation: 'Rasi Bintang' },
+        moonSubFmt: (hostName, sub) => `Satelit ${hostName} • ${sub}`,
+        periTitle: 'Klik untuk mengarahkan kamera ke titik Perihelion (terdekat Matahari)',
+        aphTitle: 'Klik untuk mengarahkan kamera ke titik Aphelion (terjauh Matahari)',
+        galLabelTitleSun: 'Klik untuk fokus & ikuti Tata Surya di Bima Sakti',
+        galLabelTitleFmt: (txt) => `Klik untuk melihat info & fokus ke ${txt}`,
+        constLabelTitleFmt: (txt) => `Klik untuk melihat info & arahkan kamera ke Rasi ${txt}`,
+        constPrevTitle: 'Rasi Bintang Sebelumnya (Panah Kiri)',
+        constNextTitle: 'Rasi Bintang Berikutnya (Panah Kanan)',
+        constExitTitle: 'Keluar dari Mode Rasi Bintang & Kembali ke Tata Surya (Esc)',
+        fpsAriaLabel: 'Frame per detik dan frametime',
+        loadStep1: 'Membangun latar belakang bintang & Matahari...',
+        loadStepBody: (name, i, total) => `Memuat ${name} (${i}/${total})...`,
+        loadStepBelts: 'Membangun 9.800 objek Sabuk Asteroid, Trojan & Kuiper...',
+        loadStepGalaxy: 'Membangun Galaksi Bima Sakti (75.000 bintang & nebula)...',
+        loadError: 'Terjadi kendala memuat WebGL. Silakan muat ulang halaman.',
+        helpTitleText: 'Panduan Kontrol & Pintasan',
+        helpSubtitleText: 'Mendukung Layar Sentuh (HP/Tablet) & Keyboard (PC)',
+        helpSec1: 'Kontrol Kamera (Mouse, Trackpad & Layar Sentuh)',
+        helpSec1Rows: [
+          ['Putar Kamera', 'Klik Kiri / 1 Jari'],
+          ['Zoom Cerdas', 'Double Klik/Tap • Scroll'],
+          ['Geser Bebas (Pan)', 'Shift/Spasi+Klik • 2 Jari'],
+          ['Info Planet & Rasi', 'Klik Objek / Label']
+        ],
+        helpSec2: 'Navigasi Keyboard & Mode Free Cam (G)',
+        helpSec2Rows: [
+          ['Terbang & Geser Bebas', 'WASD / Panah + Q/E'],
+          ['Akselerasi Cepat (2,5×)', 'Tahan Shift + WASD'],
+          ['Geser 1 Jari / Klik Kiri', 'Mode Free Cam (G)'],
+          ['Ganti / Keluar Rasi', 'Prev / Next / Exit']
+        ],
+        helpSec2Note: 'Setelah <strong class="text-sky-200">Release (Esc)</strong>, tombol <strong class="text-sky-200">WASD / Panah</strong> langsung aktif untuk terbang bebas tanpa perlu menyalakan Free Cam. Tahan <strong class="text-sky-200">Shift</strong> atau <strong class="text-sky-200">Spasi + Klik Kiri</strong> (atau Klik Tengah) untuk menggeser kamera kapan saja.',
+        helpSec3: 'Pintasan Keyboard (PC & Laptop)',
+        helpShortcuts: [
+          ['Jeda / Putar Waktu', 'Spasi'],
+          ['Ganti Mode Referensi', 'M'],
+          ['On / Off Free Cam', 'G'],
+          ['Pencarian Cepat', '/'],
+          ['Sudut Kamera Follow', '1 – 6'],
+          ['Pusatkan Tanpa Reset Zoom', 'C / Home'],
+          ['Lepas Fokus / Exit Rasi', 'Esc'],
+          ['Ikuti / Lepas Tata Surya', 'F'],
+          ['Zoom Out / Reset Penuh', 'R'],
+          ['Mode Sinematik (HUD)', 'H'],
+          ['Rekam Klip Video FHD', 'V'],
+          ['Layar Penuh (Fullscreen)', 'L'],
+          ['Buka / Tutup Panduan', '?']
+        ]
+      },
+      en: {
+        docTitle: 'Interactive 3D Solar System & Galaxy Simulation',
+        loadTitle: 'INTERACTIVE 3D SOLAR SYSTEM & GALAXY',
+        restoreHud: 'Show HUD (H)',
+        restoreHudTitle: 'Show Interface (H)',
+        floatingRecTitle: 'Drag to reposition recording indicator',
+        headerTitle: 'Interactive Solar System & Galaxy Simulation',
+        headerModeBadgeTitle: 'Switch Simulation Mode (M)',
+        controlsBtn: 'Controls',
+        controlsBtnTitle: 'Open/Close Left Control Panel',
+        zoomInBtn: 'Zoom In',
+        zoomInTitle: 'Zoom In to Inner Solar System (Sun, Mercury, Venus, Earth & Mars)',
+        zoomOutBtn: 'Zoom Out',
+        zoomOutTitle: 'Zoom Out & Auto Center to Full View (Shortcut: R)',
+        freeCamBtn: 'Free Cam',
+        freeCamTitle: 'Free Cam Mode: Pan freely with Left Click / 1 Finger & WASD without holding Right Click (Shortcut: G)',
+        searchBtn: 'Search',
+        searchTitle: 'Quick Celestial Object Search (Shortcut: /)',
+        telemetryBtn: 'Telemetry',
+        telemetryTitle: 'Open/Close Right Telemetry Drawer',
+        cinematicBtn: 'Cinematic',
+        cinematicTitle: 'Hide Interface (Shortcut: H)',
+        quickRecTitle: 'Record video clip',
+        resetAllBtn: 'Reset',
+        resetAllTitle: 'Reset All Settings, Layers, Recording Frame & View to Default',
+        helpTitle: 'Touch Controls & Keyboard Shortcuts Guide (?)',
+        langTitle: 'Language: English (Click for Bahasa Indonesia)',
+        aspectFull: 'Screen',
+        recStart: 'Start Rec',
+        recStopSave: 'Stop & Save',
+        recSaving: 'Saving...',
+        recUnsupported: 'This browser does not support direct WebGL canvas recording.',
+        recFailed: 'Failed to save recording. Try 30 FPS or Screen aspect mode.',
+        ctrlPanelTitle: 'Simulation Controls',
+        hideTitle: 'Hide',
+        refModeLabel: 'Reference Mode (M)',
+        modeHelioBtn: 'Heliocentric',
+        modeHelicalBtn: 'Helix 60°',
+        modeGalaxyBtn: 'Milky Way',
+        modeHelioBadge: 'HELIOCENTRIC',
+        modeHelicalBadge: 'GALACTIC HELIX',
+        modeGalaxyBadge: 'MILKY WAY MAP',
+        modeHelioShort: 'Helio',
+        modeHelicalShort: 'Helix',
+        modeGalaxyShort: 'Galaxy',
+        tiltHelio: 'Ecliptic 0°',
+        tiltHelical: 'Ecliptic 60.2°',
+        tiltGalaxy: 'Helix 60.2° • 105k Ly',
+        subHelio: '8 Planets • 10 Dwarf Planets • 34 Moons • Kuiper Belt & Scattered Disc',
+        subHelical: '60.2° Helical Model • 230 km/s Velocity • Linear Solar Path • 8-Planet Vortex',
+        subGalaxy: 'Milky Way Galaxy (SBbc) • 75,000 Stars • Differential Rotation & Density Waves',
+        helicalSpeedLbl: 'Helical Speed (230 km/s)',
+        helicalWidthLbl: 'Helix Trail Width',
+        helicalTrailsBtn: 'Helix Trails',
+        galacticBobbingBtn: 'Galactic Bobbing',
+        dwarfGalaxiesBtn: 'Dwarf Galaxies',
+        satGalaxyOrbitsBtn: 'Sat. Galaxy Orbits',
+        solarSystemOrbitBtn: 'Solar System Orbit',
+        followSolarBtn: 'Follow Solar System (F)',
+        releaseSolarBtn: 'Release Solar System (F)',
+        followSolarTitle: 'Follow or release camera tracking on the Solar System in the Milky Way (Shortcut: F)',
+        timeSpeedLbl: 'Time Speed',
+        resetSpeedTitle: 'Reset Time Speed to 0.0x',
+        playPauseTitle: 'Pause / Play Simulation (Space)',
+        bodyScaleLbl: 'Planet & Dwarf Scale',
+        layersHeader: 'Orbit & Population Layers',
+        layerPlanets: 'Major Planets',
+        layerOrbits: 'Planet Orbits',
+        layerDwarfPlanets: 'Dwarf Planets',
+        layerTnoOrbits: 'Dwarf Orbits',
+        layerMoons: 'Natural Moons',
+        layerMoonOrbits: 'Moon Orbits',
+        layerAsteroids: 'Asteroids',
+        layerAsteroidOrbits: 'Asteroid Orbits',
+        layerComets: 'Active Comets',
+        layerCometOrbits: 'Comet Orbits',
+        layerSpacecraft: 'Spacecraft',
+        layerSpacecraftOrbits: 'Probe Trajectories',
+        layerLabels: 'Name Labels',
+        layerConstellations: 'Constellations',
+        fullscreenEnter: 'Fullscreen',
+        fullscreenExit: 'Exit Fullscreen',
+        fullscreenTitle: 'Enter / Exit Device Fullscreen Mode (Shortcut: L)',
+        tourStart: 'Cinematic Tour',
+        tourStop: 'Stop Tour',
+        tourPrefixCinematic: 'CINEMATIC TOUR',
+        tourPrefixGalaxy: 'GALAXY TOUR',
+        tourChapter: 'CHAPTER',
+        closePanelAria: 'Close Panel',
+        moonsHeading: 'Natural Satellites',
+        moonsCountSuffix: 'Moons',
+        backToPrefix: 'Back to',
+        statBody: ['Mean Distance', 'Orbital Period', 'Eccentricity (e)', 'Orbital Inclination', 'Rotation Period', 'Diameter', 'Surface Temp.', 'Moons & Rings'],
+        statConst: ['Primary Star Dist.', 'Brightest Star', 'Celestial Hemisphere', 'Best Viewing', 'Sky Area', 'Primary Pattern', 'Deep-Sky Objects', 'Constellation Family'],
+        statSpacecraft: ['Location / Distance', 'Trajectory / Speed', 'Eccentricity (e)', 'Inclination', 'Launch Date', 'Spacecraft Size', 'Power & Temp.', 'Mission Status'],
+        camViews: { cinematic: 'Cinematic', day: 'Day Side', chase: 'Chase', top: 'Top', side: 'Equator', atmosphere: 'Atmosphere' },
+        camViewTitles: [
+          '3/4 Cinematic Angle (1)',
+          'Sunlit Day Side (2)',
+          'Trailing Orbital Motion (3)',
+          'Top / Polar View (4)',
+          'Equatorial / Ring Profile (5)',
+          'Low-Orbit Horizon & Atmosphere (6)'
+        ],
+        followToggleTitle: 'Open / Close Camera Angle & Tracking Options (Shortcuts: 1–6)',
+        barZoomInTitle: 'Zoom In to Inner Solar System (Sun – Mars)',
+        barZoomOutTitle: 'Zoom Out & Auto Center to Full View (R)',
+        releaseFollowTitle: 'Stop following object in place (Shortcut: Esc)',
+        nasaLiveTitle: 'Sync to current real-world date & rate (LIVE / REAL RATE)',
+        nasaCloseTitle: 'Close Time Controls',
+        nasaRewindTitle: 'Rewind / Slow Down Time',
+        nasaPlayTitle: 'Pause / Play Time (Space)',
+        nasaForwardTitle: 'Fast-Forward Time',
+        nasaShuttleTitle: 'Drag left to rewind or right to fast-forward. Double-click for LIVE.',
+        cosmicClockTitle: 'Click to open Time Controls (Arc Shuttle, Rewind & LIVE)',
+        catMajor: 'Major Planets (8)',
+        catDwarf: 'Dwarf Planets (10)',
+        catTno: 'Asteroids & Comets',
+        catSpacecraft: 'Spacecraft (4)',
+        catGalaxyDwarf: 'Galaxy & Dwarf Galaxies',
+        moonsBarFmt: (host, n) => `Moons of ${host} (${n}):`,
+        galDwarfNav: { sgr_a: 'Sagittarius A*', lmc: 'LMC', smc: 'SMC', sgr_dsph: 'Sagittarius Dwarf', sculptor_dsph: 'Sculptor', draco_dsph: 'Draco', umi_dsph: 'Ursa Minor', fornax_dsph: 'Fornax' },
+        ratePaused: 'PAUSED',
+        rateYrs: 'YRS/SEC',
+        rateMos: 'MOS/SEC',
+        rateDays: 'DAYS/SEC',
+        months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        cosmicTimeFmt: (myrStr, pctStr) => `Cosmic Time: ${myrStr} Myr • ${pctStr}% Orbit`,
+        helicalClockUnit: 'Billion km',
+        earthYearsUnit: 'Earth Yrs',
+        searchPlaceholder: 'Search planets, moons, dwarf planets, or galaxy objects...',
+        searchClose: 'Close',
+        searchCountFmt: (n) => `${n} objects found`,
+        searchEmptyHtml: 'No objects found. Try keywords like <span class="text-sky-300">Saturn</span>, <span class="text-[#7cc0ff]">Pluto</span>, <span class="text-[#7cc0ff]">Sagittarius</span>, or <span class="text-[#7cc0ff]">LMC</span>.',
+        searchFooterHint: '↑↓ Select • Enter Focus • Esc Close',
+        badges: { star: 'Star', spacecraft: 'Spacecraft', comet: 'Comet', kuiper: 'Kuiper Belt', asteroid: 'Asteroid', dwarf: 'Dwarf Planet', trojan: 'Trojan', planet: 'Planet', moon: 'Moon', galaxy: 'Milky Way', constellation: 'Constellation' },
+        moonSubFmt: (hostName, sub) => `Moon of ${hostName} • ${sub}`,
+        periTitle: 'Click to focus camera on Perihelion (closest point to the Sun)',
+        aphTitle: 'Click to focus camera on Aphelion (farthest point from the Sun)',
+        galLabelTitleSun: 'Click to focus & follow the Solar System in the Milky Way',
+        galLabelTitleFmt: (txt) => `Click to view telemetry & focus on ${txt}`,
+        constLabelTitleFmt: (txt) => `Click to view info & aim camera at ${txt}`,
+        constPrevTitle: 'Previous Constellation (Left Arrow)',
+        constNextTitle: 'Next Constellation (Right Arrow)',
+        constExitTitle: 'Exit Constellation Mode & Return to Solar System (Esc)',
+        fpsAriaLabel: 'Frames per second and frametime',
+        loadStep1: 'Building starfield background & Sun...',
+        loadStepBody: (name, i, total) => `Loading ${name} (${i}/${total})...`,
+        loadStepBelts: 'Building 9,800 Asteroid Belt, Trojan & Kuiper objects...',
+        loadStepGalaxy: 'Building Milky Way Galaxy (75,000 stars & nebulae)...',
+        loadError: 'Failed to initialize WebGL. Please reload the page.',
+        helpTitleText: 'Controls & Shortcuts Guide',
+        helpSubtitleText: 'Supports Touchscreens (Phone/Tablet) & Keyboard (PC)',
+        helpSec1: 'Camera Controls (Mouse, Trackpad & Touch)',
+        helpSec1Rows: [
+          ['Orbit Camera', 'Left Click / 1 Finger'],
+          ['Smart Zoom', 'Double Click/Tap • Scroll'],
+          ['Free Pan', 'Shift/Space+Click • 2 Fingers'],
+          ['Planet & Sky Info', 'Click Object / Label']
+        ],
+        helpSec2: 'Keyboard Flight & Free Cam Mode (G)',
+        helpSec2Rows: [
+          ['Free Flight & Pan', 'WASD / Arrows + Q/E'],
+          ['Turbo Boost (2.5×)', 'Hold Shift + WASD'],
+          ['1-Finger / Left-Click Pan', 'Free Cam Mode (G)'],
+          ['Cycle / Exit Constellation', 'Prev / Next / Exit']
+        ],
+        helpSec2Note: 'After pressing <strong class="text-sky-200">Release (Esc)</strong>, <strong class="text-sky-200">WASD / Arrow keys</strong> stay immediately active for free flight without toggling Free Cam. Hold <strong class="text-sky-200">Shift</strong> or <strong class="text-sky-200">Space + Left Click</strong> (or Middle Click) to pan anytime.',
+        helpSec3: 'Keyboard Shortcuts (PC & Laptop)',
+        helpShortcuts: [
+          ['Pause / Play Time', 'Space'],
+          ['Switch Reference Mode', 'M'],
+          ['Toggle Free Cam', 'G'],
+          ['Quick Search', '/'],
+          ['Follow Camera Angles', '1 – 6'],
+          ['Center Without Reset Zoom', 'C / Home'],
+          ['Release Focus / Exit Sky', 'Esc'],
+          ['Follow / Release Solar Sys.', 'F'],
+          ['Zoom Out / Full Reset', 'R'],
+          ['Cinematic Mode (HUD)', 'H'],
+          ['Record FHD Video Clip', 'V'],
+          ['Fullscreen Mode', 'L'],
+          ['Open / Close Guide', '?']
+        ]
+      }
+    };
+
+    function uiStr(key) {
+      const pack = UI_STRINGS[state.lang] || UI_STRINGS.id;
+      return pack[key] !== undefined ? pack[key] : UI_STRINGS.id[key];
+    }
+
+    function fmtDecimal(numStr) {
+      return isEn() ? numStr.replace(',', '.') : numStr.replace('.', ',');
+    }
+
     // =========================================================================
     // 3. STATE APLIKASI & INISIALISASI SCENE THREE.JS
     // =========================================================================
     const state = {
+      lang: (() => { try { return localStorage.getItem('solar_sim_lang') === 'en' ? 'en' : 'id'; } catch (_) { return 'id'; } })(),
       mode: 'heliocentric', // 'heliocentric' | 'helical' | 'galaxy'
       helicalSpeedScale: 1.0,
       helicalTrailWidth: 1.0,
@@ -6334,6 +6774,7 @@
       const starSizes = [];
 
       CONSTELLATIONS.forEach((c, cIdx) => {
+        if (I18N_DATA_EN.constellations[c.id]) c.en = I18N_DATA_EN.constellations[c.id];
         const pts = c.stars.map((s) => raDecToSkyVec(s.ra, s.dec, 2240));
         const centroid = new THREE.Vector3();
         pts.forEach((p, idx) => {
@@ -6357,8 +6798,9 @@
 
         const el = document.createElement('div');
         el.className = 'celestial-label is-constellation';
-        el.title = `Klik untuk melihat info & arahkan kamera ke Rasi ${c.name}`;
-        el.innerHTML = `<span class="label-dot" style="background:${c.color}"></span><span>${c.name}</span>`;
+        const cDispName = tName(c);
+        el.title = uiStr('constLabelTitleFmt')(cDispName);
+        el.innerHTML = `<span class="label-dot" style="background:${c.color}"></span><span>${cDispName}</span>`;
         el._onTap = () => { stopAutoTour(); selectConstellation(cIdx); };
         labelsLayer.appendChild(el);
         constellationLabels.push({ idx: cIdx, id: c.id, obj: anchor, el });
@@ -7055,7 +7497,7 @@
       const el = document.createElement('div');
       el.className = `celestial-label${isMoon ? ' is-moon' : ''}${isTrojan ? ' is-trojan' : ''}${isDwarf ? ' is-dwarf' : ''}${isComet ? ' is-comet' : ''}${isSpacecraft ? ' is-spacecraft' : ''}`;
       el.dataset.bodyId = item.id;
-      el.innerHTML = `<span class="label-dot" style="background:${item.color}"></span><span>${item.navLabel || item.name}</span>`;
+      el.innerHTML = `<span class="label-dot" style="background:${item.color}"></span><span>${tNavLabel(item)}</span>`;
       el._onTap = () => { stopAutoTour(); selectBody(item.id); if (window.innerWidth >= 640) telemetryDrawer.classList.remove('hidden'); };
       labelsLayer.appendChild(el);
       return el;
@@ -7363,7 +7805,7 @@
       for (let idx = 0; idx < SOLAR_SYSTEM_DATA.length; idx++) {
         const data = SOLAR_SYSTEM_DATA[idx];
         if (onProgress) {
-          onProgress(`Memuat ${data.name} (${idx + 1}/${SOLAR_SYSTEM_DATA.length})...`);
+          onProgress(uiStr('loadStepBody')(tName(data), idx + 1, SOLAR_SYSTEM_DATA.length));
           await yieldToBrowser();
         }
 
@@ -9208,6 +9650,13 @@
       },
     };
 
+    Object.keys(GALAXY_OBJECTS_DATA).forEach((k) => {
+      if (I18N_DATA_EN.galaxy[k]) GALAXY_OBJECTS_DATA[k].en = I18N_DATA_EN.galaxy[k];
+    });
+    if (I18N_DATA_EN.galaxy.milky_way) {
+      MILKY_WAY_TELEMETRY.data.en = I18N_DATA_EN.galaxy.milky_way;
+    }
+
     function createGalaxyStarTexture() {
       const size = 64;
       const canvas = document.createElement('canvas');
@@ -9228,13 +9677,16 @@
     }
 
     function createGalaxyLabel(id, text, colorHex, isSunBeacon = false) {
+      if (GALAXY_OBJECTS_DATA[id]) GALAXY_OBJECTS_DATA[id].defaultLabel = text;
+      const dispText = tGalaxyLabel(id) || text;
       const el = document.createElement('div');
       el.className = `celestial-label ${isSunBeacon ? 'is-galaxy-sun' : 'is-galaxy'}`;
+      el.dataset.galaxyId = id;
       el.style.display = 'none';
-      el.innerHTML = `<span class="label-dot" style="background:${colorHex}"></span><span>${text}</span>`;
+      el.innerHTML = `<span class="label-dot" style="background:${colorHex}"></span><span>${dispText}</span>`;
       el.title = isSunBeacon
-        ? 'Klik untuk fokus & ikuti Tata Surya di Bima Sakti'
-        : `Klik untuk melihat info & fokus ke ${text}`;
+        ? uiStr('galLabelTitleSun')
+        : uiStr('galLabelTitleFmt')(dispText);
       el._onTap = () => { stopAutoTour(); selectGalaxyObject(id); };
       labelsLayer.appendChild(el);
       return el;
@@ -10035,7 +10487,13 @@
     // ---------------- PENGALIH MODE SIMULASI (HELIOSENTRIS / HELIKS / BIMA SAKTI) ----------------
     const headerModeBadge = document.getElementById('header-mode-badge');
     const btnModeCycle = document.getElementById('btn-mode-cycle');
-    const MODE_SHORT = { heliocentric: 'Helio', helical: 'Heliks', galaxy: 'Galaksi' };
+    const MODE_SHORT = new Proxy({}, {
+      get: (_, prop) => {
+        if (prop === 'helical') return uiStr('modeHelicalShort');
+        if (prop === 'galaxy') return uiStr('modeGalaxyShort');
+        return uiStr('modeHelioShort');
+      }
+    });
     const headerSubtitle = document.getElementById('header-subtitle');
     const modeTiltBadge = document.getElementById('mode-tilt-badge');
     const followCamBar = document.getElementById('follow-cam-bar');
@@ -10044,14 +10502,9 @@
     const btnFollowCamToggle = document.getElementById('btn-follow-cam-toggle');
     const followCamPopup = document.getElementById('follow-cam-popup');
     const btnReleaseFollow = document.getElementById('btn-release-follow');
-    const CAM_VIEW_LABELS = {
-      cinematic: 'Sinematik',
-      day: 'Sisi Siang',
-      chase: 'Belakang',
-      top: 'Atas',
-      side: 'Ekuator',
-      atmosphere: 'Atmosfer',
-    };
+    const CAM_VIEW_LABELS = new Proxy({}, {
+      get: (_, prop) => (uiStr('camViews')[prop] || prop)
+    });
 
     function setFollowCamPopup(open) {
       if (!followCamPopup) return;
@@ -10074,11 +10527,13 @@
       setFollowCamPopup(false);
     });
 
-    const MODE_SUBTITLES = {
-      heliocentric: '8 Planet • 10 Planet Katai • 34 Satelit • Sabuk Kuiper & Scattered Disc',
-      helical: 'Model Heliks 60,2° • Laju 230 km/dtk • Lintasan Lurus Matahari • Vortex 8 Planet',
-      galaxy: 'Galaksi Bima Sakti (SBbc) • 75.000 Bintang • Rotasi Diferensial & Gelombang Kepadatan',
-    };
+    const MODE_SUBTITLES = new Proxy({}, {
+      get: (_, prop) => {
+        if (prop === 'helical') return uiStr('subHelical');
+        if (prop === 'galaxy') return uiStr('subGalaxy');
+        return uiStr('subHelio');
+      }
+    });
 
     let nasaTimeManuallyPinned = false;
 
@@ -10200,7 +10655,7 @@
       if (window.innerWidth >= 640) telemetryDrawer.classList.remove('hidden');
 
       if (constellationNavBar) {
-        constNavName.textContent = entry.data.name;
+        constNavName.textContent = tName(entry.data);
         constNavCounter.textContent = `${normIdx + 1}/${total}`;
         constellationNavBar.classList.remove('hidden');
         constellationNavBar.classList.add('flex');
@@ -10479,13 +10934,13 @@
         btnFollowSolar.classList.add('border-[#409cff]/85', 'bg-[#0a84ff]/34', 'hover:bg-[#0a84ff]/45', 'text-[#e6f1ff]', 'ring-1', 'ring-[#409cff]/50');
         followSolarDot.classList.remove('bg-[#0a84ff]');
         followSolarDot.classList.add('bg-[#409cff]', 'animate-ping');
-        followSolarText.textContent = 'Lepas Tata Surya (F)';
+        followSolarText.textContent = uiStr('releaseSolarBtn');
       } else {
         btnFollowSolar.classList.remove('border-[#409cff]/85', 'bg-[#0a84ff]/34', 'hover:bg-[#0a84ff]/45', 'text-[#e6f1ff]', 'ring-1', 'ring-[#409cff]/50');
         btnFollowSolar.classList.add('border-[#409cff]/55', 'bg-[#0a84ff]/20', 'hover:bg-[#0a84ff]/32', 'text-[#cfe6ff]');
         followSolarDot.classList.remove('bg-[#409cff]', 'animate-ping');
         followSolarDot.classList.add('bg-[#0a84ff]');
-        followSolarText.textContent = 'Ikuti Tata Surya (F)';
+        followSolarText.textContent = uiStr('followSolarBtn');
       }
     }
 
@@ -10528,7 +10983,7 @@
       const orionItem = galaxyRegistry.get('orion_spur');
       if (orionItem) {
         updateTelemetryDrawer(orionItem);
-        showFollowCamBar(orionItem.data.name, 'chase');
+        showFollowCamBar(tName(orionItem.data), 'chase');
       }
     }
 
@@ -10583,7 +11038,7 @@
       cameraTransition.desiredTargetOffset.set(0, 0, 0);
 
       updateTelemetryDrawer(item);
-      showFollowCamBar(item.data.name, 'cinematic');
+      showFollowCamBar(tName(item.data), 'cinematic');
       if (window.innerWidth >= 640) telemetryDrawer.classList.remove('hidden');
       if (state.activeCategory === 'galaxy_dwarf') renderNavPillsForCategory('galaxy_dwarf');
     }
@@ -10630,7 +11085,7 @@
       if (galaxyDiskGlowUniforms) galaxyDiskGlowUniforms.uGlobalAlpha.value = alpha;
       bloomPass.strength = THREE.MathUtils.lerp(0.58, 0.64, alpha);
       bloomPass.radius = THREE.MathUtils.lerp(0.38, 0.48, alpha);
-      bloomPass.threshold = THREE.MathUtils.lerp(1.08, 1.10, alpha);
+      bloomPass.threshold = THREE.MathUtils.lerp(1.14, 1.12, alpha);
       for (let i = 0; i < galaxyFadeItems.length; i++) {
         galaxyFadeItems[i].mat.opacity = galaxyFadeItems[i].baseOpacity * alpha;
       }
@@ -10749,9 +11204,9 @@
       hasPrevTargetPos = false;
 
       if (newMode === 'heliocentric') {
-        headerModeBadge.textContent = 'HELIOSENTRIS'; if (btnModeCycle) btnModeCycle.textContent = MODE_SHORT.heliocentric;
+        headerModeBadge.textContent = uiStr('modeHelioBadge'); if (btnModeCycle) btnModeCycle.textContent = MODE_SHORT.heliocentric;
         if (headerSubtitle) headerSubtitle.textContent = MODE_SUBTITLES.heliocentric;
-        modeTiltBadge.textContent = 'Ekliptika 0°';
+        modeTiltBadge.textContent = uiStr('tiltHelio');
         helicalSubcontrols.classList.add('hidden');
         galaxyOnlyControls.classList.add('hidden');
         controls.minDistance = 4.0;
@@ -10769,9 +11224,9 @@
         const sunReg = registry.get('sun');
         if (sunReg) updateTelemetryDrawer(sunReg);
       } else if (newMode === 'helical') {
-        headerModeBadge.textContent = 'HELIKS GALAKTIK'; if (btnModeCycle) btnModeCycle.textContent = MODE_SHORT.helical;
+        headerModeBadge.textContent = uiStr('modeHelicalBadge'); if (btnModeCycle) btnModeCycle.textContent = MODE_SHORT.helical;
         if (headerSubtitle) headerSubtitle.textContent = MODE_SUBTITLES.helical;
-        modeTiltBadge.textContent = 'Ekliptika 60,2°';
+        modeTiltBadge.textContent = uiStr('tiltHelical');
         helicalSubcontrols.classList.remove('hidden');
         galaxyOnlyControls.classList.add('hidden');
         controls.minDistance = 4.0;
@@ -10790,9 +11245,9 @@
         const sunReg = registry.get('sun');
         if (sunReg) updateTelemetryDrawer(sunReg);
       } else if (newMode === 'galaxy') {
-        headerModeBadge.textContent = 'PETA BIMA SAKTI'; if (btnModeCycle) btnModeCycle.textContent = MODE_SHORT.galaxy;
+        headerModeBadge.textContent = uiStr('modeGalaxyBadge'); if (btnModeCycle) btnModeCycle.textContent = MODE_SHORT.galaxy;
         if (headerSubtitle) headerSubtitle.textContent = MODE_SUBTITLES.galaxy;
-        modeTiltBadge.textContent = 'Heliks 60,2° • 105k Ly';
+        modeTiltBadge.textContent = uiStr('tiltGalaxy');
         helicalSubcontrols.classList.remove('hidden');
         galaxyOnlyControls.classList.remove('hidden');
         labelElements.forEach((lbl) => (lbl.el.style.display = 'none'));
@@ -10914,7 +11369,7 @@
       }
 
       updateTelemetryDrawer(item);
-      showFollowCamBar(item.data.name, state.cameraView);
+      showFollowCamBar(tName(item.data), state.cameraView);
       updateBottomMoonsBar(id);
       updateApsisMarkersForSelection();
     }
@@ -10977,7 +11432,7 @@
       state.tourIndex = 0;
       state.tourElapsed = 0;
       btnAutoTour.classList.add('ring-2', 'ring-[#409cff]');
-      tourBtnText.textContent = 'Hentikan Tur';
+      tourBtnText.textContent = uiStr('tourStop');
       tourBanner.classList.remove('hidden');
       applyTourStop(0);
     }
@@ -10986,7 +11441,7 @@
       if (!state.autoTour) return;
       state.autoTour = false;
       btnAutoTour.classList.remove('ring-2', 'ring-[#409cff]');
-      tourBtnText.textContent = 'Tur Sinematik';
+      tourBtnText.textContent = uiStr('tourStart');
       tourBanner.classList.add('hidden');
     }
 
@@ -10994,12 +11449,21 @@
       return state.mode === 'galaxy' ? GALAXY_TOUR_STOPS : CINEMATIC_TOUR_STOPS;
     }
 
+    function updateTourBannerText(idx = state.tourIndex) {
+      const stops = getActiveTourStops();
+      const stop = stops[idx];
+      if (!stop) return;
+      const prefix = state.mode === 'galaxy' ? uiStr('tourPrefixGalaxy') : uiStr('tourPrefixCinematic');
+      const title = tData(stop, 'title');
+      const caption = tData(stop, 'caption');
+      tourStepLabel.textContent = `${prefix} • ${uiStr('tourChapter')} ${idx + 1}/${stops.length} — ${title}`;
+      tourCaption.textContent = caption;
+    }
+
     function applyTourStop(idx) {
       const stops = getActiveTourStops();
       const stop = stops[idx];
-      const prefix = state.mode === 'galaxy' ? 'TUR GALAKSI' : 'TUR SINEMATIK';
-      tourStepLabel.textContent = `${prefix} • BAB ${idx + 1}/${stops.length} — ${stop.title}`;
-      tourCaption.textContent = stop.caption;
+      updateTourBannerText(idx);
       if (state.mode === 'galaxy') {
         if (stop.targetId === 'galaxy_overview') {
           resetToOverview();
@@ -11037,36 +11501,37 @@
 
     function updateTelemetryDrawer(item) {
       const d = item.data;
+      const st = tStats(d);
       infoDot.style.backgroundColor = d.color;
       infoDot.style.color = d.color;
-      infoCategory.textContent = d.category;
-      infoTitle.textContent = d.name;
-      infoSubtitle.textContent = d.subtitle;
-      infoDescription.textContent = d.description;
+      infoCategory.textContent = tData(d, 'category');
+      infoTitle.textContent = tName(d);
+      infoSubtitle.textContent = tData(d, 'subtitle');
+      infoDescription.textContent = tData(d, 'description');
 
       const isConstData = d.id && String(d.id).startsWith('const_');
       const statTitleMap = isConstData
-        ? ['Jarak Bintang Utama', 'Bintang Terterang', 'Belahan Langit', 'Bulan Terbaik', 'Luas Wilayah', 'Pola Utama', 'Objek Langit Dalam', 'Keluarga Rasi']
+        ? uiStr('statConst')
         : d.isSpacecraft
-          ? ['Lokasi / Jarak', 'Lintasan / Laju', 'Eksentrisitas (e)', 'Inklinasi', 'Peluncuran', 'Dimensi Wahana', 'Daya & Suhu', 'Status Misi']
-          : ['Jarak Rata-Rata', 'Periode Orbit', 'Eksentrisitas (e)', 'Inklinasi Orbit', 'Periode Rotasi', 'Diameter', 'Suhu Permukaan', 'Satelit & Cincin'];
+          ? uiStr('statSpacecraft')
+          : uiStr('statBody');
       const statEls = [statDistance, statOrbit, statEccentricity, statInclination, statRotation, statDiameter, statTemp, statSystem];
       statEls.forEach((el, idx) => {
         if (el && el.previousElementSibling) el.previousElementSibling.textContent = statTitleMap[idx];
       });
 
-      statDistance.textContent = d.stats.distance;
-      statOrbit.textContent = d.stats.orbit;
-      statEccentricity.textContent = d.stats.eccentricity || '0,000';
-      statInclination.textContent = d.stats.inclination || '0,00°';
-      statRotation.textContent = d.stats.rotation;
-      statDiameter.textContent = d.stats.diameter;
-      statTemp.textContent = d.stats.temp;
-      statSystem.textContent = d.stats.system || '—';
+      statDistance.textContent = st.distance;
+      statOrbit.textContent = st.orbit;
+      statEccentricity.textContent = st.eccentricity || (isEn() ? '0.000' : '0,000');
+      statInclination.textContent = st.inclination || (isEn() ? '0.00°' : '0,00°');
+      statRotation.textContent = st.rotation;
+      statDiameter.textContent = st.diameter;
+      statTemp.textContent = st.temp;
+      statSystem.textContent = st.system || '—';
 
       if (item.parentData) {
         parentPlanetBar.classList.remove('hidden');
-        btnBackParentText.textContent = `Kembali ke ${item.parentData.name}`;
+        btnBackParentText.textContent = `${uiStr('backToPrefix')} ${tName(item.parentData)}`;
         btnBackParent.onclick = () => {
           stopAutoTour();
           selectBody(item.parentData.id);
@@ -11077,13 +11542,13 @@
 
       if (d.moons && d.moons.length > 0) {
         moonsSection.classList.remove('hidden');
-        moonsCountBadge.textContent = `${d.moons.length} Satelit`;
+        moonsCountBadge.textContent = `${d.moons.length} ${uiStr('moonsCountSuffix')}`;
         moonsList.innerHTML = '';
         d.moons.forEach((m) => {
           const btn = document.createElement('button');
           btn.className =
             'px-2.5 py-1.5 rounded-xl bg-slate-800/80 hover:bg-sky-500/25 border border-slate-700 hover:border-sky-400/50 text-xs font-medium text-slate-200 hover:text-sky-200 flex items-center gap-1.5 transition cursor-pointer';
-          btn.innerHTML = `<span class="w-2 h-2 rounded-full" style="background:${m.color}"></span><span>${m.name}</span>`;
+          btn.innerHTML = `<span class="w-2 h-2 rounded-full" style="background:${m.color}"></span><span>${tName(m)}</span>`;
           btn.addEventListener('click', () => {
             stopAutoTour();
             selectBody(m.id);
@@ -11134,7 +11599,8 @@
           btn.dataset.id = id;
           const isActive = state.selectedGalaxyId === id;
           btn.className = `nav-pill glass-pill px-3 py-1.5 rounded-full text-xs font-medium text-slate-200 flex items-center gap-1.5 shrink-0 cursor-pointer${isActive ? ' active' : ''}`;
-          btn.innerHTML = `<span class="w-2 h-2 rounded-full" style="background:${g.color}"></span><span>${GALAXY_DWARF_LABELS[id] || g.name}</span>`;
+          const galShortMap = uiStr('galDwarfNav');
+          btn.innerHTML = `<span class="w-2 h-2 rounded-full" style="background:${g.color}"></span><span>${galShortMap[id] || tName(g)}</span>`;
           btn.addEventListener('click', () => {
             stopAutoTour();
             selectGalaxyObject(id);
@@ -11150,7 +11616,7 @@
         btn.dataset.id = item.id;
         const isActive = !state.isOverview && state.selectedId === item.id;
         btn.className = `nav-pill glass-pill px-3 py-1.5 rounded-full text-xs font-medium text-slate-200 flex items-center gap-1.5 shrink-0 cursor-pointer${isActive ? ' active' : ''}`;
-        btn.innerHTML = `<span class="w-2 h-2 rounded-full" style="background:${item.color}"></span><span>${item.navLabel || item.name}</span>`;
+        btn.innerHTML = `<span class="w-2 h-2 rounded-full" style="background:${item.color}"></span><span>${tNavLabel(item)}</span>`;
         btn.addEventListener('click', () => {
           stopAutoTour();
           selectBody(item.id);
@@ -11185,7 +11651,7 @@
         return;
       }
 
-      bottomMoonsLabel.textContent = `Satelit ${hostData.name} (${hostData.moons.length}):`;
+      bottomMoonsLabel.textContent = uiStr('moonsBarFmt')(tName(hostData), hostData.moons.length);
       bottomMoonsPills.innerHTML = '';
 
       // Jika sedang fokus pada salah satu satelit, tampilkan pil kembali ke planet induknya di awal
@@ -11193,7 +11659,7 @@
         const backBtn = document.createElement('button');
         backBtn.className =
           'px-2.5 py-1 rounded-full text-[11px] font-medium bg-slate-800/85 hover:bg-[#0a84ff]/25 border border-slate-600/80 hover:border-[#409cff]/60 text-slate-200 flex items-center gap-1.5 shrink-0 transition cursor-pointer';
-        backBtn.innerHTML = `<span class="w-1.5 h-1.5 rounded-full" style="background:${hostData.color}"></span><span>← ${hostData.name}</span>`;
+        backBtn.innerHTML = `<span class="w-1.5 h-1.5 rounded-full" style="background:${hostData.color}"></span><span>← ${tName(hostData)}</span>`;
         backBtn.addEventListener('click', () => {
           stopAutoTour();
           selectBody(hostData.id);
@@ -11209,7 +11675,7 @@
             ? 'bg-sky-500/30 border-sky-400/80 text-sky-100 shadow-[0_0_12px_rgba(56,189,248,0.28)]'
             : 'bg-slate-900/75 hover:bg-sky-500/20 border-slate-700/80 hover:border-sky-400/50 text-slate-300 hover:text-sky-100'
         }`;
-        btn.innerHTML = `<span class="w-1.5 h-1.5 rounded-full" style="background:${m.color}"></span><span>${m.name}</span>`;
+        btn.innerHTML = `<span class="w-1.5 h-1.5 rounded-full" style="background:${m.color}"></span><span>${tName(m)}</span>`;
         btn.addEventListener('click', () => {
           stopAutoTour();
           selectBody(m.id);
@@ -11348,9 +11814,11 @@
       // 1. Double-tap pada objek / label yang sudah difokuskan -> Zoom In lebih dekat ke permukaan
       if (state.mode === 'galaxy' && gId) {
         if (!state.isOverview && state.selectedGalaxyId === gId) {
-          const offset = camera.position.clone().sub(controls.target);
+          const offset = cameraTransition.active
+            ? cameraTransition.desiredOffset.clone()
+            : camera.position.clone().sub(controls.target);
           const curDist = offset.length();
-          const nextDist = Math.max(controls.minDistance * 1.25, curDist * 0.44);
+          const nextDist = Math.max(controls.minDistance * 1.25, curDist * 0.48);
           offset.setLength(nextDist);
           const gItem = galaxyRegistry.get(gId);
           if (gItem) {
@@ -11374,9 +11842,11 @@
           const item = registry.get(bodyId);
           if (item) {
             item.getWorldPos(currTargetWorldPos);
-            const offset = camera.position.clone().sub(controls.target);
+            const offset = cameraTransition.active
+              ? cameraTransition.desiredOffset.clone()
+              : camera.position.clone().sub(controls.target);
             const curDist = offset.length();
-            const nextDist = Math.max(controls.minDistance * 1.2, curDist * 0.42);
+            const nextDist = Math.max(controls.minDistance * 1.2, curDist * 0.48);
             offset.setLength(nextDist);
             cameraTransition.active = true;
             cameraTransition.progress = 0;
@@ -11514,8 +11984,8 @@
       // 1. Jika pointerdown atau pointerup mengenai label objek (meski label bergerak mengikuti orbit)
       const labelEl = downLbl || findLabelAt(e.clientX, e.clientY);
       if (labelEl && labelEl._onTap) {
-        if (isDoubleTap && labelEl.dataset && labelEl.dataset.bodyId) {
-          handleSmartDoubleZoom(e.clientX, e.clientY, labelEl, labelEl.dataset.bodyId, null);
+        if (isDoubleTap && labelEl.dataset && (labelEl.dataset.bodyId || labelEl.dataset.galaxyId)) {
+          handleSmartDoubleZoom(e.clientX, e.clientY, labelEl, labelEl.dataset.bodyId || null, labelEl.dataset.galaxyId || null);
         } else {
           labelEl._onTap();
         }
@@ -11900,7 +12370,7 @@
       btnFullscreen.classList.toggle('bg-slate-800/80', !isFs);
       btnFullscreen.classList.toggle('border-slate-700', !isFs);
       btnFullscreen.classList.toggle('text-slate-200', !isFs);
-      if (fullscreenBtnText) fullscreenBtnText.textContent = isFs ? 'Keluar' : 'Layar Penuh';
+      if (fullscreenBtnText) fullscreenBtnText.textContent = isFs ? uiStr('fullscreenExit') : uiStr('fullscreenEnter');
       if (iconFsEnter) iconFsEnter.classList.toggle('hidden', isFs);
       if (iconFsExit) iconFsExit.classList.toggle('hidden', !isFs);
     }
@@ -12306,7 +12776,7 @@
       }
 
       if (!renderer.domElement.captureStream || typeof MediaRecorder === 'undefined') {
-        alert('Browser ini belum mendukung perekaman kanvas WebGL secara langsung.');
+        alert(uiStr('recUnsupported'));
         return;
       }
 
@@ -12337,7 +12807,7 @@
         recTimer.classList.add('hidden');
         floatingRecBadge.classList.add('hidden');
         floatingRecBadge.classList.remove('flex');
-        recBtnText.textContent = 'Mulai Rekam';
+        recBtnText.textContent = uiStr('recStart');
         recDot.classList.remove('animate-ping');
         btnRecordVideo.classList.remove('ring-2', 'ring-rose-400');
 
@@ -12363,7 +12833,7 @@
       floatingRecBadge.classList.add('flex');
       floatingRecText.textContent = '00:00';
       positionFloatingRecBadge();
-      recBtnText.textContent = 'Stop & Simpan';
+      recBtnText.textContent = uiStr('recStopSave');
       recDot.classList.add('animate-ping');
       btnRecordVideo.classList.add('ring-2', 'ring-rose-400');
 
@@ -12397,7 +12867,7 @@
         floatingRecBadge.classList.add('flex');
         floatingRecText.textContent = '00:00';
         positionFloatingRecBadge();
-        recBtnText.textContent = 'Stop & Simpan';
+        recBtnText.textContent = uiStr('recStopSave');
         recDot.classList.add('animate-ping');
         btnRecordVideo.classList.add('ring-2', 'ring-rose-400');
         recInterval = setInterval(() => {
@@ -12414,7 +12884,7 @@
         recTimer.classList.add('hidden');
         floatingRecBadge.classList.add('hidden');
         floatingRecBadge.classList.remove('flex');
-        recBtnText.textContent = 'Mulai Rekam';
+        recBtnText.textContent = uiStr('recStart');
         recDot.classList.remove('animate-ping');
         btnRecordVideo.classList.remove('ring-2', 'ring-rose-400');
       }
@@ -12488,7 +12958,7 @@
       if (!r || r.stopping) return;
       r.stopping = true;
       setRecordingUI(false);
-      recBtnText.textContent = 'Menyimpan...';
+      recBtnText.textContent = uiStr('recSaving');
       try {
         await r.encoder.flush();
         r.encoder.close();
@@ -12504,10 +12974,10 @@
         setTimeout(() => URL.revokeObjectURL(url), 4000);
       } catch (e) {
         console.error('Gagal menyimpan rekaman', e);
-        alert('Gagal menyimpan rekaman. Coba FPS 30 atau mode Layar.');
+        alert(uiStr('recFailed'));
       }
       wcRec = null;
-      recBtnText.textContent = 'Mulai Rekam';
+      recBtnText.textContent = uiStr('recStart');
       resetRecordingFrameToFull();
     }
 
@@ -12711,66 +13181,75 @@
     let searchActiveIdx = 0;
 
     function buildSearchCatalog() {
+      const b = uiStr('badges');
       searchCatalog = [];
       SOLAR_SYSTEM_DATA.forEach((item) => {
         const badge = item.isSun
-          ? 'Bintang'
+          ? b.star
           : item.isSpacecraft
-            ? 'Wahana'
+            ? b.spacecraft
             : item.isComet
-              ? 'Komet'
+              ? b.comet
               : item.isAsteroid
-                ? (item.isKuiperObj ? 'Sabuk Kuiper' : 'Asteroid')
+                ? (item.isKuiperObj ? b.kuiper : b.asteroid)
                 : item.isDwarf
-                  ? 'Planet Katai'
+                  ? b.dwarf
                   : item.isVirtualMarker
-                    ? 'Trojan'
-                    : 'Planet';
+                    ? b.trojan
+                    : b.planet;
+        const dispName = tName(item);
+        const dispSub = tData(item, 'subtitle');
+        const enExtra = item.en ? `${item.en.name} ${item.en.subtitle} ${item.en.category}` : '';
         searchCatalog.push({
           id: item.id,
-          name: item.name,
-          subtitle: item.subtitle,
+          name: dispName,
+          subtitle: dispSub,
           badge,
           color: item.color,
           scope: 'solar',
-          keywords: `${item.name} ${item.subtitle} ${item.category} ${badge}`.toLowerCase(),
+          keywords: `${item.name} ${item.subtitle} ${item.category} ${badge} ${enExtra}`.toLowerCase(),
         });
         if (item.moons && item.moons.length > 0) {
           item.moons.forEach((m) => {
+            const mDispName = tName(m);
+            const mDispSub = tData(m, 'subtitle');
+            const mEnExtra = m.en ? `${m.en.name} ${m.en.subtitle}` : '';
             searchCatalog.push({
               id: m.id,
-              name: m.name,
-              subtitle: `Satelit ${item.name} • ${m.subtitle}`,
-              badge: 'Satelit',
+              name: mDispName,
+              subtitle: uiStr('moonSubFmt')(dispName, mDispSub),
+              badge: b.moon,
               color: m.color,
               scope: 'solar',
-              keywords: `${m.name} ${item.name} ${m.subtitle} bulan satelit`.toLowerCase(),
+              keywords: `${m.name} ${item.name} ${m.subtitle} ${mEnExtra} ${enExtra} bulan satelit moon satellite`.toLowerCase(),
             });
           });
         }
       });
 
       Object.values(GALAXY_OBJECTS_DATA).forEach((g) => {
+        const gEnExtra = g.en ? `${g.en.name} ${g.en.subtitle} ${g.en.category}` : '';
         searchCatalog.push({
           id: g.id,
-          name: g.name,
-          subtitle: g.subtitle,
-          badge: 'Bima Sakti',
+          name: tName(g),
+          subtitle: tData(g, 'subtitle'),
+          badge: b.galaxy,
           color: g.color,
           scope: 'galaxy',
-          keywords: `${g.name} ${g.subtitle} ${g.category} galaksi bima sakti milky way`.toLowerCase(),
+          keywords: `${g.name} ${g.subtitle} ${g.category} ${gEnExtra} galaksi bima sakti milky way galaxy`.toLowerCase(),
         });
       });
 
       constellationDataList.forEach((c) => {
+        const cEnExtra = c.data.en ? `${c.data.en.name} ${c.data.en.subtitle} ${c.data.en.category}` : '';
         searchCatalog.push({
           id: c.idx,
-          name: c.data.name,
-          subtitle: c.data.subtitle,
-          badge: 'Rasi Bintang',
+          name: tName(c.data),
+          subtitle: tData(c.data, 'subtitle'),
+          badge: b.constellation,
           color: c.data.color,
           scope: 'constellation',
-          keywords: `${c.data.name} ${c.data.subtitle} ${c.data.category} rasi bintang konstelasi`.toLowerCase(),
+          keywords: `${c.data.name} ${c.data.subtitle} ${c.data.category} ${cEnExtra} rasi bintang konstelasi constellation`.toLowerCase(),
         });
       });
     }
@@ -12799,12 +13278,12 @@
         : searchCatalog;
 
       searchActiveIdx = 0;
-      searchCountLabel.textContent = `${currentFilteredSearch.length} objek ditemukan`;
+      searchCountLabel.textContent = uiStr('searchCountFmt')(currentFilteredSearch.length);
       searchResultsEl.innerHTML = '';
 
       if (currentFilteredSearch.length === 0) {
         searchResultsEl.innerHTML =
-          '<div class="py-8 text-center text-xs text-slate-400">Objek tidak ditemukan. Coba kata kunci seperti <span class="text-sky-300">Saturnus</span>, <span class="text-[#7cc0ff]">Pluto</span>, <span class="text-[#7cc0ff]">Sagittarius</span>, atau <span class="text-[#7cc0ff]">LMC</span>.</div>';
+          `<div class="py-8 text-center text-xs text-slate-400">${uiStr('searchEmptyHtml')}</div>`;
         return;
       }
 
@@ -12940,24 +13419,26 @@
 
     function formatSignedNum(val, digits = 1) {
       const sign = val < -0.0001 ? '-' : '+';
-      return `${sign}${Math.abs(val).toFixed(digits).replace('.', ',')}`;
+      const raw = Math.abs(val).toFixed(digits);
+      return `${sign}${isEn() ? raw : raw.replace('.', ',')}`;
     }
 
     function formatRateLabel() {
-      if (!state.isPlaying) return 'JEDA';
+      if (!state.isPlaying) return uiStr('ratePaused');
       if (state.isLiveRate) return 'REAL RATE';
       const eff = getEffectiveTimeScale(state.timeScale);
       const dir = eff < 0 ? '◀ ' : '';
       const absS = Math.abs(eff);
+      const sep = isEn() ? '.' : ',';
       // 0.5x efektif (default 0.0x) ≈ 5,8 hari/dtk; 1.0x efektif (+0.5x) ≈ 11,6 hari/dtk
       const daysPerSec = absS * (365.25 / ((Math.PI * 2) / EARTH_ORBIT_SPEED));
       if (daysPerSec >= 300) {
-        return `${dir}${(daysPerSec / 365.25).toFixed(1).replace('.', ',')} THN/DTK`;
+        return `${dir}${(daysPerSec / 365.25).toFixed(1).replace('.', sep)} ${uiStr('rateYrs')}`;
       }
       if (daysPerSec >= 30) {
-        return `${dir}${(daysPerSec / 30.44).toFixed(1).replace('.', ',')} BLN/DTK`;
+        return `${dir}${(daysPerSec / 30.44).toFixed(1).replace('.', sep)} ${uiStr('rateMos')}`;
       }
-      return `${dir}${daysPerSec.toFixed(1).replace('.', ',')} HARI/DTK`;
+      return `${dir}${daysPerSec.toFixed(1).replace('.', sep)} ${uiStr('rateDays')}`;
     }
 
     function positionShuttleKnob(normX) {
@@ -13154,7 +13635,7 @@
 
       const simDate = new Date(BASE_EPOCH_MS + state.elapsedEarthYears * 365.25 * 86400000);
       const day = simDate.getDate();
-      const mon = MONTHS_ID[simDate.getMonth()];
+      const mon = uiStr('months')[simDate.getMonth()];
       const yr = simDate.getFullYear();
       const hh = String(simDate.getHours()).padStart(2, '0');
       const mm = String(simDate.getMinutes()).padStart(2, '0');
@@ -13166,15 +13647,16 @@
       if (state.mode === 'galaxy') {
         const myr = state.elapsedCosmicMyr;
         const pct = (((myr / 230.0) * 100) % 100 + 100) % 100;
-        cosmicClockText.textContent = `Waktu Kosmik: ${formatSignedNum(myr)} Juta Thn • ${pct.toFixed(1).replace('.', ',')}% Orbit`;
+        const pctStr = isEn() ? pct.toFixed(1) : pct.toFixed(1).replace('.', ',');
+        cosmicClockText.textContent = uiStr('cosmicTimeFmt')(formatSignedNum(myr), pctStr);
       } else if (state.isLiveRate) {
         cosmicClockText.textContent = `LIVE • ${day} ${mon} ${yr} ${hh}:${mm}:${ss}`;
       } else if (state.mode === 'helical') {
         // 230 km/detik ≈ 7,258 miliar km per tahun Bumi
         const billionKm = state.elapsedEarthYears * 7.258 * state.helicalSpeedScale;
-        cosmicClockText.textContent = `${day} ${mon} ${yr} • ${formatSignedNum(billionKm)} Miliar km`;
+        cosmicClockText.textContent = `${day} ${mon} ${yr} • ${formatSignedNum(billionKm)} ${uiStr('helicalClockUnit')}`;
       } else {
-        cosmicClockText.textContent = `${day} ${mon} ${yr} • ${formatSignedNum(state.elapsedEarthYears)} Thn Bumi`;
+        cosmicClockText.textContent = `${day} ${mon} ${yr} • ${formatSignedNum(state.elapsedEarthYears)} ${uiStr('earthYearsUnit')}`;
       }
     }
 
@@ -14379,14 +14861,332 @@
       syncFollowBarFlag();
     }
 
+
+    // =========================================================================
+    // 13. PENGALIH BAHASA REAL-TIME (ID / EN)
+    // =========================================================================
+    const btnLangToggle = document.getElementById('btn-lang-toggle');
+
+    function applyLanguageToDOM() {
+      document.documentElement.lang = state.lang;
+      document.title = uiStr('docTitle');
+
+      if (btnLangToggle) {
+        btnLangToggle.textContent = state.lang.toUpperCase();
+        btnLangToggle.title = uiStr('langTitle');
+      }
+
+      // Header & Floating HUD
+      const hTitle = document.querySelector('#top-hud-left h1');
+      if (hTitle) hTitle.textContent = uiStr('headerTitle');
+      if (headerModeBadge) headerModeBadge.title = uiStr('headerModeBadgeTitle');
+      if (btnModeCycle) btnModeCycle.title = uiStr('headerModeBadgeTitle');
+
+      const setBtnSpanAndTitle = (btnId, textKey, titleKey) => {
+        const b = document.getElementById(btnId);
+        if (!b) return;
+        if (titleKey) b.title = uiStr(titleKey);
+        if (textKey) {
+          const sp = b.querySelector('span:not(.w-2):not(.live-dot)');
+          if (sp) sp.textContent = uiStr(textKey);
+        }
+      };
+
+      setBtnSpanAndTitle('btn-toggle-controls', 'controlsBtn', 'controlsBtnTitle');
+      setBtnSpanAndTitle('btn-quick-zoom-in', 'zoomInBtn', 'zoomInTitle');
+      setBtnSpanAndTitle('btn-quick-zoom-out', 'zoomOutBtn', 'zoomOutTitle');
+      setBtnSpanAndTitle('btn-free-cam', 'freeCamBtn', 'freeCamTitle');
+      setBtnSpanAndTitle('btn-open-search', 'searchBtn', 'searchTitle');
+      setBtnSpanAndTitle('btn-toggle-drawer', 'telemetryBtn', 'telemetryTitle');
+      setBtnSpanAndTitle('btn-cinematic-mode', 'cinematicBtn', 'cinematicTitle');
+      setBtnSpanAndTitle('btn-quick-rec', null, 'quickRecTitle');
+      setBtnSpanAndTitle('btn-reset-all', 'resetAllBtn', 'resetAllTitle');
+      setBtnSpanAndTitle('btn-open-help', null, 'helpTitle');
+      setBtnSpanAndTitle('btn-restore-hud', 'restoreHud', 'restoreHudTitle');
+      if (floatingRecBadge) floatingRecBadge.title = uiStr('floatingRecTitle');
+
+      // Quick Rec Panel
+      const aspectFullBtn = document.querySelector('.aspect-btn[data-aspect="full"]');
+      if (aspectFullBtn) aspectFullBtn.textContent = uiStr('aspectFull');
+      const quickRecStartSpan = document.querySelector('#btn-quick-rec-start span:last-child');
+      if (quickRecStartSpan) quickRecStartSpan.textContent = uiStr('recStart');
+      if (recBtnText && !isRecording) recBtnText.textContent = uiStr('recStart');
+
+      // Left Control Panel
+      const ctrlTitle = document.querySelector('#left-control-panel > div:first-child > span');
+      if (ctrlTitle && ctrlTitle.lastChild) ctrlTitle.lastChild.textContent = ' ' + uiStr('ctrlPanelTitle');
+      const btnCloseCtrl = document.getElementById('btn-close-controls');
+      if (btnCloseCtrl) btnCloseCtrl.title = uiStr('hideTitle');
+
+      const refLabel = document.querySelector('#left-control-panel .space-y-1\\.5.pb-2 > div:first-child > span:first-child');
+      if (refLabel) refLabel.textContent = uiStr('refModeLabel');
+      const modeHelio = document.querySelector('.mode-btn[data-mode="heliocentric"]');
+      const modeHelical = document.querySelector('.mode-btn[data-mode="helical"]');
+      const modeGalaxy = document.querySelector('.mode-btn[data-mode="galaxy"]');
+      if (modeHelio) modeHelio.textContent = uiStr('modeHelioBtn');
+      if (modeHelical) modeHelical.textContent = uiStr('modeHelicalBtn');
+      if (modeGalaxy) modeGalaxy.textContent = uiStr('modeGalaxyBtn');
+
+      if (state.mode === 'heliocentric') {
+        if (headerModeBadge) headerModeBadge.textContent = uiStr('modeHelioBadge');
+        if (btnModeCycle) btnModeCycle.textContent = MODE_SHORT.heliocentric;
+        if (headerSubtitle) headerSubtitle.textContent = MODE_SUBTITLES.heliocentric;
+        if (modeTiltBadge) modeTiltBadge.textContent = uiStr('tiltHelio');
+      } else if (state.mode === 'helical') {
+        if (headerModeBadge) headerModeBadge.textContent = uiStr('modeHelicalBadge');
+        if (btnModeCycle) btnModeCycle.textContent = MODE_SHORT.helical;
+        if (headerSubtitle) headerSubtitle.textContent = MODE_SUBTITLES.helical;
+        if (modeTiltBadge) modeTiltBadge.textContent = uiStr('tiltHelical');
+      } else if (state.mode === 'galaxy') {
+        if (headerModeBadge) headerModeBadge.textContent = uiStr('modeGalaxyBadge');
+        if (btnModeCycle) btnModeCycle.textContent = MODE_SHORT.galaxy;
+        if (headerSubtitle) headerSubtitle.textContent = MODE_SUBTITLES.galaxy;
+        if (modeTiltBadge) modeTiltBadge.textContent = uiStr('tiltGalaxy');
+      }
+
+      // Helical & Galaxy subcontrols
+      const hSpeedLbl = document.querySelector('#helical-subcontrols > div:nth-child(1) > span:first-child');
+      if (hSpeedLbl) hSpeedLbl.textContent = uiStr('helicalSpeedLbl');
+      const hWidthLbl = document.querySelector('#helical-subcontrols > div:nth-child(3) > span:first-child');
+      if (hWidthLbl) hWidthLbl.textContent = uiStr('helicalWidthLbl');
+      const setFirstSpan = (id, key) => {
+        const el = document.querySelector(`#${id} > span:first-child`);
+        if (el) el.textContent = uiStr(key);
+      };
+      setFirstSpan('btn-toggle-trails', 'helicalTrailsBtn');
+      setFirstSpan('btn-toggle-bobbing', 'galacticBobbingBtn');
+      setFirstSpan('btn-toggle-sat-galaxies', 'dwarfGalaxiesBtn');
+      setFirstSpan('btn-toggle-sat-orbits', 'satGalaxyOrbitsBtn');
+      setFirstSpan('btn-toggle-gal-orbit', 'solarSystemOrbitBtn');
+      if (btnFollowSolar) btnFollowSolar.title = uiStr('followSolarTitle');
+      updateFollowSolarButtonUI();
+
+      // Time Speed & Scale Sliders
+      const timeLbl = document.querySelector('#speed-slider')?.parentElement?.previousElementSibling?.querySelector('span:first-child');
+      if (timeLbl) timeLbl.textContent = uiStr('timeSpeedLbl');
+      const btnResetSpd = document.getElementById('btn-reset-speed');
+      if (btnResetSpd) btnResetSpd.title = uiStr('resetSpeedTitle');
+      if (btnPlayPause) btnPlayPause.title = uiStr('playPauseTitle');
+      const scaleLbl = document.querySelector('#scale-slider')?.previousElementSibling?.querySelector('span:first-child');
+      if (scaleLbl) scaleLbl.textContent = uiStr('bodyScaleLbl');
+
+      // Layers Header & 14 Layer Toggles
+      const layersHdr = document.querySelector('.layer-toggle[data-layer="planets"]')?.parentElement?.previousElementSibling;
+      if (layersHdr) layersHdr.textContent = uiStr('layersHeader');
+      const layerMap = {
+        planets: 'layerPlanets',
+        orbits: 'layerOrbits',
+        dwarfPlanets: 'layerDwarfPlanets',
+        tnoOrbits: 'layerTnoOrbits',
+        moons: 'layerMoons',
+        moonOrbits: 'layerMoonOrbits',
+        asteroids: 'layerAsteroids',
+        asteroidOrbits: 'layerAsteroidOrbits',
+        comets: 'layerComets',
+        cometOrbits: 'layerCometOrbits',
+        spacecraft: 'layerSpacecraft',
+        spacecraftOrbits: 'layerSpacecraftOrbits',
+        labels: 'layerLabels',
+        constellations: 'layerConstellations',
+      };
+      Object.entries(layerMap).forEach(([layerKey, strKey]) => {
+        const sp = document.querySelector(`.layer-toggle[data-layer="${layerKey}"] > span:first-child`);
+        if (sp) sp.textContent = uiStr(strKey);
+      });
+
+      // Fullscreen & Tour buttons
+      if (btnFullscreen) btnFullscreen.title = uiStr('fullscreenTitle');
+      syncFullscreenButtonUI();
+      if (tourBtnText) tourBtnText.textContent = state.autoTour ? uiStr('tourStop') : uiStr('tourStart');
+      if (state.autoTour) updateTourBannerText(state.tourIndex);
+
+      // Telemetry Drawer static labels
+      const btnCloseDrw = document.getElementById('btn-close-drawer');
+      if (btnCloseDrw) btnCloseDrw.setAttribute('aria-label', uiStr('closePanelAria'));
+      const moonsHdr = document.querySelector('#moons-section h3 span');
+      if (moonsHdr) moonsHdr.textContent = uiStr('moonsHeading');
+
+      // Follow Cam Bar & Popup
+      if (btnFollowCamToggle) btnFollowCamToggle.title = uiStr('followToggleTitle');
+      if (followViewLabel) followViewLabel.textContent = CAM_VIEW_LABELS[state.cameraView] || uiStr('camViews').cinematic;
+      if (!state.isOverview) {
+        if (state.mode === 'galaxy' && state.selectedGalaxyId) {
+          const gReg = galaxyRegistry.get(state.selectedGalaxyId);
+          if (gReg && followTargetName) followTargetName.textContent = tName(gReg.data);
+        } else if (state.selectedId) {
+          const bReg = registry.get(state.selectedId);
+          if (bReg && followTargetName) followTargetName.textContent = tName(bReg.data);
+        }
+      }
+      const camBtns = document.querySelectorAll('#follow-cam-popup .cam-view-btn');
+      const camTitles = uiStr('camViewTitles');
+      camBtns.forEach((btn, idx) => {
+        const key = btn.dataset.camview;
+        if (key && uiStr('camViews')[key]) btn.textContent = uiStr('camViews')[key];
+        if (camTitles[idx]) btn.title = camTitles[idx];
+      });
+      setBtnSpanAndTitle('btn-bar-zoom-in', 'zoomInBtn', 'barZoomInTitle');
+      setBtnSpanAndTitle('btn-bar-zoom-out', 'zoomOutBtn', 'barZoomOutTitle');
+      setBtnSpanAndTitle('btn-release-follow', null, 'releaseFollowTitle');
+
+      // NASA Time Bar
+      if (btnNasaLive) btnNasaLive.title = uiStr('nasaLiveTitle');
+      if (btnCloseNasaTime) btnCloseNasaTime.title = uiStr('nasaCloseTitle');
+      if (btnNasaRewind) btnNasaRewind.title = uiStr('nasaRewindTitle');
+      if (btnNasaPlayPause) btnNasaPlayPause.title = uiStr('nasaPlayTitle');
+      if (btnNasaForward) btnNasaForward.title = uiStr('nasaForwardTitle');
+      if (nasaShuttleWrap) nasaShuttleWrap.title = uiStr('nasaShuttleTitle');
+      if (cosmicClockBadge) cosmicClockBadge.title = uiStr('cosmicClockTitle');
+
+      // Category Tabs
+      const catMap = {
+        major: 'catMajor',
+        dwarf: 'catDwarf',
+        tno: 'catTno',
+        spacecraft: 'catSpacecraft',
+        galaxy_dwarf: 'catGalaxyDwarf',
+      };
+      Object.entries(catMap).forEach(([catKey, strKey]) => {
+        const tab = document.querySelector(`.cat-tab[data-cat="${catKey}"]`);
+        if (tab) tab.textContent = uiStr(strKey);
+      });
+
+      // 3D Projected Labels (Solar System, Constellations, Galaxy, Apsis)
+      labelElements.forEach((lbl) => {
+        const reg = registry.get(lbl.id);
+        const sp = lbl.el.querySelector('span:last-child');
+        if (reg && sp) sp.textContent = tNavLabel(reg.data);
+      });
+      constellationLabels.forEach((c) => {
+        const entry = constellationDataList[c.idx];
+        const sp = c.el.querySelector('span:last-child');
+        if (entry && sp) {
+          const nm = tName(entry.data);
+          sp.textContent = nm;
+          c.el.title = uiStr('constLabelTitleFmt')(nm);
+        }
+      });
+      if (state.selectedConstellationIdx !== -1 && constellationDataList[state.selectedConstellationIdx] && constNavName) {
+        constNavName.textContent = tName(constellationDataList[state.selectedConstellationIdx].data);
+      }
+      galaxyLabels.forEach((g) => {
+        const sp = g.el.querySelector('span:last-child');
+        if (sp) {
+          const txt = tGalaxyLabel(g.id);
+          sp.textContent = txt;
+          g.el.title = g.id === 'orion_spur' ? uiStr('galLabelTitleSun') : uiStr('galLabelTitleFmt')(txt);
+        }
+      });
+      if (periLabelEl) periLabelEl.title = uiStr('periTitle');
+      if (aphLabelEl) aphLabelEl.title = uiStr('aphTitle');
+
+      // Search Modal
+      if (searchInput) searchInput.placeholder = uiStr('searchPlaceholder');
+      const btnCloseSrch = document.getElementById('btn-close-search');
+      if (btnCloseSrch) btnCloseSrch.textContent = uiStr('searchClose');
+      const searchHintSpan = document.querySelector('#search-modal .border-t > span:last-child');
+      if (searchHintSpan) searchHintSpan.textContent = uiStr('searchFooterHint');
+      if (searchCatalog.length > 0) {
+        buildSearchCatalog();
+        if (searchModal && !searchModal.classList.contains('hidden')) {
+          renderSearchResults(searchInput ? searchInput.value : '');
+        }
+      }
+
+      // Constellation nav & FPS aria-label
+      if (btnConstPrev) btnConstPrev.title = uiStr('constPrevTitle');
+      if (btnConstNext) btnConstNext.title = uiStr('constNextTitle');
+      if (btnConstExit) btnConstExit.title = uiStr('constExitTitle');
+      if (fpsBadgeEl) fpsBadgeEl.setAttribute('aria-label', uiStr('fpsAriaLabel'));
+
+      // Help Modal (?)
+      const btnCloseHlp = document.getElementById('btn-close-help');
+      if (btnCloseHlp) btnCloseHlp.title = uiStr('searchClose');
+      const helpH2 = document.querySelector('#help-modal h2');
+      if (helpH2) helpH2.textContent = uiStr('helpTitleText');
+      const helpSub = document.querySelector('#help-modal h2 + p');
+      if (helpSub) helpSub.textContent = uiStr('helpSubtitleText');
+      const helpSections = document.querySelectorAll('#help-modal .thin-scrollbar > div');
+      if (helpSections[0]) {
+        const hdr = helpSections[0].querySelector(':scope > div:first-child');
+        if (hdr && hdr.lastChild) hdr.lastChild.textContent = ' ' + uiStr('helpSec1');
+        const rows = helpSections[0].querySelectorAll('.grid > div');
+        const rowData = uiStr('helpSec1Rows');
+        rows.forEach((r, i) => {
+          if (!rowData[i]) return;
+          const spans = r.querySelectorAll('span');
+          if (spans[0]) spans[0].textContent = rowData[i][0];
+          if (spans[1]) spans[1].textContent = rowData[i][1];
+        });
+      }
+      if (helpSections[1]) {
+        const hdr = helpSections[1].querySelector(':scope > div:first-child');
+        if (hdr && hdr.lastChild) hdr.lastChild.textContent = ' ' + uiStr('helpSec2');
+        const rows = helpSections[1].querySelectorAll('.grid > div');
+        const rowData = uiStr('helpSec2Rows');
+        rows.forEach((r, i) => {
+          if (!rowData[i]) return;
+          const spans = r.querySelectorAll('span');
+          if (spans[0]) spans[0].textContent = rowData[i][0];
+          if (spans[1]) spans[1].textContent = rowData[i][1];
+        });
+        const noteP = helpSections[1].querySelector('p');
+        if (noteP) noteP.innerHTML = uiStr('helpSec2Note');
+      }
+      if (helpSections[2]) {
+        const hdr = helpSections[2].querySelector(':scope > div:first-child');
+        if (hdr && hdr.lastChild) hdr.lastChild.textContent = ' ' + uiStr('helpSec3');
+        const rows = helpSections[2].querySelectorAll('.grid > div');
+        const scData = uiStr('helpShortcuts');
+        rows.forEach((r, i) => {
+          if (!scData[i]) return;
+          const sp = r.querySelector('span');
+          const kbd = r.querySelector('kbd');
+          if (sp) sp.textContent = scData[i][0];
+          if (kbd) kbd.textContent = scData[i][1];
+        });
+      }
+
+      // Refresh active Telemetry Drawer, Nav Pills, Moons Bar & Clock
+      if (state.selectedConstellationIdx !== -1 && constellationDataList[state.selectedConstellationIdx]) {
+        updateTelemetryDrawer({ data: constellationDataList[state.selectedConstellationIdx].data });
+      } else if (state.mode === 'galaxy') {
+        const gItem = state.selectedGalaxyId ? galaxyRegistry.get(state.selectedGalaxyId) : null;
+        updateTelemetryDrawer(gItem || MILKY_WAY_TELEMETRY);
+      } else {
+        const reg = registry.get(state.selectedId) || registry.get('sun');
+        if (reg) updateTelemetryDrawer(reg);
+      }
+      renderNavPillsForCategory(state.activeCategory);
+      updateBottomMoonsBar();
+      syncNasaTimeControlsUI();
+      lastClockUiUpdate = 0;
+      updateCosmicClockUI(performance.now());
+      updateHudOffset();
+    }
+
+    function setLanguage(lang) {
+      state.lang = lang === 'en' ? 'en' : 'id';
+      try { localStorage.setItem('solar_sim_lang', state.lang); } catch (_) {}
+      applyLanguageToDOM();
+    }
+
+    if (btnLangToggle) {
+      btnLangToggle.addEventListener('click', () => {
+        setLanguage(state.lang === 'id' ? 'en' : 'id');
+      });
+    }
+
     window.addEventListener('load', async () => {
       const statusEl = document.getElementById('loading-status');
       const setStatus = (msg) => {
         if (statusEl) statusEl.textContent = msg;
       };
 
+      const loadTitleEl = document.querySelector('#loading-screen h1');
+      if (loadTitleEl) loadTitleEl.textContent = uiStr('loadTitle');
       try {
-        setStatus('Membangun latar belakang bintang & Matahari...');
+        setStatus(uiStr('loadStep1'));
         await yieldToBrowser();
         createStarfield();
         buildConstellations();
@@ -14394,12 +15194,12 @@
 
         await buildPlanetsAndMoons(setStatus);
 
-        setStatus('Membangun 9.800 objek Sabuk Asteroid, Trojan & Kuiper...');
+        setStatus(uiStr('loadStepBelts'));
         await yieldToBrowser();
         buildSmallBodyPopulations();
         buildHelicalTrailsAndFlow();
 
-        setStatus('Membangun Galaksi Bima Sakti (75.000 bintang & nebula)...');
+        setStatus(uiStr('loadStepGalaxy'));
         await yieldToBrowser();
         buildMilkyWayGalaxy();
         buildSearchCatalog();
@@ -14407,6 +15207,7 @@
 
         const sunReg = registry.get('sun');
         if (sunReg) updateTelemetryDrawer(sunReg);
+        applyLanguageToDOM();
         syncAllOrbitLinesVisibility();
 
         // Tutup panel Telemetri di awal (semua layar) agar tampilan 3D bersih; di ponsel tutup juga panel kiri
@@ -14425,7 +15226,7 @@
         }, 200);
       } catch (err) {
         console.error('Kesalahan inisialisasi simulasi Tata Surya:', err);
-        setStatus('Terjadi kendala memuat WebGL. Silakan muat ulang halaman.');
+        setStatus(uiStr('loadError'));
       }
     });
   </script>
