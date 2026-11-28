@@ -438,10 +438,10 @@
       font-weight: 600;
       letter-spacing: 0.02em;
       white-space: nowrap;
-      background: rgba(6, 11, 23, 0.88);
-      border: 1px solid rgba(148, 163, 184, 0.28);
-      color: #f8fafc;
-      transition: border-color 0.2s ease, background 0.2s ease;
+      background: rgba(var(--lbl-bg-rgb, 4, 6, 12), 0.88);
+      border: 1px solid rgba(var(--lbl-rgb, 148, 163, 184), 0.62);
+      color: rgb(var(--lbl-txt-rgb, 248, 250, 252));
+      transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
       display: flex;
       align-items: center;
       gap: 5px;
@@ -451,50 +451,45 @@
         pointer-events: none !important;
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
-        background: rgba(6, 11, 23, 0.88);
+        background: rgba(var(--lbl-bg-rgb, 4, 6, 12), 0.88);
       }
     }
 
     .celestial-label:hover {
-      background: rgba(10, 132, 255, 0.28);
-      border-color: rgba(64, 156, 255, 0.78);
+      background: linear-gradient(rgba(var(--lbl-rgb, 64, 156, 255), 0.24), rgba(var(--lbl-rgb, 64, 156, 255), 0.24)), rgba(var(--lbl-bg-rgb, 4, 6, 12), 0.92);
+      border-color: rgba(var(--lbl-rgb, 64, 156, 255), 0.90);
+      box-shadow: 0 0 12px rgba(var(--lbl-rgb, 64, 156, 255), 0.28);
       z-index: 9600 !important;
     }
 
     .celestial-label.is-dwarf {
-      background: rgba(24, 16, 38, 0.76);
-      border-color: rgba(192, 132, 252, 0.42);
-      color: #f3e8ff;
+      border-color: rgba(var(--lbl-rgb, 192, 132, 252), 0.62);
     }
 
     .celestial-label.is-moon {
       font-size: 10px;
       font-weight: 500;
       padding: 2px 7px;
-      background: rgba(10, 17, 34, 0.68);
-      border-color: rgba(125, 211, 252, 0.28);
-      color: #bae6fd;
+      background: rgba(var(--lbl-bg-rgb, 8, 12, 22), 0.80);
+      border-color: rgba(var(--lbl-rgb, 125, 211, 252), 0.50);
     }
 
     .celestial-label.is-trojan {
       font-size: 10.5px;
-      background: rgba(20, 28, 18, 0.72);
-      border-color: rgba(163, 230, 53, 0.35);
-      color: #d9f99d;
+      background: rgba(var(--lbl-bg-rgb, 16, 24, 14), 0.84);
+      border-color: rgba(var(--lbl-rgb, 163, 230, 53), 0.58);
     }
 
     .celestial-label.is-comet {
       font-size: 10.5px;
-      background: rgba(8, 28, 42, 0.78);
-      border-color: rgba(56, 189, 248, 0.48);
-      color: #cffafe;
+      background: rgba(var(--lbl-bg-rgb, 6, 20, 32), 0.86);
+      border-color: rgba(var(--lbl-rgb, 56, 189, 248), 0.64);
     }
 
     .celestial-label.is-spacecraft {
       font-size: 10.5px;
-      background: rgba(24, 20, 8, 0.82);
-      border-color: rgba(251, 191, 36, 0.52);
-      color: #fef3c7;
+      background: rgba(var(--lbl-bg-rgb, 18, 14, 6), 0.86);
+      border-color: rgba(var(--lbl-rgb, 251, 191, 36), 0.64);
     }
 
     .celestial-label.is-apsis {
@@ -524,9 +519,8 @@
 
     .celestial-label.is-galaxy {
       font-size: 11px;
-      background: rgba(15, 10, 32, 0.78);
-      border-color: rgba(167, 139, 250, 0.45);
-      color: #ede9fe;
+      background: rgba(var(--lbl-bg-rgb, 15, 10, 32), 0.82);
+      border-color: rgba(var(--lbl-rgb, 167, 139, 250), 0.48);
     }
 
     .celestial-label.is-constellation {
@@ -537,17 +531,17 @@
       padding: 2.5px 8px;
       pointer-events: auto;
       cursor: pointer;
-      background: rgba(7, 15, 34, 0.56);
-      border: 1px solid rgba(125, 211, 252, 0.26);
-      color: rgba(186, 230, 253, 0.86);
+      background: rgba(var(--lbl-bg-rgb, 7, 15, 34), 0.64);
+      border: 1px solid rgba(var(--lbl-rgb, 125, 211, 252), 0.42);
+      color: rgb(var(--lbl-txt-rgb, 186, 230, 253));
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
     }
 
     .celestial-label.is-constellation:hover {
-      background: rgba(14, 165, 233, 0.30);
-      border-color: rgba(125, 211, 252, 0.82);
-      color: #f0f9ff;
+      background: linear-gradient(rgba(var(--lbl-rgb, 125, 211, 252), 0.22), rgba(var(--lbl-rgb, 125, 211, 252), 0.22)), rgba(var(--lbl-bg-rgb, 7, 15, 34), 0.86);
+      border-color: rgba(var(--lbl-rgb, 125, 211, 252), 0.86);
+      box-shadow: 0 0 12px rgba(var(--lbl-rgb, 125, 211, 252), 0.24);
       z-index: 9600 !important;
     }
 
@@ -560,10 +554,10 @@
 
     .celestial-label.is-galaxy-sun {
       font-size: 11.5px;
-      background: rgba(10, 132, 255, 0.26);
-      border-color: rgba(64, 156, 255, 0.78);
-      color: #e6f1ff;
-      box-shadow: 0 0 14px rgba(10, 132, 255, 0.28);
+      background: linear-gradient(rgba(var(--lbl-rgb, 251, 191, 36), 0.20), rgba(var(--lbl-rgb, 251, 191, 36), 0.20)), rgba(var(--lbl-bg-rgb, 16, 13, 6), 0.90);
+      border-color: rgba(var(--lbl-rgb, 251, 191, 36), 0.84);
+      color: rgb(var(--lbl-txt-rgb, 254, 243, 199));
+      box-shadow: 0 0 14px rgba(var(--lbl-rgb, 251, 191, 36), 0.30);
     }
 
     .cam-view-btn.active {
@@ -581,10 +575,10 @@
     }
 
     .celestial-label.is-selected {
-      border-color: rgba(64, 156, 255, 0.88) !important;
-      background: rgba(10, 132, 255, 0.32) !important;
-      color: #e6f1ff !important;
-      box-shadow: 0 0 14px rgba(10, 132, 255, 0.34);
+      border-color: rgba(var(--lbl-rgb, 64, 156, 255), 0.92) !important;
+      background: linear-gradient(rgba(var(--lbl-rgb, 64, 156, 255), 0.24), rgba(var(--lbl-rgb, 64, 156, 255), 0.24)), rgba(var(--lbl-bg-rgb, 6, 11, 23), 0.92) !important;
+      color: rgb(var(--lbl-txt-rgb, 230, 241, 255)) !important;
+      box-shadow: 0 0 15px rgba(var(--lbl-rgb, 64, 156, 255), 0.36);
       z-index: 9500 !important;
     }
 
@@ -1667,6 +1661,24 @@
       </div>
     </div>
 
+    <!-- Toggle Ultra SSAA (khusus Desktop) -->
+    <div id="ssaa-control-row" class="hidden pt-1 border-t border-slate-700/40">
+      <button
+        id="btn-toggle-ssaa"
+        type="button"
+        title="Supersampling 2x + Downsample RGSS + MSAA untuk bola planet, cincin & orbit super halus (Khusus GPU Desktop)"
+        class="w-full py-2 px-3 rounded-xl bg-slate-900/70 hover:bg-slate-800/80 border border-slate-700/80 text-[11px] font-medium text-slate-200 flex items-center justify-between gap-2 transition cursor-pointer"
+      >
+        <span class="flex items-center gap-2 min-w-0">
+          <svg class="w-3.5 h-3.5 text-[#7cc0ff] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+          </svg>
+          <span id="ssaa-btn-label" class="truncate">Ultra SSAA (2×)</span>
+        </span>
+        <span id="ssaa-btn-pill" class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700 shrink-0">OFF</span>
+      </button>
+    </div>
+
     <!-- Tombol Kamera & Tur Sinematik -->
     <div class="grid grid-cols-2 gap-1.5 pt-1 border-t border-slate-700/40">
       <button
@@ -2301,6 +2313,7 @@
     import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
     import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
     import { SMAAPass } from 'three/addons/postprocessing/SMAAPass.js';
+    import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 
     // =========================================================================
     // 1. UTILITAS NOISE & GENERATOR TEKSTUR PROSEDURAL
@@ -4025,7 +4038,7 @@
         subtitle: 'Planet Merah • Olympus Mons & Valles Marineris',
         category: 'Planet Terestrial',
         navGroups: ['major'],
-        color: '#f97316',
+        color: '#ef4444',
         textureType: 'mars',
         seed: 404,
         radius: 0.92,
@@ -4118,7 +4131,7 @@
         category: 'Planet Katai • Sabuk Asteroid',
         navGroups: ['dwarf'],
         isDwarf: true,
-        color: '#cbd5e1',
+        color: '#e2e8f0',
         textureType: 'ceres',
         seed: 450,
         radius: 0.62,
@@ -4155,7 +4168,7 @@
         navGroups: ['tno'],
         isAsteroid: true,
         irregular: true,
-        color: '#d6d3d1',
+        color: '#d6b384',
         textureType: 'vesta',
         seed: 461,
         radius: 0.40,
@@ -4191,7 +4204,7 @@
         navGroups: ['tno'],
         isAsteroid: true,
         irregular: true,
-        color: '#94a3b8',
+        color: '#6488b4',
         textureType: 'rock',
         seed: 462,
         radius: 0.39,
@@ -4227,7 +4240,7 @@
         navGroups: ['tno'],
         isAsteroid: true,
         irregular: true,
-        color: '#cbd5e1',
+        color: '#c27d53',
         textureType: 'mercury',
         seed: 463,
         radius: 0.28,
@@ -4264,7 +4277,7 @@
         isAsteroid: true,
         isMetallic: true,
         irregular: true,
-        color: '#cbd5e1',
+        color: '#a5b4fc',
         textureType: 'psyche',
         seed: 464,
         radius: 0.29,
@@ -4299,7 +4312,7 @@
         category: 'Asteroid • Sabuk Utama',
         navGroups: ['tno'],
         isAsteroid: true,
-        color: '#78716c',
+        color: '#7ca382',
         textureType: 'salacia',
         seed: 465,
         radius: 0.35,
@@ -4336,7 +4349,7 @@
         isAsteroid: true,
         isKuiperObj: true,
         isBilobed: true,
-        color: '#f87171',
+        color: '#e05a47',
         textureType: 'gonggong',
         seed: 466,
         radius: 0.32,
@@ -4781,7 +4794,7 @@
         subtitle: 'Raksasa Es Menggelinding • Kemiringan Sumbu 97,8°',
         category: 'Planet Raksasa Es',
         navGroups: ['major'],
-        color: '#22d3ee',
+        color: '#2dd4bf',
         textureType: 'uranus',
         seed: 707,
         radius: 2.3,
@@ -5071,7 +5084,7 @@
         category: 'Planet Katai • Plutino (TNO)',
         navGroups: ['dwarf'],
         isDwarf: true,
-        color: '#7dd3fc',
+        color: '#67e8f9',
         textureType: 'orcus',
         seed: 901,
         radius: 0.64,
@@ -5310,7 +5323,7 @@
         category: 'Planet Katai • Cubewano (KBO Klasik)',
         navGroups: ['dwarf'],
         isDwarf: true,
-        color: '#94a3b8',
+        color: '#93c5fd',
         textureType: 'salacia',
         seed: 920,
         radius: 0.60,
@@ -5374,7 +5387,7 @@
         category: 'Planet Katai • KBO Klasik / Resonan',
         navGroups: ['dwarf'],
         isDwarf: true,
-        color: '#e0f2fe',
+        color: '#bae6fd',
         textureType: 'haumea',
         seed: 930,
         radius: 0.68,
@@ -5536,7 +5549,7 @@
         category: 'Planet Katai • Cubewano (KBO Klasik)',
         navGroups: ['dwarf'],
         isDwarf: true,
-        color: '#fb923c',
+        color: '#f97316',
         textureType: 'makemake',
         seed: 950,
         radius: 0.74,
@@ -5601,7 +5614,7 @@
         category: 'Planet Katai • Scattered Disc (TNO)',
         navGroups: ['dwarf'],
         isDwarf: true,
-        color: '#f87171',
+        color: '#ec4899',
         textureType: 'gonggong',
         seed: 960,
         radius: 0.68,
@@ -5772,8 +5785,8 @@
         category: 'Komet Periodik (Tipe-Halley)',
         navGroups: ['tno'],
         isComet: true,
-        color: '#38bdf8',
-        cometColors: { coma: 0x7dd3fc, ion: 0x38bdf8, dust: 0xfef08a, orbit: 0x38bdf8 },
+        color: '#06b6d4',
+        cometColors: { coma: 0x67e8f9, ion: 0x22d3ee, dust: 0xfef08a, orbit: 0x06b6d4 },
         textureType: 'salacia',
         seed: 1001,
         radius: 0.34,
@@ -5810,8 +5823,8 @@
         category: 'Komet Periode Panjang (Awan Oort)',
         navGroups: ['tno'],
         isComet: true,
-        color: '#60a5fa',
-        cometColors: { coma: 0x93c5fd, ion: 0x60a5fa, dust: 0xfde68a, orbit: 0x60a5fa },
+        color: '#818cf8',
+        cometColors: { coma: 0xa5b4fc, ion: 0x818cf8, dust: 0xfde68a, orbit: 0x818cf8 },
         textureType: 'icy_moon',
         seed: 1002,
         radius: 0.44,
@@ -5887,8 +5900,8 @@
         navGroups: ['tno'],
         isComet: true,
         isBilobed: true,
-        color: '#a78bfa',
-        cometColors: { coma: 0xc4b5fd, ion: 0x818cf8, dust: 0xfed7aa, orbit: 0xa78bfa },
+        color: '#c084fc',
+        cometColors: { coma: 0xd8b4fe, ion: 0xa855f7, dust: 0xfed7aa, orbit: 0xc084fc },
         textureType: 'salacia',
         seed: 1004,
         radius: 0.30,
@@ -5931,7 +5944,7 @@
         isSpacecraft: true,
         spacecraftType: 'jwst',
         isLagrangeL2: true,
-        color: '#fbbf24',
+        color: '#fef08a',
         radius: 0.36,
         orbitRadius: 45.2,
         eccentricity: 0.017,
@@ -5962,7 +5975,7 @@
         navGroups: ['spacecraft'],
         isSpacecraft: true,
         spacecraftType: 'parker',
-        color: '#fb923c',
+        color: '#f472b6',
         radius: 0.34,
         // Visual: perihelion 13.33 (tepat di luar korona Matahari 11.0), aphelion 29.67 (dekat Venus 29.5)
         orbitRadius: 21.5,
@@ -6000,7 +6013,7 @@
         escapeElevationDeg: 35,
         escapeBaseDist: 355,
         escapeDriftSpeed: 1.4,
-        color: '#38bdf8',
+        color: '#4ade80',
         radius: 0.38,
         orbitRadius: 0,
         eccentricity: 0,
@@ -6033,7 +6046,7 @@
         escapeElevationDeg: -48,
         escapeBaseDist: 332,
         escapeDriftSpeed: 1.25,
-        color: '#a78bfa',
+        color: '#e879f9',
         radius: 0.38,
         orbitRadius: 0,
         eccentricity: 0,
@@ -6689,6 +6702,8 @@
         fullscreenEnter: 'Layar Penuh',
         fullscreenExit: 'Keluar',
         fullscreenTitle: 'Masuk / Keluar Mode Layar Penuh Perangkat (Pintasan: L)',
+        ultraSsaaLbl: 'Ultra SSAA (2×)',
+        ultraSsaaTitle: 'Supersampling 2× + Downsample RGSS + MSAA untuk bola planet, cincin & orbit super halus (Khusus GPU Desktop)',
         tourStart: 'Tur Sinematik',
         tourStop: 'Hentikan Tur',
         tourPrefixCinematic: 'TUR SINEMATIK',
@@ -6878,6 +6893,8 @@
         fullscreenEnter: 'Fullscreen',
         fullscreenExit: 'Exit Fullscreen',
         fullscreenTitle: 'Enter / Exit Device Fullscreen Mode (Shortcut: L)',
+        ultraSsaaLbl: 'Ultra SSAA (2×)',
+        ultraSsaaTitle: '2× Supersampling + RGSS Downsample + MSAA for razor-smooth spheres, rings & orbits (Desktop GPU)',
         tourStart: 'Cinematic Tour',
         tourStop: 'Stop Tour',
         tourPrefixCinematic: 'CINEMATIC TOUR',
@@ -7008,6 +7025,7 @@
       showSatGalaxyOrbits: false,
       showEarthBorders: false,
       objectSpinMode: false,
+      ultraSsaa: false,
       galacticOrbitAngle: 0.72, // Posisi awal Tata Surya di Orion-Cygnus Spur
       galaxyTime: 0,            // Waktu khusus shader rotasi diferensial & gelombang kepadatan
       currentTiltRad: 0,
@@ -7097,10 +7115,10 @@
     renderer.toneMappingExposure = 1.08;
     container.appendChild(renderer.domElement);
 
-    // Post-Processing: MSAA RenderTarget maksimal di desktop WebGL2 + Half-Res Bloom + OutputPass (+ SMAAPass khusus fallback non-MSAA/Firefox)
+    // Post-Processing: MSAA RenderTarget maksimal hingga 8x saat SSAA OFF, otomatis hemat ke 4x saat Ultra SSAA 2x aktif
     const maxHwSamples = renderer.capabilities.maxSamples || 4;
     const msaaSamples = (renderer.capabilities.isWebGL2 && !isFirefox && !isMobileDesktopSite)
-      ? Math.min(isMobileDevice ? 2 : 16, maxHwSamples)
+      ? Math.min(isMobileDevice ? 2 : 8, maxHwSamples)
       : 0;
     const composerTarget = new THREE.WebGLRenderTarget(
       Math.max(1, window.innerWidth),
@@ -7132,6 +7150,36 @@
       );
       composer.addPass(smaaPass);
     }
+
+    // Custom GLSL 4-tap RGSS Downsample Pass untuk mode Ultra SSAA Desktop (gamma-akurat, nonaktif = 0 overhead)
+    const ssaaDownsamplePass = new ShaderPass({
+      uniforms: {
+        tDiffuse: { value: null },
+        uInvOutRes: { value: new THREE.Vector2(1 / Math.max(1, window.innerWidth * initDpr), 1 / Math.max(1, window.innerHeight * initDpr)) },
+      },
+      vertexShader: `
+        varying vec2 vUv;
+        void main() {
+          vUv = uv;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform sampler2D tDiffuse;
+        uniform vec2 uInvOutRes;
+        varying vec2 vUv;
+        void main() {
+          vec3 c0 = pow(max(texture2D(tDiffuse, vUv + vec2(-0.375, -0.125) * uInvOutRes).rgb, vec3(0.0)), vec3(2.2));
+          vec3 c1 = pow(max(texture2D(tDiffuse, vUv + vec2( 0.125, -0.375) * uInvOutRes).rgb, vec3(0.0)), vec3(2.2));
+          vec3 c2 = pow(max(texture2D(tDiffuse, vUv + vec2( 0.375,  0.125) * uInvOutRes).rgb, vec3(0.0)), vec3(2.2));
+          vec3 c3 = pow(max(texture2D(tDiffuse, vUv + vec2(-0.125,  0.375) * uInvOutRes).rgb, vec3(0.0)), vec3(2.2));
+          vec3 avg = (c0 + c1 + c2 + c3) * 0.25;
+          gl_FragColor = vec4(pow(max(avg, vec3(0.0)), vec3(1.0 / 2.2)), 1.0);
+        }
+      `,
+    });
+    ssaaDownsamplePass.enabled = false;
+    composer.addPass(ssaaDownsamplePass);
 
     // OrbitControls (mendukung zoom sangat dekat ke satelit/planet katai hingga jauh ke Sedna)
     const controls = new OrbitControls(camera, renderer.domElement);
@@ -7229,6 +7277,32 @@
       return sharedSoftPointTex;
     }
 
+    function applyLabelObjectTheme(el, colorHex) {
+      if (!el || !colorHex) return;
+      let hex = String(colorHex).trim().replace('#', '');
+      if (hex.length === 3) hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+      const num = parseInt(hex, 16);
+      if (!Number.isFinite(num)) return;
+      const r = (num >> 16) & 255;
+      const g = (num >> 8) & 255;
+      const b = num & 255;
+      // Angkat kecerahan bingkai bila warna objek batu terlalu gelap (ambang 150 agar rona unik tetap terjaga)
+      const maxCh = Math.max(r, g, b, 1);
+      const lift = maxCh < 150 ? (150 / maxCh) : 1.0;
+      const br = Math.min(255, Math.round(r * lift));
+      const bg = Math.min(255, Math.round(g * lift));
+      const bb = Math.min(255, Math.round(b * lift));
+      const bgr = Math.round(4 + r * 0.23);
+      const bgg = Math.round(6 + g * 0.23);
+      const bgb = Math.round(12 + b * 0.23);
+      const tr = Math.round(248 * 0.64 + br * 0.36);
+      const tg = Math.round(250 * 0.64 + bg * 0.36);
+      const tb = Math.round(252 * 0.64 + bb * 0.36);
+      el.style.setProperty('--lbl-rgb', `${br}, ${bg}, ${bb}`);
+      el.style.setProperty('--lbl-bg-rgb', `${bgr}, ${bgg}, ${bgb}`);
+      el.style.setProperty('--lbl-txt-rgb', `${tr}, ${tg}, ${tb}`);
+    }
+
     let starfieldUniforms = null;
     const constellationsGroup = new THREE.Group();
     const constellationLabels = [];
@@ -7282,6 +7356,7 @@
       starfieldUniforms = {
         uTime: { value: 0 },
         uPixelRatio: { value: Math.min(window.devicePixelRatio, MAX_DPR) },
+        uSsaaScale: { value: 1.0 },
         uBoost: { value: 1.24 },
       };
 
@@ -7291,6 +7366,7 @@
           attribute vec3 aMeta;
           uniform float uTime;
           uniform float uPixelRatio;
+          uniform float uSsaaScale;
           uniform float uBoost;
           varying vec3 vColor;
           varying float vAlphaScale;
@@ -7305,7 +7381,7 @@
             vTightness = mix(7.2, 4.4, aMeta.z);
             vColor = color;
             float sizePx = aMeta.x * uPixelRatio;
-            gl_PointSize = clamp(sizePx, 3.2, 10.5);
+            gl_PointSize = clamp(sizePx, 3.2 * uSsaaScale, 10.5 * uSsaaScale);
           }
         `,
         fragmentShader: `
@@ -7689,6 +7765,7 @@
       ];
 
       const linePositions = [];
+      const lineColors = [];
       const starPositions = [];
       const starColors = [];
       const starSizes = [];
@@ -7696,6 +7773,7 @@
       CONSTELLATIONS.forEach((c, cIdx) => {
         if (I18N_DATA_EN.constellations[c.id]) c.en = I18N_DATA_EN.constellations[c.id];
         const pts = c.stars.map((s) => raDecToSkyVec(s.ra, s.dec, 2240));
+        const cLineCol = new THREE.Color(c.color || '#7dd3fc');
         const centroid = new THREE.Vector3();
         pts.forEach((p, idx) => {
           centroid.add(p);
@@ -7709,6 +7787,7 @@
         const segPts = [];
         c.edges.forEach(([a, b]) => {
           linePositions.push(pts[a].x, pts[a].y, pts[a].z, pts[b].x, pts[b].y, pts[b].z);
+          lineColors.push(cLineCol.r, cLineCol.g, cLineCol.b, cLineCol.r, cLineCol.g, cLineCol.b);
           segPts.push(pts[a].x, pts[a].y, pts[a].z, pts[b].x, pts[b].y, pts[b].z);
         });
 
@@ -7721,6 +7800,7 @@
         const cDispName = tName(c);
         el.title = uiStr('constLabelTitleFmt')(cDispName);
         el.innerHTML = `<span class="label-dot" style="background:${c.color}"></span><span>${cDispName}</span>`;
+        applyLabelObjectTheme(el, c.color);
         el._onTap = () => { stopAutoTour(); selectConstellation(cIdx); };
         labelsLayer.appendChild(el);
         constellationLabels.push({ idx: cIdx, id: c.id, obj: anchor, el });
@@ -7744,10 +7824,12 @@
 
       const lineGeo = new THREE.BufferGeometry();
       lineGeo.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
+      lineGeo.setAttribute('color', new THREE.Float32BufferAttribute(lineColors, 3));
       constellationLineMat = new THREE.LineBasicMaterial({
-        color: 0x7dd3fc,
+        color: 0xffffff,
+        vertexColors: true,
         transparent: true,
-        opacity: 0.22,
+        opacity: 0.24,
         depthWrite: false,
       });
       const linesMesh = new THREE.LineSegments(lineGeo, constellationLineMat);
@@ -7776,6 +7858,7 @@
 
       constellationStarUniforms = {
         uPixelRatio: { value: Math.min(window.devicePixelRatio, MAX_DPR) },
+        uSsaaScale: { value: 1.0 },
         uAlpha: { value: 1.0 },
       };
 
@@ -7784,12 +7867,13 @@
         vertexShader: `
           attribute float aSize;
           uniform float uPixelRatio;
+          uniform float uSsaaScale;
           varying vec3 vColor;
           void main() {
             vColor = color;
             vec4 mvPos = modelViewMatrix * vec4(position, 1.0);
             gl_Position = projectionMatrix * mvPos;
-            gl_PointSize = clamp(aSize * uPixelRatio, 4.5, 13.0);
+            gl_PointSize = clamp(aSize * uPixelRatio, 4.5 * uSsaaScale, 13.0 * uSsaaScale);
           }
         `,
         fragmentShader: `
@@ -7904,23 +7988,26 @@
             );
             vec3 wPos = pos + (warp - 0.5) * 0.18;
 
-            // Supergranulasi skala sedang + granulasi fotosfer halus (diredam sebelum jarak planet agar 100% bebas sub-pixel bloom flicker saat follow Jupiter/planet lain)
+            // Supergranulasi skala sedang + granulasi fotosfer halus dengan GLSL fwidth AA (adaptif piksel layar, bebas sub-pixel bloom flicker saat kamera miring/jauh)
             float camDist = length(cameraPosition - vWorldPosition);
             float farSmooth = smoothstep(28.0, 72.0, camDist);
-            float superGran = fbm(wPos * 7.5 + vec3(t * 0.8, -t * 0.5, t * 0.6));
-            float fineGran  = granules(wPos * 22.0 - vec3(t * 1.3, t * 0.9, -t * 1.1));
+            float posStep = clamp(length(fwidth(pos)), 0.0, 0.35);
+            float fineAA = 1.0 - smoothstep(0.012, 0.045, posStep);
+            float superAA = 1.0 - smoothstep(0.035, 0.115, posStep);
+            float superGran = mix(0.56, fbm(wPos * 7.5 + vec3(t * 0.8, -t * 0.5, t * 0.6)), superAA);
+            float fineGran  = mix(0.52, granules(wPos * 22.0 - vec3(t * 1.3, t * 0.9, -t * 1.1)), fineAA);
             float plasmaRaw = superGran * 0.58 + fineGran * 0.42;
             float plasma = mix(plasmaRaw, 0.56, farSmooth * 0.72);
 
             // Sabuk bintik matahari (Sunspots) di lintang aktif 10°–35° utara & selatan
             float latBand = smoothstep(0.06, 0.22, abs(pos.y)) * (1.0 - smoothstep(0.32, 0.62, abs(pos.y)));
             float spotField = fbm(pos * 5.2 + vec3(0.0, 2.4, 0.0) + (warp - 0.5) * 0.22);
-            float spotFade = 1.0 - smoothstep(38.0, 110.0, camDist);
+            float spotFade = (1.0 - smoothstep(38.0, 110.0, camDist)) * superAA;
             float penumbra = (1.0 - smoothstep(0.19, 0.28, spotField)) * latBand * spotFade;
             float umbra    = (1.0 - smoothstep(0.14, 0.21, spotField)) * latBand * spotFade;
 
-            // Faculae (wilayah magnetik sangat terang di sekitar bintik matahari, makin jelas dekat limb)
-            float faculae = smoothstep(0.64, 0.80, superGran) * latBand * spotFade;
+            // Faculae (wilayah magnetik sangat terang di sekitar bintik matahari, diredam halus di tepi limb & jarak jauh)
+            float faculae = smoothstep(0.64, 0.80, superGran) * latBand * spotFade * fineAA;
 
             vec3 viewDir = normalize(cameraPosition - vWorldPosition);
             float ndotv = max(0.0, dot(normalize(vWorldNormal), viewDir));
@@ -7994,15 +8081,19 @@
           varying vec3 vViewDir;
           varying float vCamDist;
           void main() {
+            // Hitung turunan piksel sebelum discard agar uniform control flow aman di semua driver
+            float uvxStep = clamp(fwidth(vUv.x), 0.0, 0.5);
             // Pudarkan halus sebelum jarak orbit planet agar tabung prominensa tipis tidak memicu sub-pixel bloom shimmer saat follow Jupiter/planet lain
             float distFade = 1.0 - smoothstep(26.0, 44.0, vCamDist);
             if (distFade < 0.01) discard;
             // Pudar halus di kedua kaki lengkungan (vUv.x = 0 & 1) dan paling terang di puncak busur
             float arcFade = sin(vUv.x * 3.14159265);
             arcFade = pow(max(arcFade, 0.0), 0.75);
-            // Aliran filamen plasma bergerak sepanjang lengkungan medan magnet
-            float flow1 = 0.5 + 0.5 * sin(vUv.x * 18.0 - uTime * 1.45 + sin(vUv.y * 6.283) * 1.2);
-            float flow2 = 0.5 + 0.5 * cos(vUv.x * 29.0 + uTime * 0.95);
+            // Aliran filamen plasma bergerak sepanjang lengkungan medan magnet dengan fwidth AA (bebas UV seam)
+            float flow1AA = 1.0 - smoothstep(0.04, 0.14, uvxStep);
+            float flow2AA = 1.0 - smoothstep(0.025, 0.09, uvxStep);
+            float flow1 = 0.5 + 0.5 * flow1AA * sin(vUv.x * 18.0 - uTime * 1.45 + sin(vUv.y * 6.283) * 1.2);
+            float flow2 = 0.5 + 0.5 * flow2AA * cos(vUv.x * 29.0 + uTime * 0.95);
             float filament = 0.45 + 0.55 * (flow1 * 0.65 + flow2 * 0.35);
 
             // Efek lembut volumetrik di tepi tabung plasma
@@ -8463,6 +8554,7 @@
       el.className = `celestial-label${isMoon ? ' is-moon' : ''}${isTrojan ? ' is-trojan' : ''}${isDwarf ? ' is-dwarf' : ''}${isComet ? ' is-comet' : ''}${isSpacecraft ? ' is-spacecraft' : ''}`;
       el.dataset.bodyId = item.id;
       el.innerHTML = `<span class="label-dot" style="background:${item.color}"></span><span>${tNavLabel(item)}</span>`;
+      applyLabelObjectTheme(el, item.color);
       el._onTap = () => { stopAutoTour(); selectBody(item.id); if (window.innerWidth >= 640 && window.innerHeight > 500) telemetryDrawer.classList.remove('hidden'); };
       labelsLayer.appendChild(el);
       return el;
@@ -9350,34 +9442,43 @@
                 varying vec3 vWorldPos;
 
                 void main() {
+                  // Hitung koordinat & turunan fwidth sebelum discard agar uniform control flow aman di semua driver
+                  float rLocal = length(vLocalPos);
+                  float uRad = clamp((rLocal - uRingInnerLocal) / max(0.001, uRingOuterLocal - uRingInnerLocal), 0.0, 1.0);
+                  float radStep = clamp(fwidth(uRad) * 96.0, 0.0, 4.0);
+                  float angStep = clamp(length(fwidth(vLocalPos)) / max(rLocal, 0.001), 0.0, 4.0);
+
+                  vec3 sunDir = normalize(uSunPos - vWorldPos);
+                  vec3 oc = vWorldPos - uPlanetPos;
+                  float proj = dot(oc, sunDir);
+                  float shadowDist = length(oc - sunDir * proj);
+                  float shadowAAW = max(uPlanetRadius * 0.038, clamp(fwidth(shadowDist), 0.0, uPlanetRadius * 0.14) * 0.75);
+
                   vec4 texCol = texture2D(uMap, vUv);
                   if (texCol.a < 0.002) discard;
 
                   // Rotasi diferensial Keplerian: bagian dalam melaju ~3,1x lebih cepat daripada cincin luar
-                  float rLocal = length(vLocalPos);
-                  float uRad = clamp((rLocal - uRingInnerLocal) / max(0.001, uRingOuterLocal - uRingInnerLocal), 0.0, 1.0);
                   float ang = atan(vLocalPos.y, vLocalPos.x);
                   float keplerOmega = 1.65 * pow(uRingInnerLocal / max(rLocal, uRingInnerLocal), 1.5);
                   float rotAng = ang + uRingTime * keplerOmega;
 
-                  // Jalur cincin konsentris halus (tanpa gelombang spiral diagonal / pola minyak)
+                  // Jalur cincin konsentris halus dengan GLSL fwidth AA (bebas Moire & shimmer sub-piksel di sudut miring, tanpa branch-cut atan)
+                  float radialAA = 1.0 - smoothstep(0.32, 1.15, radStep);
+                  float azimAA5 = 1.0 - smoothstep(0.65, 1.85, angStep * 5.0);
+                  float azimAA11 = 1.0 - smoothstep(0.65, 1.85, angStep * 11.0);
+
                   float trackF = uRad * 96.0;
                   float t0 = floor(trackF);
                   float tf = smoothstep(0.0, 1.0, fract(trackF));
                   float p0 = fract(sin(t0 * 127.1) * 43758.5453) * 6.2831853;
                   float p1 = fract(sin((t0 + 1.0) * 127.1) * 43758.5453) * 6.2831853;
-                  float s0 = 0.65 * sin(rotAng * 5.0 + p0) + 0.35 * sin(rotAng * 11.0 - p0 * 1.3);
-                  float s1 = 0.65 * sin(rotAng * 5.0 + p1) + 0.35 * sin(rotAng * 11.0 - p1 * 1.3);
-                  float icyStreak = 0.945 + 0.058 * mix(s0, s1, tf);
-
-                  vec3 sunDir = normalize(uSunPos - vWorldPos);
-                  vec3 oc = vWorldPos - uPlanetPos;
-                  float proj = dot(oc, sunDir);
+                  float s0 = 0.65 * azimAA5 * sin(rotAng * 5.0 + p0) + 0.35 * azimAA11 * sin(rotAng * 11.0 - p0 * 1.3);
+                  float s1 = 0.65 * azimAA5 * sin(rotAng * 5.0 + p1) + 0.35 * azimAA11 * sin(rotAng * 11.0 - p1 * 1.3);
+                  float icyStreak = 0.945 + 0.058 * radialAA * mix(s0, s1, tf);
 
                   float shadow = 1.0;
                   if (proj < 0.0) {
-                    float dist = length(oc - sunDir * proj);
-                    shadow = mix(0.03, 1.0, smoothstep(uPlanetRadius * 0.95, uPlanetRadius * 1.025, dist));
+                    shadow = mix(0.03, 1.0, smoothstep(uPlanetRadius * 0.988 - shadowAAW, uPlanetRadius * 0.988 + shadowAAW, shadowDist));
                   }
 
                   // Forward scattering partikel es saat cincin dilihat membelakangi Matahari (dijaga <= 1.06 agar bebas bloom flicker)
@@ -9409,13 +9510,11 @@
           inspectSpinGroup.add(ringMesh);
         }
 
-        // Garis Orbit di Sekeliling Matahari (Planet Utama & Planet Katai selaras dengan warna khas tiap objek)
+        // Garis Orbit di Sekeliling Matahari (seluruh objek termasuk Asteroid Sabuk Utama & KBO selaras warna khas tiap objek)
         const orbitColor = data.isComet
           ? (data.cometColors ? data.cometColors.orbit : 0x22d3ee)
-          : data.isAsteroid
-            ? (data.isKuiperObj ? 0xf87171 : 0xa3e635)
-            : new THREE.Color(data.color).getHex();
-        const orbitOpacity = data.isComet ? 0.22 : (data.isAsteroid ? 0.20 : (data.isDwarf ? 0.28 : 0.34));
+          : new THREE.Color(data.color).getHex();
+        const orbitOpacity = data.isComet ? 0.28 : (data.isAsteroid ? 0.28 : (data.isDwarf ? 0.34 : 0.38));
         const orbitLine = createOrbitLine(data.orbitRadius, data.eccentricity, data.inclination, data.omega, orbitColor, orbitOpacity, data.ascNode || 0);
         solarSystemGroup.add(orbitLine);
 
@@ -9580,8 +9679,9 @@
                    float cAlpha = texture2D(uCloudMap, cUv).a;
                    float dayMaskE = smoothstep(-0.04, 0.28, ndotlE);
                    gl_FragColor.rgb *= (1.0 - cAlpha * 0.24 * dayMaskE);
-                   // Pita senja hangat di garis terminator permukaan
-                   float twilightE = exp(-pow((ndotlE + 0.02) / 0.12, 2.0)) * 0.15;
+                   // Pita senja hangat di garis terminator permukaan (kuadrat langsung aman dari pow negatif GLSL ES 3.00)
+                   float twArg = (ndotlE + 0.02) / 0.12;
+                   float twilightE = exp(-(twArg * twArg)) * 0.15;
                    gl_FragColor.rgb += vec3(0.92, 0.42, 0.16) * twilightE * eclipseFactor;
                    // Kontras sisi malam pekat + pendaran lampu kota keemasan tajam
                    float nightDarken = mix(0.42, 1.0, smoothstep(-0.24, 0.10, ndotlE));
@@ -9641,25 +9741,29 @@
                       // JUPITER: Pita angin zonal mengalir bebas di utara/selatan, sementara jalur lintang GRS (vMapUv.y ~ 0.375)
                       // dijaga datar (0 shear) agar Bintik Merah Raksasa asli v31 berotasi utuh tanpa tertarik
                       float grsBandKeep = smoothstep(0.044, 0.090, abs(wUv.y - 0.375));
-                      float eqJet = exp(-pow(latC / 0.085, 2.0)) * 0.026;
+                      float jLat = latC / 0.085;
+                      float eqJet = exp(-(jLat * jLat)) * 0.026;
                       float altJets = sin(latC * 34.0) * 0.013;
                       uShift = (eqJet + altJets) * polarKeep * grsBandKeep * uWindTime;
                       vRipple = sin(wUv.x * 37.699 + uWindTime * 0.65) * 0.0012 * polarKeep * grsBandKeep;
                     } else if (uGiantType < 2.5) {
                       // SATURNUS: Arus jet ekuator cepat & pita emas lembut (heksagon kutub utara tetap utuh)
-                      float eqJet = exp(-pow(latC / 0.125, 2.0)) * 0.036;
+                      float sLat = latC / 0.125;
+                      float eqJet = exp(-(sLat * sLat)) * 0.036;
                       float altJets = sin(latC * 24.0) * 0.010;
                       uShift = (eqJet + altJets) * polarKeep * uWindTime;
                       vRipple = sin(wUv.x * 31.415 - uWindTime * 0.45) * 0.0010 * polarKeep;
                     } else if (uGiantType < 3.5) {
                       // URANUS: Aliran halus lintang tengah & retrograde ekuator lembut
-                      float uFlow = (-0.012 * exp(-pow(latC / 0.14, 2.0)) + 0.014 * sin(latC * 14.0)) * polarKeep;
+                      float uLat = latC / 0.14;
+                      float uFlow = (-0.012 * exp(-(uLat * uLat)) + 0.014 * sin(latC * 14.0)) * polarKeep;
                       uShift = uFlow * uWindTime;
                       vRipple = sin(wUv.x * 18.85 + uWindTime * 0.35) * 0.0008 * polarKeep;
                     } else {
                       // NEPTUNUS: Angin supersonik retrograde ekuator, sambil menjaga jalur lintang Great Dark Spot (vMapUv.y ~ 0.39) tetap utuh
                       float gdsBandKeep = smoothstep(0.042, 0.086, abs(wUv.y - 0.39));
-                      float eqRetro = -exp(-pow(latC / 0.15, 2.0)) * 0.042;
+                      float nLat = latC / 0.15;
+                      float eqRetro = -exp(-(nLat * nLat)) * 0.042;
                       float highPro = sin(latC * 18.0) * 0.015;
                       uShift = (eqRetro + highPro) * polarKeep * gdsBandKeep * uWindTime;
                       vRipple = sin(wUv.x * 25.13 - uWindTime * 0.95) * 0.0014 * polarKeep * gdsBandKeep;
@@ -10658,7 +10762,7 @@
         name: 'Lengan Perseus',
         subtitle: 'Salah Satu dari Dua Lengan Spiral Mayor Bima Sakti',
         category: 'Lengan Spiral Mayor',
-        color: '#7dd3fc',
+        color: '#38bdf8',
         focusDist: 380,
         hitRadius: 68,
         stats: {
@@ -10680,7 +10784,7 @@
         name: 'Lengan Scutum–Centaurus',
         subtitle: 'Lengan Spiral Mayor Dalam • Menyambung ke Palang Inti',
         category: 'Lengan Spiral Mayor',
-        color: '#7dd3fc',
+        color: '#2dd4bf',
         focusDist: 380,
         hitRadius: 68,
         stats: {
@@ -10702,7 +10806,7 @@
         name: 'Lengan Sagittarius–Carina',
         subtitle: 'Lengan Spiral Minor Dalam • Kaya Nebula Terang',
         category: 'Lengan Spiral Minor',
-        color: '#c4b5fd',
+        color: '#f472b6',
         focusDist: 360,
         hitRadius: 62,
         stats: {
@@ -10724,7 +10828,7 @@
         name: 'Lengan Norma (Outer Arm)',
         subtitle: 'Lengan Spiral Minor • Meluas Hingga Tepi Luar Galaksi',
         category: 'Lengan Spiral Minor',
-        color: '#c4b5fd',
+        color: '#a78bfa',
         focusDist: 360,
         hitRadius: 62,
         stats: {
@@ -10768,7 +10872,7 @@
         name: 'Awan Magellan Besar (LMC)',
         subtitle: 'Galaksi Satelit Terbesar yang Mengorbit Bima Sakti',
         category: 'Galaksi Satelit (Spiral Katai)',
-        color: '#93c5fd',
+        color: '#60a5fa',
         focusDist: 340,
         hitRadius: 95,
         stats: {
@@ -10812,7 +10916,7 @@
         name: 'Galaksi Katai Sagitarius (Sgr dSph)',
         subtitle: 'Galaksi Satelit Terdekat • Sedang Diserap Bima Sakti',
         category: 'Galaksi Satelit (Dwarf Spheroidal)',
-        color: '#fdba74',
+        color: '#fb923c',
         focusDist: 260,
         hitRadius: 58,
         stats: {
@@ -10834,7 +10938,7 @@
         name: 'Galaksi Katai Sculptor',
         subtitle: 'Galaksi Katai Sferoidal Pertama yang Ditemukan (1937)',
         category: 'Galaksi Satelit (Dwarf Spheroidal)',
-        color: '#fde68a',
+        color: '#6ee7b7',
         focusDist: 260,
         hitRadius: 54,
         stats: {
@@ -10856,7 +10960,7 @@
         name: 'Galaksi Katai Draco',
         subtitle: 'Salah Satu Galaksi Paling Didominasi Materi Gelap',
         category: 'Galaksi Satelit (Dwarf Spheroidal)',
-        color: '#c4b5fd',
+        color: '#e879f9',
         focusDist: 260,
         hitRadius: 54,
         stats: {
@@ -10878,7 +10982,7 @@
         name: 'Galaksi Katai Ursa Minor',
         subtitle: 'Galaksi Purba Miskin Logam di Halo Utara',
         category: 'Galaksi Satelit (Dwarf Spheroidal)',
-        color: '#a5f3fc',
+        color: '#22d3ee',
         focusDist: 250,
         hitRadius: 52,
         stats: {
@@ -10900,7 +11004,7 @@
         name: 'Galaksi Katai Fornax',
         subtitle: 'Galaksi Katai Sferoidal Paling Terang & Masif',
         category: 'Galaksi Satelit (Dwarf Spheroidal)',
-        color: '#fcd34d',
+        color: '#f97316',
         focusDist: 290,
         hitRadius: 62,
         stats: {
@@ -10976,6 +11080,7 @@
       el.dataset.galaxyId = id;
       el.style.display = 'none';
       el.innerHTML = `<span class="label-dot" style="background:${colorHex}"></span><span>${dispText}</span>`;
+      applyLabelObjectTheme(el, colorHex);
       el.title = isSunBeacon
         ? uiStr('galLabelTitleSun')
         : uiStr('galLabelTitleFmt')(dispText);
@@ -11183,6 +11288,7 @@
         uTime: { value: 0 },
         uPatternSpeed: { value: GALAXY_PATTERN_SPEED },
         uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
+        uSsaaScale: { value: 1.0 },
         uGlobalAlpha: { value: 0 },
       };
 
@@ -11194,6 +11300,7 @@
           uniform float uTime;
           uniform float uPatternSpeed;
           uniform float uPixelRatio;
+          uniform float uSsaaScale;
 
           varying vec3 vColor;
           varying float vAlpha;
@@ -11237,8 +11344,8 @@
 
               // Pita debu gelap (dust lane) tipis & lembut di tepi dalam cekung lengan spiral
               float dustPhase = relAfter + 0.24;
-              float dustBand = pow(max(0.5 + 0.5 * cos(2.0 * dustPhase), 0.0001), 9.0) * smoothstep(160.0, 280.0, r) * smoothstep(1050.0, 620.0, r);
-              float edgeFade = smoothstep(1090.0, 700.0, r);
+              float dustBand = pow(max(0.5 + 0.5 * cos(2.0 * dustPhase), 0.0001), 9.0) * smoothstep(160.0, 280.0, r) * (1.0 - smoothstep(620.0, 1050.0, r));
+              float edgeFade = 1.0 - smoothstep(700.0, 1090.0, r);
 
               yPos += sin(uTime * 0.45 + phase) * 2.4;
 
@@ -11256,15 +11363,15 @@
               alpha = 0.84;
             } else if (popType < 2.5) {
               // Orion-Cygnus Spur
-              alpha = 0.78 * smoothstep(1090.0, 720.0, r);
+              alpha = 0.78 * (1.0 - smoothstep(720.0, 1090.0, r));
               sizeMult *= 1.05;
             } else if (popType < 3.5) {
               // Halo & Bintang Tua 3D
-              alpha = 0.48 * smoothstep(1220.0, 820.0, r);
+              alpha = 0.48 * (1.0 - smoothstep(820.0, 1220.0, r));
             } else {
               // Piringan Bintang Tua Antar-Lengan (memudar halus ke tepi luar)
               yPos += sin(uTime * 0.32 + phase) * 3.0;
-              alpha = 0.44 * smoothstep(1060.0, 680.0, r);
+              alpha = 0.44 * (1.0 - smoothstep(680.0, 1060.0, r));
             }
 
             vec3 newPos = vec3(cos(theta) * r, yPos, sin(theta) * r);
@@ -11272,7 +11379,7 @@
             gl_Position = projectionMatrix * mvPosition;
 
             float dist = max(-mvPosition.z, 1.0);
-            gl_PointSize = clamp((2250.0 * sizeMult * uPixelRatio) / dist, 1.3, 22.0);
+            gl_PointSize = clamp((2250.0 * sizeMult * uPixelRatio) / dist, 1.3 * uSsaaScale, 22.0 * uSsaaScale);
             vColor = col;
             vAlpha = alpha;
           }
@@ -11385,7 +11492,7 @@
             float spiralGlow = clamp(armMajor + armMinor, 0.0, 1.0) * smoothstep(130.0, 210.0, r);
 
             // Pita debu gelap kemerahan tipis & lembut di sisi dalam lengan spiral
-            float dustRidge = pow(max(0.5 + 0.5 * cos(2.0 * (rel + 0.24)), 0.0001), 8.5) * smoothstep(160.0, 260.0, r) * smoothstep(1040.0, 620.0, r);
+            float dustRidge = pow(max(0.5 + 0.5 * cos(2.0 * (rel + 0.24)), 0.0001), 8.5) * smoothstep(160.0, 260.0, r) * (1.0 - smoothstep(620.0, 1040.0, r));
 
             // Tekstur awan gas/debu antarbintang organik (Simplex FBM) + Palang Inti (Long Galactic Bar)
             float cp = cos(-patternTheta), sp = sin(-patternTheta);
@@ -11398,7 +11505,7 @@
             float barDist = length(vec2(barXY.x * 0.0044, barXY.y * 0.0138));
             float barGlow = exp(-barDist * barDist * 1.45) * 0.78;
 
-            float radialFalloff = smoothstep(1120.0, 180.0, r);
+            float radialFalloff = 1.0 - smoothstep(180.0, 1120.0, r);
             float coreGlow = exp(-r * 0.0062) * 0.52 + barGlow;
             float diskBase = exp(-r * 0.0018) * 0.22;
 
@@ -11413,7 +11520,7 @@
 
             float alpha = (diskBase + spiralGlow * 0.28 * radialFalloff + coreGlow * 0.46) * (0.66 + 0.54 * cloud);
             alpha *= (1.0 - dustRidge * 0.24);
-            alpha *= smoothstep(1100.0, 680.0, r);
+            alpha *= (1.0 - smoothstep(680.0, 1100.0, r));
 
             gl_FragColor = vec4(col, clamp(alpha * 0.62, 0.0, 0.50) * uGlobalAlpha);
           }
@@ -11643,25 +11750,25 @@
         {
           id: 'sculptor_dsph', label: 'Galaksi Katai Sculptor', labelY: 32,
           stars: isMobileDevice ? 220 : 340, rx: 46, rz: 36, tiltZ: -0.25,
-          col1: 0xfde68a, col2: 0xcbd5e1, orbitCol: 0xfde68a,
+          col1: 0x6ee7b7, col2: 0xcbd5e1, orbitCol: 0x6ee7b7,
           a: 1180, e: 0.25, inc: 82, omega: 270, asc: 40, orbitSpeed: -0.014, spinSpeed: 0.06, phase: 0.18,
         },
         {
           id: 'draco_dsph', label: 'Galaksi Katai Draco', labelY: 30,
           stars: isMobileDevice ? 200 : 310, rx: 40, rz: 30, tiltZ: 0.3,
-          col1: 0xc4b5fd, col2: 0xe2e8f0, orbitCol: 0xa78bfa,
+          col1: 0xe879f9, col2: 0xe2e8f0, orbitCol: 0xe879f9,
           a: 1150, e: 0.28, inc: 68, omega: 88, asc: 95, orbitSpeed: 0.015, spinSpeed: 0.05, phase: 0.15,
         },
         {
           id: 'umi_dsph', label: 'Galaksi Katai Ursa Minor', labelY: 28,
           stars: isMobileDevice ? 180 : 280, rx: 36, rz: 26, tiltZ: -0.4,
-          col1: 0xa5f3fc, col2: 0xe2e8f0, orbitCol: 0x67e8f9,
+          col1: 0x22d3ee, col2: 0xe2e8f0, orbitCol: 0x22d3ee,
           a: 1060, e: 0.24, inc: 74, omega: 98, asc: 145, orbitSpeed: -0.017, spinSpeed: 0.05, phase: -0.12,
         },
         {
           id: 'fornax_dsph', label: 'Galaksi Katai Fornax', labelY: 36,
           stars: isMobileDevice ? 280 : 440, rx: 58, rz: 42, tiltZ: 0.2,
-          col1: 0xfcd34d, col2: 0xfed7aa, orbitCol: 0xfbbf24,
+          col1: 0xf97316, col2: 0xfed7aa, orbitCol: 0xf97316,
           a: 1380, e: 0.20, inc: 64, omega: 262, asc: 255, orbitSpeed: 0.011, spinSpeed: 0.07, phase: -0.22,
         },
       ];
@@ -11941,6 +12048,9 @@
           new THREE.BufferAttribute(entry.segmentPositions, 3)
         );
         activeConstellationLines.geometry.computeBoundingSphere();
+        if (activeConstellationLines.material) {
+          activeConstellationLines.material.color.set(entry.data.color || '#fde047');
+        }
         activeConstellationLines.visible = true;
       }
 
@@ -12386,7 +12496,7 @@
       if (constellationsGroup) {
         const showC = !isRecording && state.layers.constellations && skyAlpha > 0.02;
         constellationsGroup.visible = showC;
-        if (constellationLineMat) constellationLineMat.opacity = 0.22 * skyAlpha;
+        if (constellationLineMat) constellationLineMat.opacity = 0.24 * skyAlpha;
         if (constellationStarUniforms) constellationStarUniforms.uAlpha.value = skyAlpha;
         if (!showC) {
           for (let i = 0; i < constellationLabels.length; i++) constellationLabels[i].el.style.display = 'none';
@@ -12566,7 +12676,7 @@
         modeTiltBadge.textContent = uiStr('tiltGalaxy');
         helicalSubcontrols.classList.remove('hidden');
         galaxyOnlyControls.classList.remove('hidden');
-        labelElements.forEach((lbl) => (lbl.el.style.display = 'none'));
+        labelElements.forEach((lbl) => { lbl.el.style.display = 'none'; lbl._vis = false; });
 
         controls.minDistance = 12;
         controls.maxDistance = 3400;
@@ -12643,6 +12753,22 @@
         lbl.el.classList.toggle('is-selected', lbl.id === id);
       });
 
+      // Jika dipanggil tepat saat transisi mode (mis. cari planet langsung dari Bima Sakti),
+      // hitung sudut kamera di frame target mode akhir agar sinkron mulus tanpa belokan susulan
+      let savedPos = null, savedQuat = null, savedScale = null, savedSunUniform = null;
+      if (modeTransition.active && !instant) {
+        savedPos = solarSystemGroup.position.clone();
+        savedQuat = solarSystemGroup.quaternion.clone();
+        savedScale = solarSystemGroup.scale.x;
+        savedSunUniform = globalSunPosUniform.value.clone();
+        const tScale = getModeTargetSolarTransform(state.mode, _targetSolarPos, _targetSolarQuat);
+        solarSystemGroup.position.copy(_targetSolarPos);
+        solarSystemGroup.quaternion.copy(_targetSolarQuat);
+        solarSystemGroup.scale.setScalar(tScale);
+        solarSystemGroup.updateMatrixWorld(true);
+        if (sunMesh) sunMesh.getWorldPosition(globalSunPosUniform.value);
+      }
+
       item.getWorldPos(currTargetWorldPos);
 
       if (state.cameraView === 'atmosphere') {
@@ -12657,7 +12783,7 @@
         } else {
           cameraTransition.active = true;
           cameraTransition.progress = 0;
-          cameraTransition.duration = 1.45;
+          cameraTransition.duration = modeTransition.active ? modeTransition.duration : 1.45;
           cameraTransition.startCamPos.copy(camera.position);
           cameraTransition.startTarget.copy(controls.target);
           cameraTransition.desiredOffset.copy(framing.camOffset);
@@ -12679,12 +12805,21 @@
         } else {
           cameraTransition.active = true;
           cameraTransition.progress = 0;
-          cameraTransition.duration = 1.45;
+          cameraTransition.duration = modeTransition.active ? modeTransition.duration : 1.45;
           cameraTransition.startCamPos.copy(camera.position);
           cameraTransition.startTarget.copy(controls.target);
           cameraTransition.desiredOffset.copy(offset);
           cameraTransition.desiredTargetOffset.set(0, 0, 0);
         }
+      }
+
+      if (savedPos) {
+        solarSystemGroup.position.copy(savedPos);
+        solarSystemGroup.quaternion.copy(savedQuat);
+        solarSystemGroup.scale.setScalar(savedScale);
+        solarSystemGroup.updateMatrixWorld(true);
+        globalSunPosUniform.value.copy(savedSunUniform);
+        item.getWorldPos(currTargetWorldPos);
       }
 
       updateTelemetryDrawer(item);
@@ -14462,7 +14597,16 @@
         renderer.domElement.classList.remove('framed-canvas');
       }
 
-      const vpKey = `${renderW}x${renderH}@${dpr.toFixed(3)}|${cssW}x${cssH}|${recordAspect}`;
+      const ssaaWanted = !isMobileDevice && !!state.ultraSsaa;
+      const ssaaDpr = ssaaWanted ? Math.min(dpr * 2.0, 4096 / Math.max(renderW, renderH, 1)) : dpr;
+      const ssaaScale = ssaaDpr / Math.max(0.01, dpr);
+      const ssaaActive = ssaaWanted && ssaaScale > 1.05;
+      const composerDpr = ssaaActive ? ssaaDpr : dpr;
+      const desiredMsaa = (renderer.capabilities.isWebGL2 && !isFirefox && !isMobileDesktopSite)
+        ? Math.min(isMobileDevice ? 2 : (ssaaActive ? 4 : 8), maxHwSamples)
+        : 0;
+
+      const vpKey = `${renderW}x${renderH}@${dpr.toFixed(3)}|ssaa:${ssaaActive ? composerDpr.toFixed(3) : '1'}|msaa:${desiredMsaa}|${cssW}x${cssH}|${recordAspect}`;
       if (vpKey === _lastViewportKey) {
         const rectSame = renderer.domElement.getBoundingClientRect();
         canvasRect = { left: rectSame.left, top: rectSame.top, width: rectSame.width, height: rectSame.height };
@@ -14481,12 +14625,36 @@
       const effectivePointRatio = (recordAspect === '16:9' || recordAspect === '9:16')
         ? Math.max(dpr, renderH / 900)
         : dpr;
-      if (galaxyUniforms) galaxyUniforms.uPixelRatio.value = effectivePointRatio;
-      if (starfieldUniforms) starfieldUniforms.uPixelRatio.value = effectivePointRatio;
-      if (constellationStarUniforms) constellationStarUniforms.uPixelRatio.value = effectivePointRatio;
+      const pointRatioCompensated = effectivePointRatio * (ssaaActive ? ssaaScale : 1.0);
+      const pointClampScale = ssaaActive ? ssaaScale : 1.0;
+      if (galaxyUniforms) {
+        galaxyUniforms.uPixelRatio.value = pointRatioCompensated;
+        if (galaxyUniforms.uSsaaScale) galaxyUniforms.uSsaaScale.value = pointClampScale;
+      }
+      if (starfieldUniforms) {
+        starfieldUniforms.uPixelRatio.value = pointRatioCompensated;
+        if (starfieldUniforms.uSsaaScale) starfieldUniforms.uSsaaScale.value = pointClampScale;
+      }
+      if (constellationStarUniforms) {
+        constellationStarUniforms.uPixelRatio.value = pointRatioCompensated;
+        if (constellationStarUniforms.uSsaaScale) constellationStarUniforms.uSsaaScale.value = pointClampScale;
+      }
       helicalTrailResolution.set(renderW, renderH);
-      composer.setPixelRatio(dpr);
+      if (composer.renderTarget1.samples !== desiredMsaa) {
+        composer.renderTarget1.dispose();
+        composer.renderTarget2.dispose();
+        composer.renderTarget1.samples = desiredMsaa;
+        composer.renderTarget2.samples = desiredMsaa;
+      }
+      composer.setPixelRatio(composerDpr);
       composer.setSize(renderW, renderH);
+      if (typeof ssaaDownsamplePass !== 'undefined') {
+        ssaaDownsamplePass.enabled = ssaaActive;
+        ssaaDownsamplePass.uniforms.uInvOutRes.value.set(
+          1 / Math.max(1, renderW * dpr),
+          1 / Math.max(1, renderH * dpr)
+        );
+      }
       // Half-resolution bloom: identik secara visual, 2x lebih ringan di GPU mobile & saat rekam 1080p
       bloomPass.setSize(Math.max(1, Math.floor(renderW * 0.5)), Math.max(1, Math.floor(renderH * 0.5)));
 
@@ -14830,6 +14998,43 @@
     }
     new MutationObserver(syncQuickRec).observe(recBtnText, { childList: true, characterData: true, subtree: true });
 
+    // Toggle Ultra SSAA (khusus Desktop non-mobile)
+    const ssaaControlRow = document.getElementById('ssaa-control-row');
+    const btnToggleSsaa = document.getElementById('btn-toggle-ssaa');
+    function syncUltraSsaaToggleUI() {
+      if (ssaaControlRow) {
+        ssaaControlRow.classList.toggle('hidden', isMobileDevice);
+      }
+      const on = !isMobileDevice && !!state.ultraSsaa;
+      const pill = document.getElementById('ssaa-btn-pill');
+      if (btnToggleSsaa) {
+        btnToggleSsaa.classList.toggle('border-[#409cff]/65', on);
+        btnToggleSsaa.classList.toggle('bg-[#0a84ff]/22', on);
+        btnToggleSsaa.classList.toggle('border-slate-700/80', !on);
+        btnToggleSsaa.classList.toggle('bg-slate-900/70', !on);
+      }
+      if (pill) {
+        pill.textContent = on ? 'ON' : 'OFF';
+        pill.classList.toggle('bg-[#0a84ff]/35', on);
+        pill.classList.toggle('text-[#e6f1ff]', on);
+        pill.classList.toggle('border-[#409cff]/65', on);
+        pill.classList.toggle('bg-slate-800', !on);
+        pill.classList.toggle('text-slate-400', !on);
+        pill.classList.toggle('border-slate-700', !on);
+      }
+    }
+    function setUltraSsaa(on) {
+      state.ultraSsaa = !isMobileDevice && !!on;
+      syncUltraSsaaToggleUI();
+      if (typeof updateViewportSize === 'function') updateViewportSize();
+    }
+    if (btnToggleSsaa) {
+      btnToggleSsaa.addEventListener('click', () => {
+        setUltraSsaa(!state.ultraSsaa);
+      });
+    }
+    syncUltraSsaaToggleUI();
+
     function resetAllSettings() {
       stopAutoTour();
       if (state.freeCam) setFreeCamMode(false);
@@ -14914,6 +15119,7 @@
       satelliteOrbitLines.forEach((l) => (l.visible = false));
 
       if (typeof setObjectSpinMode === 'function') setObjectSpinMode(false);
+      if (typeof setUltraSsaa === 'function') setUltraSsaa(false);
       state.showEarthBorders = false;
       if (typeof syncEarthBordersToggleUI === 'function') syncEarthBordersToggleUI();
 
@@ -16419,9 +16625,12 @@
             cameraTransition.desiredOffset.applyAxisAngle(axisY, deltaGalAng);
             cameraTransition.desiredTargetOffset.applyAxisAngle(axisY, deltaGalAng);
           }
-          cameraTransition.progress = Math.min(1, cameraTransition.progress + dt / cameraTransition.duration);
+          const focusStepDt = modeTransition.active ? Math.min(dt, 1 / 45) : dt;
+          cameraTransition.progress = Math.min(1, cameraTransition.progress + focusStepDt / cameraTransition.duration);
           const t = cameraTransition.progress;
-          const ease = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+          const ease = modeTransition.active
+            ? (t * t * t * (t * (t * 6 - 15) + 10))
+            : (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
           const desiredTarget = currTargetWorldPos.clone().add(cameraTransition.desiredTargetOffset);
           const desiredCamPos = currTargetWorldPos.clone().add(cameraTransition.desiredOffset);
@@ -16699,9 +16908,10 @@
         aphLabelEl.style.display = 'none';
       }
 
-      // Proyeksi Label 12 Rasi Bintang (hanya di Mode Heliosentris & Heliks 60° saat Rasi Bintang & Label ON)
+      // Proyeksi Label 12 Rasi Bintang (ikut crossfade mulus bersama garis & bintang rasi saat transisi antar mode)
       if (constellationLabels.length > 0) {
-        const showConstLabels = !isRecording && state.layers.constellations && state.layers.labels && state.mode !== 'galaxy' && !modeTransition.active;
+        const constFade = Math.max(0, 1.0 - currentGalAlpha);
+        const showConstLabels = !isRecording && state.layers.constellations && state.layers.labels && constFade > 0.02;
         if (!showConstLabels) {
           for (let i = 0; i < constellationLabels.length; i++) {
             constellationLabels[i].el.style.display = 'none';
@@ -16709,6 +16919,7 @@
         } else {
           const halfW = canvasRect.width * 0.5;
           const halfH = canvasRect.height * 0.5;
+          const constOp = THREE.MathUtils.smoothstep(constFade, 0.25, 0.95).toFixed(2);
           for (let i = 0; i < constellationLabels.length; i++) {
             const c = constellationLabels[i];
             c.obj.getWorldPosition(projVec);
@@ -16728,6 +16939,7 @@
               c.el.style.display = 'none';
             } else {
               c.el.style.display = 'flex';
+              c.el.style.opacity = constOp;
               c.el.style.zIndex = '1';
               c.el.style.transform = `translate3d(${sx.toFixed(1)}px, ${sy.toFixed(1)}px, 0) translate(-50%, -50%)`;
             }
@@ -17049,9 +17261,13 @@
         if (sp) sp.textContent = uiStr(strKey);
       });
 
-      // Fullscreen & Tour buttons
+      // Fullscreen, Ultra SSAA & Tour buttons
       if (btnFullscreen) btnFullscreen.title = uiStr('fullscreenTitle');
       syncFullscreenButtonUI();
+      const ssaaLblEl = document.getElementById('ssaa-btn-label');
+      if (ssaaLblEl) ssaaLblEl.textContent = uiStr('ultraSsaaLbl');
+      if (btnToggleSsaa) btnToggleSsaa.title = uiStr('ultraSsaaTitle');
+      if (typeof syncUltraSsaaToggleUI === 'function') syncUltraSsaaToggleUI();
       if (tourBtnText) tourBtnText.textContent = state.autoTour ? uiStr('tourStop') : uiStr('tourStart');
       if (state.autoTour) updateTourBannerText(state.tourIndex);
 
